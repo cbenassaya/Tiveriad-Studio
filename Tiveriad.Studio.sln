@@ -1,8 +1,44 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{BE9B77FC-46C3-4ABB-B2C5-01AD4457AEE7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2F31FC81-0316-4CD6-A006-AB705CB832DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Studio.Core", "Components\Tiveriad.Studio.Core\Tiveriad.Studio.Core.csproj", "{D0923044-B096-4029-8251-153E51488F35}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Studio.Generators", "Components\Tiveriad.Studio.Generators\Tiveriad.Studio.Generators.csproj", "{E5E929BB-2770-4C18-82DF-E230BE02EB47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Studio.Generators.Net", "Components\Tiveriad.Studio.Generators.Net\Tiveriad.Studio.Generators.Net.csproj", "{3879F689-C783-4F3D-9205-50C4B9534239}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Studio.Generators.Tests", "Tests\Tiveriad.Studio.Generators.Tests\Tiveriad.Studio.Generators.Tests.csproj", "{4EC9C8F3-95AE-4FDD-999B-816FAEE6B080}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D0923044-B096-4029-8251-153E51488F35} = {BE9B77FC-46C3-4ABB-B2C5-01AD4457AEE7}
+		{E5E929BB-2770-4C18-82DF-E230BE02EB47} = {BE9B77FC-46C3-4ABB-B2C5-01AD4457AEE7}
+		{3879F689-C783-4F3D-9205-50C4B9534239} = {BE9B77FC-46C3-4ABB-B2C5-01AD4457AEE7}
+		{4EC9C8F3-95AE-4FDD-999B-816FAEE6B080} = {2F31FC81-0316-4CD6-A006-AB705CB832DC}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D0923044-B096-4029-8251-153E51488F35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0923044-B096-4029-8251-153E51488F35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0923044-B096-4029-8251-153E51488F35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0923044-B096-4029-8251-153E51488F35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5E929BB-2770-4C18-82DF-E230BE02EB47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5E929BB-2770-4C18-82DF-E230BE02EB47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5E929BB-2770-4C18-82DF-E230BE02EB47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5E929BB-2770-4C18-82DF-E230BE02EB47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3879F689-C783-4F3D-9205-50C4B9534239}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3879F689-C783-4F3D-9205-50C4B9534239}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3879F689-C783-4F3D-9205-50C4B9534239}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3879F689-C783-4F3D-9205-50C4B9534239}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EC9C8F3-95AE-4FDD-999B-816FAEE6B080}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EC9C8F3-95AE-4FDD-999B-816FAEE6B080}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EC9C8F3-95AE-4FDD-999B-816FAEE6B080}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EC9C8F3-95AE-4FDD-999B-816FAEE6B080}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
