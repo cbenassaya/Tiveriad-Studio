@@ -11,7 +11,8 @@ public class ClassBuilderTests
     [Fact]
     public void Create_Class_With_Properties_ToSourceCode_Works()
     {
-        var expected = @"public class MyEntity : IEntity<string>, IAuditable<string>
+        var expected = @"namespace NS;
+public class MyEntity : IEntity<string>, IAuditable<string>
 {
     [MaxLength(24)]
     [Required]
@@ -23,7 +24,9 @@ public class ClassBuilderTests
 }";
         var builder = Code.CreateClass();
         builder
+            .WithNamespace("NS")
             .WithAccessModifier(AccessModifier.Public)
+            .WithNamespace("NS")
             .WithName("MyEntity")
             .WithImplementedInterfaces(
                 Code.CreateInternalType(NComplexTypes.IENTITY).WithGenericArgument(Code.CreateInternalType(NDataTypes.STRING)),
@@ -50,7 +53,8 @@ public class ClassBuilderTests
     [Fact]
     public void Create_Class_With_Fields_ToSourceCode_Works()
     {
-        var expected = @"public class MyEntity
+        var expected = @"namespace NS;
+public class MyEntity
 {
     private int _p1;
     private string _p2;
@@ -58,6 +62,7 @@ public class ClassBuilderTests
 }";
         var builder = Code.CreateClass();
         builder
+            .WithNamespace("NS")
             .WithAccessModifier(AccessModifier.Public)
             .WithName("MyEntity")
             .WithFields(
@@ -75,7 +80,8 @@ public class ClassBuilderTests
     [Fact]
     public void Create_Class_With_Constructors_ToSourceCode_Works()
     {
-        var expected = @"public class MyEntity
+        var expected = @"namespace NS;
+public class MyEntity
 {
     private int _p1;
     private string _p2;
@@ -93,6 +99,7 @@ public class ClassBuilderTests
 }";
         var builder = Code.CreateClass();
         builder
+            .WithNamespace("NS")
             .WithAccessModifier(AccessModifier.Public)
             .WithName("MyEntity")
             .WithFields(
