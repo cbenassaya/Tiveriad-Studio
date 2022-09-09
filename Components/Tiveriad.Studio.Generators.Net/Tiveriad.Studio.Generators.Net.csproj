@@ -15,4 +15,9 @@
       <PackageReference Include="Microsoft.CodeAnalysis" Version="4.3.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <EmbeddedResource Include="Projects\ProjectTemplate.xml" />
+      <None Remove="Projects\ProjectDefinition.xml" />
+    </ItemGroup>
+
 </Project>

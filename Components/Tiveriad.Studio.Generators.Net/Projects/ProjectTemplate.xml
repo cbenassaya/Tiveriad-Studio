@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectTemplate xmlns="urn:project-template-mapping-2.0">
+    <Components>
+        <ComponentType Type="Api">
+            <Dependencies>
+                <Dependency Include="AutoMapper" Version="11.0.0"/>
+                <Dependency Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0"/>
+                <Dependency Include="FluentValidation" Version="10.3.6"/>
+                <Dependency Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.6"/>
+                <Dependency Include="MailKit" Version="3.1.0"/>
+                <Dependency Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1"/>
+                <Dependency Include="Microsoft.AspNetCore.Authentication" Version="2.2.0"/>
+                <Dependency Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.1"/>
+                <Dependency Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.1"/>
+                <Dependency Include="Microsoft.IdentityModel.Protocols" Version="6.15.1"/>
+                <Dependency Include="Microsoft.IdentityModel.Tokens" Version="6.15.1"/>
+                <Dependency Include="Newtonsoft.Json" Version="13.0.1"/>
+                <Dependency Include="Serilog.Extensions.Logging.File" Version="2.0.0"/>
+                <Dependency Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
+                <Dependency Include="Tiveriad.Apis" Version="2.0.1.3"/>
+                <Dependency Include="Tiveriad.Commons" Version="2.0.1.3"/>
+                <Dependency Include="Tiveriad.Cqrs" Version="2.0.1.3"/>
+                <Dependency Include="Tiveriad.Cqrs.Microsoft.DependencyInjection" Version="2.0.1.3"/>
+                <Dependency Include="Tiveriad.Repositories.Microsoft.DependencyInjection" Version="2.0.1.3"/>
+            </Dependencies>
+            <ComponentItems>
+                <ComponentItem Pattern="EndPoints/{entity}EndPoints/{endpoint}" Stereotype="Endpoint"/>
+                <ComponentItem Pattern="Contracts/{entity}/{contract}" Stereotype="Contract"/>
+            </ComponentItems>
+        </ComponentType>
+        <ComponentType Type="Core">
+            <Dependencies>
+                <Dependency Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.1"/>
+                <Dependency Include="Newtonsoft.Json" Version="13.0.1"/>
+                <Dependency Include="Tiveriad.Commons" Version="2.0.1.3"/>
+                <Dependency Include="Tiveriad.Repositories" Version="2.0.1.3"/>
+            </Dependencies>
+            <ComponentItems>
+                <ComponentItem Pattern="Entities/{entity}" Stereotype="Entity"/>
+                <ComponentItem Pattern="Entities/{entity}" Stereotype="Enum"/>
+            </ComponentItems>
+        </ComponentType>
+        <ComponentType Type="Application">
+            <Dependencies>
+                <Dependency Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.4"/>
+                <Dependency Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1"/>
+                <Dependency Include="Microsoft.EntityFrameworkCore" Version="6.0.1"/>
+                <Dependency Include="Tiveriad.ObjectQueries" Version="2.0.1.3"/>
+                <Dependency Include="Tiveriad.Repositories.EntityFrameworkCore" Version="2.0.1.3"/>
+            </Dependencies>
+            <ComponentItems>
+                <ComponentItem Pattern="Entities/{entity}" Stereotype="Entity"/>
+                <ComponentItem Pattern="Entities/{entity}" Stereotype="Enum"/>
+            </ComponentItems>
+        </ComponentType>
+        <ComponentType Type="Infrastructure">
+            <Dependencies>
+                <Dependency Include="MediatR" Version="10.0.1"/>
+                <Dependency Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0"/>
+                <Dependency Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0"/>
+                <Dependency Include="Microsoft.Extensions.Logging" Version="6.0.0"/>
+                <Dependency Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1"/>
+                <Dependency Include="Tiveriad.Keycloak" Version="2.0.1.3"/>
+                <Dependency Include="Tiveriad.ObjectQueries" Version="2.0.1.3"/>
+                <Dependency Include="Tiveriad.Repositories.EntityFrameworkCore" Version="2.0.1.3"/>
+                <Dependency Include="Tiveriad.Repositories.Microsoft.DependencyInjection" Version="2.0.1.3"/>
+            </Dependencies>
+            <ComponentItems>
+                <ComponentItem Pattern="Requests/{entity}Requests" Stereotype="Request"/>
+                <ComponentItem Pattern="Requests/{entity}Requests" Stereotype="RequestAction"/>
+                <ComponentItem Pattern="Requests/{entity}Requests" Stereotype="RequestValidator"/>
+                <ComponentItem Pattern="Commands/{entity}Commands" Stereotype="Command"/>
+                <ComponentItem Pattern="Commands/{entity}Commands" Stereotype="CommandValidator"/>
+            </ComponentItems>
+        </ComponentType>
+        <ComponentType Type="Persistence">
+            <Dependencies>
+                <Dependency Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1"/>
+                <Dependency Include="Microsoft.Extensions.Configuration" Version="6.0.0"/>
+                <Dependency Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.0"/>
+                <Dependency Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0"/>
+                <Dependency Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0"/>
+                <Dependency Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1"/>
+                <Dependency Include="Tiveriad.Commons" Version="2.0.1.3"/>
+            </Dependencies>
+            <ComponentItems>
+                <ComponentItem Pattern="Requests/{entity}Requests" Stereotype="Request"/>
+                <ComponentItem Pattern="Requests/{entity}Requests" Stereotype="RequestAction"/>
+                <ComponentItem Pattern="Requests/{entity}Requests" Stereotype="RequestValidator"/>
+                <ComponentItem Pattern="Commands/{entity}Commands" Stereotype="Command"/>
+                <ComponentItem Pattern="Commands/{entity}Commands" Stereotype="CommandValidator"/>
+            </ComponentItems>
+        </ComponentType>
+    </Components>
+</ProjectTemplate>

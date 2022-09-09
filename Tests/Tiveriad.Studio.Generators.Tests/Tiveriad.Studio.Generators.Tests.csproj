@@ -25,4 +25,13 @@
       <ProjectReference Include="..\..\Components\Tiveriad.Studio.Generators\Tiveriad.Studio.Generators.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="Samples\ProjectTemplate.xml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Samples\ProjectGenerated.xml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
