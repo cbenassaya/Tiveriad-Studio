@@ -18,8 +18,17 @@ namespace Tiveriad.Studio.Generators.Builders
         {
         }
 
-        internal Enumeration Enumeration { get; private set; } = new Enumeration(AccessModifier.Public);
+        private Enumeration Enumeration { get; set; } = new Enumeration(AccessModifier.Public);
 
+        /// <summary>
+        /// Set the stereotype
+        /// </summary>
+        public EnumBuilder WithStereotype(string value)
+        {
+            Stereotype = value;
+            return this;
+        }
+        
         /// <summary>
         /// Sets the access modifier of the enum being built.
         /// </summary>

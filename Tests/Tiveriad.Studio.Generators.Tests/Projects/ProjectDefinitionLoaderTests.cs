@@ -14,9 +14,9 @@ public class ProjectDefinitionLoaderTests
     {
         var projectTemplate = new ProjectTemplate()
         {
-            Components = new List<ComponentType>()
+            Components = new List<Component>()
             {
-                new ComponentType
+                new Component
                 {
                     ComponentItems = new List<ComponentItem>()
                     {
@@ -47,7 +47,7 @@ public class ProjectDefinitionLoaderTests
                     },
                     Type = "Type1"
                 },
-                new ComponentType
+                new Component
                 {
                     ComponentItems = new List<ComponentItem>()
                     {
@@ -99,12 +99,37 @@ public class ProjectDefinitionLoaderTests
         stream.Close();
         
     }
+    
+    
+    [Fact]
+    public async Task GetPath()
+    {
+        var assembly = typeof(DataTypes).Assembly;
+        var xmlSerializer = new XmlSerializer(typeof(ProjectTemplate));
+        await using var stream =  assembly.GetManifestResourceStream("Tiveriad.Studio.Generators.Net.Projects.ProjectTemplate.xml");
+        var project = xmlSerializer.Deserialize(stream) as ProjectTemplate;
+        stream.Close();
+        
+        var projectTemplateService = new DefaultProjectTemplateService(project);
+        Assert.Equal("Components/{projectName}Api/EndPoints/{entity}EndPoints/{endpoint}", projectTemplateService.GetPath("Endpoint"));
+        Assert.Equal("Components/{projectName}Api/Contracts/{entity}/{contract}", projectTemplateService.GetPath("Contract"));
+        Assert.Equal("Components/{projectName}Core/Entities/{entity}", projectTemplateService.GetPath("Entity"));
+        Assert.Equal("Components/{projectName}Core/Entities/{enum}", projectTemplateService.GetPath("Enum"));
+        Assert.Equal("Components/{projectName}Application/Requests/{entity}Requests/{request}", projectTemplateService.GetPath("Request"));
+        Assert.Equal("Components/{projectName}Application/Requests/{entity}Requests/{action}", projectTemplateService.GetPath("RequestAction"));
+        Assert.Equal("Components/{projectName}Application/Requests/{entity}Requests/{validator}", projectTemplateService.GetPath("RequestValidator"));
+        Assert.Equal("Components/{projectName}Application/Commands/{entity}Commands/{request}", projectTemplateService.GetPath("Command"));
+        Assert.Equal("Components/{projectName}Application/Commands/{entity}Commands/{action}", projectTemplateService.GetPath("CommandAction"));
+        Assert.Equal("Components/{projectName}Application/Commands/{entity}Commands/{validator}", projectTemplateService.GetPath("CommandValidator"));
+        Assert.Equal("Components/{projectName}Persistence/Configurations/{entity}Configuration", projectTemplateService.GetPath("Persistence"));
+
+    }
 
 
     [Fact]
     public async Task Load_XmlModel_Work()
     {
-        var assembly = typeof(NDataTypes).Assembly;
+        var assembly = typeof(DataTypes).Assembly;
         var xmlSerializer = new XmlSerializer(typeof(ProjectTemplate));
         await using var stream =  assembly.GetManifestResourceStream("Tiveriad.Studio.Generators.Net.Projects.ProjectTemplate.xml");
         var project = xmlSerializer.Deserialize(stream) as ProjectTemplate;

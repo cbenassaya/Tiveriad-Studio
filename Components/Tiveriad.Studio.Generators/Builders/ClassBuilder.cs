@@ -20,9 +20,19 @@ namespace Tiveriad.Studio.Generators.Builders
         internal ClassBuilder()
         {
         }
+        
 
-        internal Class Class { get; private set; } = new Class(AccessModifier.Public);
-
+        private Class Class { get; set; } = new Class(AccessModifier.Public);
+        
+        /// <summary>
+        /// Set the stereotype
+        /// </summary>
+        public ClassBuilder WithStereotype(string value)
+        {
+            Stereotype = value;
+            return this;
+        }
+        
         /// <summary>
         /// Sets the access modifier of the class being built.
         /// </summary>

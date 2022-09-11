@@ -16,21 +16,21 @@ public static class XEndPointExtensions
             .WithParameters(
                 xEndPoint
                     .Parameters
-                    .Select(x => Code.CreateParameter(InternalTypeBuilderExtensions.ToBuilder(x.Type).Build(), x.Name))
+                    .Select(x => Code.CreateParameter(XTypeExtensions.ToBuilder(x.Type).Build(), x.Name))
                     .ToList()
             )
             .WithParameters(
-                Code.CreateParameter(NComplexTypes.CANCELLATIONTOKEN, "cancellationToken"))
+                Code.CreateParameter(ComplexTypes.CANCELLATIONTOKEN, "cancellationToken"))
             .WithBody("_mediator=mediator;_mapper=mapper;")
             .WithAttributes(
                 Code.CreateAttribute()
-                    .WithType(NComplexTypes.Get(Enum.GetName(typeof(XHttpMethod), xEndPoint.HttpMethod) ?? "HttpGet"  ))
+                    .WithType(ComplexTypes.Get(Enum.GetName(typeof(XHttpMethod), xEndPoint.HttpMethod) ?? "HttpGet"  ))
                     .WithAttributeArgument(
                         Code.CreateAttributeArgument().WithValue($"\"{xEndPoint.Route}\""))
             );
 
         if (xEndPoint.Response != null)
-            handleMethod.WithReturnType(InternalTypeBuilderExtensions.ToBuilder(xEndPoint.Response.Type).Build());
+            handleMethod.WithReturnType(XTypeExtensions.ToBuilder(xEndPoint.Response.Type).Build());
 
         var classBuilder = Code.CreateClass(xEndPoint.Name);
         classBuilder
@@ -45,17 +45,17 @@ public static class XEndPointExtensions
                         .Mappings
                         .Select(x => x.To.Namespace))
             )
-            .WithInheritedClass(NComplexTypes.CONTROLLERBASE)
+            .WithInheritedClass(ComplexTypes.CONTROLLERBASE)
             .WithFields(
-                Code.CreateField(NComplexTypes.IMEDIATOR, "_mediator", AccessModifier.Private),
-                Code.CreateField(NComplexTypes.IMAPPER, "_mapper", AccessModifier.Private))
+                Code.CreateField(ComplexTypes.IMEDIATOR, "_mediator", AccessModifier.Private),
+                Code.CreateField(ComplexTypes.IMAPPER, "_mapper", AccessModifier.Private))
             .WithMethod(
                 Code
                     .CreateMethod()
                     .MakeConstructor(true)
                     .WithParameters(
-                        Code.CreateParameter(NComplexTypes.IMAPPER, "mapper"),
-                        Code.CreateParameter(NComplexTypes.IMEDIATOR, "mediator"))
+                        Code.CreateParameter(ComplexTypes.IMAPPER, "mapper"),
+                        Code.CreateParameter(ComplexTypes.IMEDIATOR, "mediator"))
                     .WithBody("_mediator=mediator;_mapper=mapper;"))
             .WithMethod(
                 handleMethod

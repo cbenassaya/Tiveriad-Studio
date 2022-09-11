@@ -21,8 +21,18 @@ namespace Tiveriad.Studio.Generators.Builders
         {
         }
 
-        internal Record Record { get; private set; } = new Record(AccessModifier.Public);
+        private Record Record { get; set; } = new Record(AccessModifier.Public);
 
+        
+        /// <summary>
+        /// Set the stereotype
+        /// </summary>
+        public RecordBuilder WithStereotype(string value)
+        {
+            Stereotype = value;
+            return this;
+        }
+        
         /// <summary>
         /// Sets the access modifier of the class being built.
         /// </summary>

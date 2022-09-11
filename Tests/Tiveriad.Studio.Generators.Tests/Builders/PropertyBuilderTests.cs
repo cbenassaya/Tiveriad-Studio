@@ -13,7 +13,7 @@ public class PropertyBuilderTests
     {
         var builder = Code.CreateProperty();
         builder
-            .WithType(NDataTypes.INT)
+            .WithType(DataTypes.INT)
             .WithName("Property");
         var @record = builder.Build();
         Assert.Equal("public int Property { get; set; }", @record.ToSourceCode());

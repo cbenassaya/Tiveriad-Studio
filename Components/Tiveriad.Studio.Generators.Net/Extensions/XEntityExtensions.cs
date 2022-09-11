@@ -18,13 +18,13 @@ public static class XEntityExtensions
 
         classBuilder.WithImplementedInterface(
             Code
-                .CreateInternalType(NComplexTypes.IENTITY)
+                .CreateInternalType(ComplexTypes.IENTITY)
                 .WithGenericArgument(Code.CreateInternalType().WithName(entity.Name).WithNamespace(entity.Namespace)));
 
         if (entity.Persistence is { IsAuditable: true })
             classBuilder.WithImplementedInterface(
                 Code
-                    .CreateInternalType(NComplexTypes.IAUDITABLE)
+                    .CreateInternalType(ComplexTypes.IAUDITABLE)
                     .WithGenericArgument(
                         Code.CreateInternalType().WithName(entity.Name).WithNamespace(entity.Namespace)));
 
@@ -54,7 +54,7 @@ public static class XEntityExtensions
             .WithNamespace($"{xEntity.GetProject().RootNamespace}.Persistence.Configurations")
             .WithImplementedInterface(
                 Code
-                    .CreateInternalType(NComplexTypes.IENTITYTYPECONFIGURATION)
+                    .CreateInternalType(ComplexTypes.IENTITYTYPECONFIGURATION)
                     .WithGenericArgument(Code.CreateInternalType().WithName(xEntity.Name)
                         .WithNamespace(xEntity.Namespace))
             )
@@ -68,7 +68,7 @@ public static class XEntityExtensions
                             .WithName("builder")
                             .WithType(
                                 Code
-                                    .CreateInternalType(NComplexTypes.ENTITYTYPEBUILDER)
+                                    .CreateInternalType(ComplexTypes.ENTITYTYPEBUILDER)
                                     .WithGenericArgument(Code.CreateInternalType().WithName(xEntity.Name)
                                         .WithNamespace(xEntity.Namespace)).Build()
                             )

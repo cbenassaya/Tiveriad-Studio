@@ -4,7 +4,7 @@ using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Net.InternalTypes;
 
-public static class NDataTypes
+public static class DataTypes
 {
     public static InternalType STRING =>
         Code.CreateInternalType("string", "System",XDataTypes.STRING).Build();

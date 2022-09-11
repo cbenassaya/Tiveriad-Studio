@@ -29,19 +29,19 @@ public class MyEntity : IEntity<string>, IAuditable<string>
             .WithNamespace("NS")
             .WithName("MyEntity")
             .WithImplementedInterfaces(
-                Code.CreateInternalType(NComplexTypes.IENTITY).WithGenericArgument(Code.CreateInternalType(NDataTypes.STRING)),
-                Code.CreateInternalType(NComplexTypes.IAUDITABLE).WithGenericArgument(Code.CreateInternalType(NDataTypes.STRING))
+                Code.CreateInternalType(ComplexTypes.IENTITY).WithGenericArgument(Code.CreateInternalType(DataTypes.STRING)),
+                Code.CreateInternalType(ComplexTypes.IAUDITABLE).WithGenericArgument(Code.CreateInternalType(DataTypes.STRING))
                 )
             .WithProperties(
-                Code.CreateProperty(NDataTypes.INT, "P1")
+                Code.CreateProperty(DataTypes.INT, "P1")
                     .WithAttributes(
                         Code.CreateAttribute()
-                            .WithType(NComplexTypes.MAXLENGTHATTRIBUTE)
+                            .WithType(ComplexTypes.MAXLENGTHATTRIBUTE)
                             .WithAttributeArgument(Code.CreateAttributeArgument().WithValue("24")),
                         Code.CreateAttribute()
-                            .WithType(NComplexTypes.REQUIREDATTRIBUTE)),
-                Code.CreateProperty(NDataTypes.STRING, "P2"),
-                Code.CreateProperty(NDataTypes.BOOL, "P3")
+                            .WithType(ComplexTypes.REQUIREDATTRIBUTE)),
+                Code.CreateProperty(DataTypes.STRING, "P2"),
+                Code.CreateProperty(DataTypes.BOOL, "P3")
                 );
 
         var @class = builder.Build();
@@ -66,9 +66,9 @@ public class MyEntity
             .WithAccessModifier(AccessModifier.Public)
             .WithName("MyEntity")
             .WithFields(
-                Code.CreateField(NDataTypes.INT, "_p1").WithAccessModifier(AccessModifier.Private),
-                Code.CreateField(NDataTypes.STRING, "_p2").WithAccessModifier(AccessModifier.Private),
-                Code.CreateField(NDataTypes.BOOL, "_p3").WithAccessModifier(AccessModifier.Private)
+                Code.CreateField(DataTypes.INT, "_p1").WithAccessModifier(AccessModifier.Private),
+                Code.CreateField(DataTypes.STRING, "_p2").WithAccessModifier(AccessModifier.Private),
+                Code.CreateField(DataTypes.BOOL, "_p3").WithAccessModifier(AccessModifier.Private)
             );
 
         var @class = builder.Build();
@@ -103,24 +103,24 @@ public class MyEntity
             .WithAccessModifier(AccessModifier.Public)
             .WithName("MyEntity")
             .WithFields(
-                Code.CreateField(NDataTypes.INT, "_p1").WithAccessModifier(AccessModifier.Private),
-                Code.CreateField(NDataTypes.STRING, "_p2").WithAccessModifier(AccessModifier.Private),
-                Code.CreateField(NDataTypes.BOOL, "_p3").WithAccessModifier(AccessModifier.Private)
+                Code.CreateField(DataTypes.INT, "_p1").WithAccessModifier(AccessModifier.Private),
+                Code.CreateField(DataTypes.STRING, "_p2").WithAccessModifier(AccessModifier.Private),
+                Code.CreateField(DataTypes.BOOL, "_p3").WithAccessModifier(AccessModifier.Private)
             )
             .WithMethod(
                 Code
                     .CreateMethod()
                     .MakeConstructor(true)
                     .WithParameters(
-                        Code.CreateParameter(NDataTypes.INT, "p1"),
-                        Code.CreateParameter(NDataTypes.STRING, "p2"),
-                        Code.CreateParameter(NDataTypes.BOOL, "p3")
+                        Code.CreateParameter(DataTypes.INT, "p1"),
+                        Code.CreateParameter(DataTypes.STRING, "p2"),
+                        Code.CreateParameter(DataTypes.BOOL, "p3")
                     )
                     .WithBody(@"_p1=p1;_p2=p2;_p3=p3;")
             )
             .WithMethod(Code.CreateMethod().WithName("MyMethod").WithParameters(
-                Code.CreateParameter(NDataTypes.STRING, "name"),
-                Code.CreateParameter(NDataTypes.INT, "age")));
+                Code.CreateParameter(DataTypes.STRING, "name"),
+                Code.CreateParameter(DataTypes.INT, "age")));
 
 
         var @class = builder.Build();

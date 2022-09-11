@@ -13,9 +13,9 @@ public static class XActionExtension
     public static RecordBuilder ToRequestBuilder(this XAction xAction)
     {
         var res = Code
-            .CreateInternalType(NComplexTypes.IREQUEST);
+            .CreateInternalType(ComplexTypes.IREQUEST);
         if (xAction.Response != null)
-            res.WithGenericArgument(InternalTypeBuilderExtensions.ToBuilder(xAction.Response.Type));
+            res.WithGenericArgument(XTypeExtensions.ToBuilder(xAction.Response.Type));
 
         var recordBuilder = Code
             .CreateRecord($"{xAction.Name}Request")
@@ -29,9 +29,9 @@ public static class XActionExtension
     public static ClassBuilder ToActionBuilder(this XAction xAction, Record request)
     {
         var res = Code
-            .CreateInternalType(NComplexTypes.IREQUESTHANDLER);
+            .CreateInternalType(ComplexTypes.IREQUESTHANDLER);
         if (xAction.Response != null)
-            res.WithGenericArgument(InternalTypeBuilderExtensions.ToBuilder(xAction.Response.Type));
+            res.WithGenericArgument(XTypeExtensions.ToBuilder(xAction.Response.Type));
 
         var classBuilder = Code
             .CreateClass($"{xAction.Name}RequestHandler")
@@ -49,7 +49,7 @@ public static class XActionExtension
                 Code
                     .CreateField(
                         Code
-                            .CreateInternalType(NComplexTypes.IREPOSITORY)
+                            .CreateInternalType(ComplexTypes.IREPOSITORY)
                             .WithGenericArgument(Code.CreateInternalType(xAction.Entity.Name, xAction.Entity.Namespace))
                             .WithGenericArgument(Code.CreateInternalType(xAction.Entity.GetIds().First().Type.Name,
                                 xAction.Entity.GetIds().First().Type.Namespace))
@@ -63,7 +63,7 @@ public static class XActionExtension
                     .WithName($"{xAction.Entity.Name.ToCamelCase()}Repository")
                     .WithType(
                         Code
-                            .CreateInternalType(NComplexTypes.IREPOSITORY)
+                            .CreateInternalType(ComplexTypes.IREPOSITORY)
                             .WithGenericArgument(Code.CreateInternalType(xAction.Entity.Name, xAction.Entity.Namespace))
                             .WithGenericArgument(Code.CreateInternalType(xAction.Entity.GetIds().First().Type.Name,
                                 xAction.Entity.GetIds().First().Type.Namespace))
@@ -86,7 +86,7 @@ public static class XActionExtension
                 Code
                     .CreateField(
                         Code
-                            .CreateInternalType(NComplexTypes.IREPOSITORY)
+                            .CreateInternalType(ComplexTypes.IREPOSITORY)
                             .WithGenericArgument(Code.CreateInternalType(target.Name, target.Namespace))
                             .WithGenericArgument(Code.CreateInternalType(target.GetIds().First().Type.Name,
                                 target.GetIds().First().Type.Namespace))
@@ -100,7 +100,7 @@ public static class XActionExtension
                     .WithName($"{target.Name.ToCamelCase()}Repository")
                     .WithType(
                         Code
-                            .CreateInternalType(NComplexTypes.IREPOSITORY)
+                            .CreateInternalType(ComplexTypes.IREPOSITORY)
                             .WithGenericArgument(Code.CreateInternalType(target.Name, target.Namespace))
                             .WithGenericArgument(Code.CreateInternalType(target.GetIds().First().Type.Name,
                                 target.GetIds().First().Type.Namespace))
@@ -119,10 +119,10 @@ public static class XActionExtension
             .MakeAsync(true)
             .WithParameters(
                 Code.CreateParameter().WithName("request").WithType(request),
-                Code.CreateParameter().WithName("cancellationToken").WithType(NComplexTypes.CANCELLATIONTOKEN)
+                Code.CreateParameter().WithName("cancellationToken").WithType(ComplexTypes.CANCELLATIONTOKEN)
             );
         if (xAction.Response != null)
-            handleMethod.WithReturnType(InternalTypeBuilderExtensions.ToBuilder(xAction.Response.Type).Build());
+            handleMethod.WithReturnType(XTypeExtensions.ToBuilder(xAction.Response.Type).Build());
         classBuilder.WithMethod(constructorBuilder);
         classBuilder.WithMethod(handleMethod);
         return classBuilder;
@@ -131,7 +131,7 @@ public static class XActionExtension
     public static ClassBuilder ToValidatorBuilder(this XAction xAction, Record request)
     {
         var res = Code
-            .CreateInternalType(NComplexTypes.ABSTRACTVALIDATOR)
+            .CreateInternalType(ComplexTypes.ABSTRACTVALIDATOR)
             .WithGenericArgument(Code.CreateInternalType(request));
 
         var classBuilder = Code
@@ -150,7 +150,7 @@ public static class XActionExtension
                 Code
                     .CreateField(
                         Code
-                            .CreateInternalType(NComplexTypes.IREPOSITORY)
+                            .CreateInternalType(ComplexTypes.IREPOSITORY)
                             .WithGenericArgument(Code.CreateInternalType(xAction.Entity.Name, xAction.Entity.Namespace))
                             .WithGenericArgument(Code.CreateInternalType(xAction.Entity.GetIds().First().Type.Name,
                                 xAction.Entity.GetIds().First().Type.Namespace))
@@ -164,7 +164,7 @@ public static class XActionExtension
                     .WithName($"{xAction.Entity.Name.ToCamelCase()}Repository")
                     .WithType(
                         Code
-                            .CreateInternalType(NComplexTypes.IREPOSITORY)
+                            .CreateInternalType(ComplexTypes.IREPOSITORY)
                             .WithGenericArgument(Code.CreateInternalType(xAction.Entity.Name, xAction.Entity.Namespace))
                             .WithGenericArgument(Code.CreateInternalType(xAction.Entity.GetIds().First().Type.Name,
                                 xAction.Entity.GetIds().First().Type.Namespace))
@@ -187,7 +187,7 @@ public static class XActionExtension
                 Code
                     .CreateField(
                         Code
-                            .CreateInternalType(NComplexTypes.IREPOSITORY)
+                            .CreateInternalType(ComplexTypes.IREPOSITORY)
                             .WithGenericArgument(Code.CreateInternalType(target.Name, target.Namespace))
                             .WithGenericArgument(Code.CreateInternalType(target.GetIds().First().Type.Name,
                                 target.GetIds().First().Type.Namespace))
@@ -201,7 +201,7 @@ public static class XActionExtension
                     .WithName($"{target.Name.ToCamelCase()}Repository")
                     .WithType(
                         Code
-                            .CreateInternalType(NComplexTypes.IREPOSITORY)
+                            .CreateInternalType(ComplexTypes.IREPOSITORY)
                             .WithGenericArgument(Code.CreateInternalType(target.Name, target.Namespace))
                             .WithGenericArgument(Code.CreateInternalType(target.GetIds().First().Type.Name,
                                 target.GetIds().First().Type.Namespace))
@@ -223,15 +223,15 @@ public static class XActionExtension
             .MakeAsync(true)
             .WithParameters(
                 Code.CreateParameter().WithName("request").WithType(request),
-                Code.CreateParameter().WithName("cancellationToken").WithType(NComplexTypes.CANCELLATIONTOKEN)
+                Code.CreateParameter().WithName("cancellationToken").WithType(ComplexTypes.CANCELLATIONTOKEN)
             );
         if (xAction.Response != null)
-            handleMethod.WithReturnType(InternalTypeBuilderExtensions.ToBuilder(xAction.Response.Type).Build());
+            handleMethod.WithReturnType(XTypeExtensions.ToBuilder(xAction.Response.Type).Build());
         classBuilder.WithMethods(
             xAction.GetPreConditions().Where(x => x is XPredicateRule).Cast<XPredicateRule>().Select(
-                x => Code.CreateMethod().WithName(x.PredicateName).WithReturnType(NDataTypes.BOOL)
+                x => Code.CreateMethod().WithName(x.PredicateName).WithReturnType(DataTypes.BOOL)
                     .WithBody("return true;").WithParameters(
-                        Code.CreateParameter(InternalTypeBuilderExtensions.ToBuilder(x.RuleFor.Type).Build(), "value"))
+                        Code.CreateParameter(XTypeExtensions.ToBuilder(x.RuleFor.Type).Build(), "value"))
             ).ToArray());
         classBuilder.WithMethod(constructorBuilder);
         return classBuilder;

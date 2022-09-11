@@ -3,7 +3,7 @@ using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Net.InternalTypes;
 
-public static class NComplexTypes
+public static class ComplexTypes
 {
     public static InternalType IENUMERABLE =>
         Code.CreateInternalType("IEnumerable", "System.Collections.Generic").Build();

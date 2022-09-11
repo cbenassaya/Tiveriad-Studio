@@ -16,7 +16,16 @@ namespace Tiveriad.Studio.Generators.Builders
         {
         }
 
-        internal Interface Interface { get; private set; } = new Interface(AccessModifier.Public);
+        private Interface Interface { get; set; } = new Interface(AccessModifier.Public);
+
+        /// <summary>
+        /// Set the stereotype
+        /// </summary>
+        public InterfaceBuilder WithStereotype(string value)
+        {
+            Stereotype = value;
+            return this;
+        }
 
         /// <summary>
         /// Sets the access modifier of the interface being built.

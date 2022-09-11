@@ -13,8 +13,8 @@ public class RecordBuilderTests
     {
         var builder = Code.CreateRecord("Record");
         builder
-            .WithParameter(Code.CreateParameter(NDataTypes.STRING, "Name"))
-            .WithParameter(Code.CreateParameter(NDataTypes.INT, "Age"))
+            .WithParameter(Code.CreateParameter(DataTypes.STRING, "Name"))
+            .WithParameter(Code.CreateParameter(DataTypes.INT, "Age"))
             .WithImplementedInterface(
                 Code
                     .CreateInternalType("G1", "N1")

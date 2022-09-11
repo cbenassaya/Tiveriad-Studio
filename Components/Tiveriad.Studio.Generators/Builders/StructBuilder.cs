@@ -19,8 +19,17 @@ namespace Tiveriad.Studio.Generators.Builders
         {
         }
 
-        internal Struct Struct { get; private set; } = new Struct(AccessModifier.Public);
+        private Struct Struct { get; set; } = new Struct(AccessModifier.Public);
 
+        /// <summary>
+        /// Set the stereotype
+        /// </summary>
+        public StructBuilder WithStereotype(string value)
+        {
+            Stereotype = value;
+            return this;
+        }
+        
         /// <summary>
         /// Sets the access modifier of the struct.
         /// </summary>

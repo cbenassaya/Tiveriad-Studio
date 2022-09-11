@@ -12,13 +12,13 @@ public static class XParameterExtension
 
         if (property.IsCollection)
         {
-            Code.CreateInternalType(NComplexTypes.IENUMERABLE);
-            typeBuilder = Code.CreateInternalType(NComplexTypes.IENUMERABLE);
-            typeBuilder.WithGenericArgument(InternalTypeBuilderExtensions.ToBuilder(property.Type));
+            Code.CreateInternalType(ComplexTypes.IENUMERABLE);
+            typeBuilder = Code.CreateInternalType(ComplexTypes.IENUMERABLE);
+            typeBuilder.WithGenericArgument(XTypeExtensions.ToBuilder(property.Type));
         }
         else
         {
-            typeBuilder = InternalTypeBuilderExtensions.ToBuilder(property.Type);
+            typeBuilder = XTypeExtensions.ToBuilder(property.Type);
         }
 
         return Code.CreateParameter().WithType(typeBuilder.Build()).WithName(property.Name);
