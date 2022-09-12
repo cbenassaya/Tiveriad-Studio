@@ -8,7 +8,7 @@ using Tiveriad.Repositories;
 namespace Tiveriad.Studio.Core.Entities;
 
 [XmlType("ElementBase")]
-public class XElementBase : IEntity<ObjectId>
+public class XElementBase : IEntity<ObjectId>, IAuditable<ObjectId>
 {
     [XmlAttribute("Description")]
     [MaxLength(50)]
@@ -19,7 +19,7 @@ public class XElementBase : IEntity<ObjectId>
     public string Version { get; set; }
 
     [XmlIgnore] public ObjectId CreatedBy { get; set; }
-    [XmlIgnore] public ObjectId? LastModifiedBy { get; set; }
+    [XmlIgnore] public ObjectId LastModifiedBy { get; set; }
     [XmlIgnore] public DateTime Created { get; set; }
     [XmlIgnore] public DateTime? LastModified { get; set; }
 

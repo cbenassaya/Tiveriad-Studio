@@ -1,16 +1,26 @@
+using Tiveriad.Pipelines;
+using Tiveriad.Studio.Application.Pipelines;
 using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Core.Extensions;
+using Tiveriad.Studio.Core.Processors;
+using Tiveriad.Studio.Core.Services;
 
-namespace Tiveriad.Studio.Core.Processors;
+namespace Tiveriad.Studio.Application.Middlewares;
 
-public class QueriesProcessor : AbstractProcessor<XElementBase, XNamedElement>, IProcessor
+public class QueryMiddleware : AbstractProcessor<XElementBase, XNamedElement>, 
+IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
 {
-    private readonly XTypeLoader _typeLoader;
+    private readonly IXTypeService _typeService;
 
-    public QueriesProcessor(XTypeLoader typeLoader)
+    public QueryMiddleware(IXTypeService typeService)
     {
-        _typeLoader = typeLoader;
+        _typeService = typeService;
     }
+        
+    public void Run(PipelineContext context, PipelineModel model)
+    {
+    Traverse(model.Project);
+}
 
     protected override bool ApplyIf(XElementBase value)
     {
@@ -89,7 +99,7 @@ public class QueriesProcessor : AbstractProcessor<XElementBase, XNamedElement>, 
 
 
         queryPackage.Add(getById);
-        _typeLoader.Add(getById);
+        _typeService.Add(getById);
 
         var getAll = new XAction
         {
@@ -110,6 +120,6 @@ public class QueriesProcessor : AbstractProcessor<XElementBase, XNamedElement>, 
         };
 
         queryPackage.Add(getAll);
-        _typeLoader.Add(getAll);
+        _typeService.Add(getAll);
     }
 }

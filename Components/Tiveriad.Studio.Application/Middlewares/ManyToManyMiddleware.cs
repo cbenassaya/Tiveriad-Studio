@@ -4,21 +4,23 @@ using Tiveriad.Studio.Application.Pipelines;
 using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Core.Extensions;
 using Tiveriad.Studio.Core.Processors;
+using Tiveriad.Studio.Core.Services;
 
 namespace Tiveriad.Studio.Application.Middlewares;
 
 public class ManyToManyMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
     IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
 {
-    private XTypeLoader _typeLoader;
+    private readonly IXTypeService _typeService;
+
+    public ManyToManyMiddleware(IXTypeService typeService)
+    {
+        _typeService = typeService;
+    }
     
     public void Run(PipelineContext context, PipelineModel model)
     {
-        lock (_typeLoader)
-        {
-            _typeLoader = model.TypeLoader;
-            Traverse(model.Project);
-        }
+        Traverse(model.Project);
     }
     
     protected override bool ApplyIf(XElementBase value)
@@ -118,7 +120,7 @@ public class ManyToManyMiddleware : AbstractProcessor<XElementBase, XNamedElemen
                 TypeReference = linkEntity.Name
             });
             
-            _typeLoader.Add(linkEntity);
+            _typeService.Add(linkEntity);
         }
         var cleanList = entity.RelationShips.Where(x => x is not XManyToMany).ToList().Cast<XRelationShip>();
         entity.RelationShips = new List<XRelationShip>();

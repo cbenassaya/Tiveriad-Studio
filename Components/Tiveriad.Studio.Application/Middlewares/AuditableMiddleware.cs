@@ -1,14 +1,24 @@
+using Tiveriad.Pipelines;
+using Tiveriad.Studio.Application.Pipelines;
 using Tiveriad.Studio.Core.Entities;
+using Tiveriad.Studio.Core.Processors;
+using Tiveriad.Studio.Core.Services;
 
-namespace Tiveriad.Studio.Core.Processors;
+namespace Tiveriad.Studio.Application.Middlewares;
 
-public class AuditableProcessor: AbstractProcessor<XElementBase, XNamedElement>, IProcessor
+public class AuditableMiddleware: AbstractProcessor<XElementBase, XNamedElement>,
+    IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
 {
-    private readonly XTypeLoader _typeLoader;
+    private readonly IXTypeService _typeService;
 
-    public AuditableProcessor(XTypeLoader typeLoader)
+    public AuditableMiddleware(IXTypeService typeService)
     {
-        _typeLoader = typeLoader;
+        _typeService = typeService;
+    }
+    
+    public void Run(PipelineContext context, PipelineModel model)
+    {
+        Traverse(model.Project);
     }
 
     protected override bool ApplyIf(XElementBase value)
@@ -44,4 +54,6 @@ public class AuditableProcessor: AbstractProcessor<XElementBase, XNamedElement>,
             Name = "LastModified"
         });
     }
+
+ 
 }

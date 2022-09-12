@@ -1,15 +1,25 @@
+using Tiveriad.Pipelines;
+using Tiveriad.Studio.Application.Pipelines;
 using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Core.Extensions;
+using Tiveriad.Studio.Core.Processors;
+using Tiveriad.Studio.Core.Services;
 
-namespace Tiveriad.Studio.Core.Processors;
+namespace Tiveriad.Studio.Application.Middlewares;
 
-public class CommandsProcessor : AbstractProcessor<XElementBase, XNamedElement>, IProcessor
+public class CommandMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
+    IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
 {
-    private readonly XTypeLoader _typeLoader;
+    private readonly IXTypeService _typeService;
 
-    public CommandsProcessor(XTypeLoader typeLoader)
+    public CommandMiddleware(IXTypeService typeService)
     {
-        _typeLoader = typeLoader;
+        _typeService = typeService;
+    }
+    
+    public void Run(PipelineContext context, PipelineModel model)
+    {
+        Traverse(model.Project);
     }
 
     protected override bool ApplyIf(XElementBase value)
@@ -84,7 +94,7 @@ public class CommandsProcessor : AbstractProcessor<XElementBase, XNamedElement>,
         }).ToList();
 
         requestPackage.Add(deleteAction);
-        _typeLoader.Add(deleteAction);
+        _typeService.Add(deleteAction);
 
         var saveOrUpdateAction = new XAction
         {
@@ -117,6 +127,8 @@ public class CommandsProcessor : AbstractProcessor<XElementBase, XNamedElement>,
         };
 
         requestPackage.Add(saveOrUpdateAction);
-        _typeLoader.Add(saveOrUpdateAction);
+        _typeService.Add(saveOrUpdateAction);
     }
+
+    
 }

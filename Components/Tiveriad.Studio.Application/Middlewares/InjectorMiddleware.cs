@@ -3,21 +3,23 @@ using Tiveriad.Studio.Application.Pipelines;
 using Tiveriad.Studio.Core.Attributes;
 using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Core.Processors;
+using Tiveriad.Studio.Core.Services;
 
 namespace Tiveriad.Studio.Application.Middlewares;
 
 public class InjectorMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
     IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
 {
-    private XTypeLoader _typeLoader;
+    private readonly IXTypeService _typeService;
+
+    public InjectorMiddleware(IXTypeService typeService)
+    {
+        _typeService = typeService;
+    }
     
     public void Run(PipelineContext context, PipelineModel model)
     {
-        lock (_typeLoader)
-        {
-            _typeLoader = model.TypeLoader;
-            Traverse(model.Project);
-        }
+        Traverse(model.Project);
     }
     
     protected override bool ApplyIf(XElementBase value)
@@ -25,14 +27,8 @@ public class InjectorMiddleware : AbstractProcessor<XElementBase, XNamedElement>
         return value is XNamedElement;
     }
 
-    protected override void DoApply(XElementBase value)
+    protected override void DoApply(XElementBase elementBase)
     {
-        Inject(value, _typeLoader);
-    }
-    
-    private  void Inject( XElementBase elementBase, XTypeLoader typeLoader)
-    {
-        if (elementBase == null) return;
         var propertyInfos = elementBase.GetType().GetProperties()
             .Where(x => x.CanRead && x.GetIndexParameters().Length == 0).ToList();
         foreach (var propertyInfo in propertyInfos)
@@ -52,7 +48,7 @@ public class InjectorMiddleware : AbstractProcessor<XElementBase, XNamedElement>
             if (string.IsNullOrEmpty(complexTypeReference))
                 continue;
 
-            var xComplexType = typeLoader.Get(complexTypeReference);
+            var xComplexType = _typeService.Get(complexTypeReference);
             propertyInfo.SetValue(elementBase, xComplexType);
         }
     }

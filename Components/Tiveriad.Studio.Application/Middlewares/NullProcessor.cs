@@ -1,6 +1,7 @@
 using Tiveriad.Studio.Core.Entities;
+using Tiveriad.Studio.Core.Processors;
 
-namespace Tiveriad.Studio.Core.Processors;
+namespace Tiveriad.Studio.Application.Middlewares;
 
 public class NullProcessor : AbstractProcessor<XElementBase, XNamedElement>, IProcessor
 {

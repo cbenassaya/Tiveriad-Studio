@@ -1,13 +1,14 @@
 using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Core.Exceptions;
+using Tiveriad.Studio.Core.Services;
 
-namespace Tiveriad.Studio.Core.Processors;
+namespace Tiveriad.Studio.Application.Services;
 
-public class XTypeLoader
+public class XTypeService:IXTypeService
 {
     private readonly IList<XType> _xtypes = new List<XType>();
 
-    public XTypeLoader()
+    public XTypeService()
     {
         XDataTypes.Types.ForEach(x => _xtypes.Add(x));
     }
