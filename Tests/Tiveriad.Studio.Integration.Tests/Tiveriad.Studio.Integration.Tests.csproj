@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Samples" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Tiveriad.UnitTests" Version="3.0.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Components\Tiveriad.Studio.Core\Tiveriad.Studio.Core.csproj" />
+      <ProjectReference Include="..\..\Components\Tiveriad.Studio.Infrastructure\Tiveriad.Studio.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>

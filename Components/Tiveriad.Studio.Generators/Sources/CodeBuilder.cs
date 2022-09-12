@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Text;
-using Tiveriad.Studio.Core.ToRefactor;
+using Tiveriad.Commons.Extensions;
 
 namespace Tiveriad.Studio.Generators.Sources;
 

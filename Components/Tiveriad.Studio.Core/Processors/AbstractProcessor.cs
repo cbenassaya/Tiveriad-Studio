@@ -1,6 +1,5 @@
 using System.Collections;
-using Tiveriad.Studio.Core.Extensions;
-using Tiveriad.Studio.Core.ToRefactor;
+using Tiveriad.Commons.Extensions;
 
 namespace Tiveriad.Studio.Core.Processors;
 

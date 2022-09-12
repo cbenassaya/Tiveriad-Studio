@@ -1,6 +1,6 @@
+using Tiveriad.Commons.Extensions;
 using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Core.Extensions;
-using Tiveriad.Studio.Core.ToRefactor;
 using Tiveriad.Studio.Generators.Builders;
 using Tiveriad.Studio.Generators.Models;
 using Tiveriad.Studio.Generators.Net.InternalTypes;

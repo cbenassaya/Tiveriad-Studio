@@ -7,16 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Optional" Version="4.0.0" />
-        <PackageReference Include="Tiveriad.Commons" Version="3.0.0.3" />
+      <PackageReference Include="Tiveriad.Pipelines" Version="3.0.0.3" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Tiveriad.Studio.Core\Tiveriad.Studio.Core.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Extensions" />
     </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 using Optional;
 using Optional.Collections;
 using Optional.Unsafe;
-using Tiveriad.Studio.Core.ToRefactor;
+using Tiveriad.Commons.Extensions;
 using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Builders
