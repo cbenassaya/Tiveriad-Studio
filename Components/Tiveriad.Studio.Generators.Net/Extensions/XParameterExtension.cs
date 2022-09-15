@@ -6,21 +6,21 @@ namespace Tiveriad.Studio.Generators.Net.Extensions;
 
 public static class XParameterExtension
 {
-    public static ParameterBuilder ToBuilder(this XParameter property)
+    public static ParameterCodeBuilder ToBuilder(this XParameter property)
     {
-        InternalTypeBuilder typeBuilder;
+        InternalTypeCodeBuilder typeCodeBuilder;
 
         if (property.IsCollection)
         {
             Code.CreateInternalType(ComplexTypes.IENUMERABLE);
-            typeBuilder = Code.CreateInternalType(ComplexTypes.IENUMERABLE);
-            typeBuilder.WithGenericArgument(XTypeExtensions.ToBuilder(property.Type));
+            typeCodeBuilder = Code.CreateInternalType(ComplexTypes.IENUMERABLE);
+            typeCodeBuilder.WithGenericArgument(XTypeExtensions.ToBuilder(property.Type));
         }
         else
         {
-            typeBuilder = XTypeExtensions.ToBuilder(property.Type);
+            typeCodeBuilder = XTypeExtensions.ToBuilder(property.Type);
         }
 
-        return Code.CreateParameter().WithType(typeBuilder.Build()).WithName(property.Name);
+        return Code.CreateParameter().WithType(typeCodeBuilder.Build()).WithName(property.Name);
     }
 }

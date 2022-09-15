@@ -3,6 +3,11 @@ using Optional;
 namespace Tiveriad.Studio.Generators.Models;
 
 
+public class NamedElement
+{
+    
+}
+
 public class Class : InternalType
 {
     public Class(
@@ -36,16 +41,11 @@ public class Class : InternalType
     public bool IsStatic { get;  private set; }
 
     public Option<InternalType> InheritedClass { get;  private set; }
-
     public List<InternalType> ImplementedInterfaces { get;   set; }
     public List<Attribute> Attributes { get;   set; }
-
     public List<Field> Fields { get;   set; }
-
     public List<Property> Properties { get;   set; }
-
     public List<Method> Methods { get;   set; }
-
     public List<TypeParameter> TypeParameters { get;   set; }
 
     

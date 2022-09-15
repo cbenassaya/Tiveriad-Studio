@@ -6,7 +6,7 @@ namespace Tiveriad.Studio.Generators.Net.Extensions;
 
 public static class XContractExtensions
 {
-    public static ClassBuilder ToBuilder(this XContract contract)
+    public static ClassCodeBuilder ToBuilder(this XContract contract)
     {
         var classBuilder = Code.CreateClass(contract.Name)
             .WithNamespace(contract.Namespace)

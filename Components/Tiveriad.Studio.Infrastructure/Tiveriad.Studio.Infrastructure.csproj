@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Tiveriad.Studio.Core\Tiveriad.Studio.Core.csproj" />
+      <ProjectReference Include="..\Tiveriad.Studio.Generators\Tiveriad.Studio.Generators.csproj" />
     </ItemGroup>
 
     <ItemGroup>

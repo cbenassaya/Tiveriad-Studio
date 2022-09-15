@@ -8,7 +8,7 @@ namespace Tiveriad.Studio.Generators.Net.Extensions;
 
 public static class XEntityExtensions
 {
-    public static ClassBuilder ToBuilder(this XEntity entity)
+    public static ClassCodeBuilder ToBuilder(this XEntity entity)
     {
         var classBuilder = Code.CreateClass(entity.Name);
 
@@ -48,7 +48,7 @@ public static class XEntityExtensions
         return classBuilder;
     }
 
-    public static ClassBuilder ToPersistenceBuilder(this XEntity xEntity)
+    public static ClassCodeBuilder ToPersistenceBuilder(this XEntity xEntity)
     {
         var classBuilder = Code.CreateClass($"{xEntity.Name}Configuration")
             .WithNamespace($"{xEntity.GetProject().RootNamespace}.Persistence.Configurations")

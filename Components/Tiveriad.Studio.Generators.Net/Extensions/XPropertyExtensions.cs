@@ -6,23 +6,23 @@ namespace Tiveriad.Studio.Generators.Net.Extensions;
 
 public static class XPropertyExtensions
 {
-    public static PropertyBuilder ToBuilder(this XProperty property)
+    public static PropertyCodeBuilder ToBuilder(this XProperty property)
     {
-        InternalTypeBuilder typeBuilder;
+        InternalTypeCodeBuilder typeCodeBuilder;
 
         if (property.IsCollection)
         {
             Code.CreateInternalType(ComplexTypes.IENUMERABLE);
-            typeBuilder = Code.CreateInternalType(ComplexTypes.IENUMERABLE);
-            typeBuilder.WithGenericArgument(XTypeExtensions.ToBuilder(property.Type));
+            typeCodeBuilder = Code.CreateInternalType(ComplexTypes.IENUMERABLE);
+            typeCodeBuilder.WithGenericArgument(XTypeExtensions.ToBuilder(property.Type));
         }
         else
         {
             var nullable = property.Constraints.Any(x => x is XRequiredConstraint) ? "?" : string.Empty;
-            typeBuilder = XTypeExtensions.ToBuilder(property.Type);
+            typeCodeBuilder = XTypeExtensions.ToBuilder(property.Type);
         }
 
-        var builder = Code.CreateProperty().WithType(typeBuilder.Build()).WithName(property.Name);
+        var builder = Code.CreateProperty().WithType(typeCodeBuilder.Build()).WithName(property.Name);
         builder.WithAttributes(
             property.Constraints
                 .Where(x => x is XMaxLengthConstraint)
@@ -50,7 +50,7 @@ public static class XPropertyExtensions
         return builder;
     }
 
-    public static PropertyBuilder ToBuilder(this XId property)
+    public static PropertyCodeBuilder ToBuilder(this XId property)
     {
         var builder = Code.CreateProperty().WithType(XTypeExtensions.ToBuilder(property.Type).Build()).WithName(property.Name);
         builder.WithAttributes(
@@ -80,7 +80,7 @@ public static class XPropertyExtensions
         return builder;
     }
 
-    public static PropertyBuilder ToBuilder(this XManyToOne property)
+    public static PropertyCodeBuilder ToBuilder(this XManyToOne property)
     {
         var builder = Code.CreateProperty()
             .WithType(Code.CreateInternalType(property.Type.Name, property.Type.Namespace).Build())
@@ -113,7 +113,7 @@ public static class XPropertyExtensions
         return builder;
     }
 
-    public static PropertyBuilder ToBuilder(this XOneToMany property)
+    public static PropertyCodeBuilder ToBuilder(this XOneToMany property)
     {
         var typeBuilder = Code.CreateInternalType(ComplexTypes.IENUMERABLE);
         typeBuilder.WithGenericArgument(Code.CreateInternalType(property.Type.Name, property.Type.Namespace));
@@ -145,7 +145,7 @@ public static class XPropertyExtensions
         return builder;
     }
 
-    public static PropertyBuilder ToBuilder(this XManyToMany property)
+    public static PropertyCodeBuilder ToBuilder(this XManyToMany property)
     {
         var typeBuilder = Code.CreateInternalType(ComplexTypes.IENUMERABLE);
         typeBuilder.WithGenericArgument(Code.CreateInternalType(property.Type.Name, property.Type.Namespace));

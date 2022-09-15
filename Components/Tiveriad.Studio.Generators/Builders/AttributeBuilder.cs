@@ -6,49 +6,45 @@ namespace Tiveriad.Studio.Generators.Builders;
 
 public class AttributeBuilder
 {
-    private readonly List<AttributeArgumentBuilder> _attributeArguments = new ();
-    
-    internal AttributeBuilder()
-    {
-    }
-    
-    internal Attribute Attribute { get; private set; } = new();
-    
+    private readonly List<AttributeArgumentCodeBuilder> _attributeArguments = new();
+
+    private Attribute _attribute = new();
+
     public AttributeBuilder WithType(InternalType name)
     {
         if (name is null)
             throw new ArgumentNullException(nameof(name));
 
 
-        Attribute = Attribute.With(internalType: Option.Some(name));
+        _attribute = Attribute.With(Option.Some(name));
         return this;
     }
-    
+
     /// <summary>
-    /// Adds a type parameter to the field being built.
+    ///     Adds a type parameter to the field being built.
     /// </summary>
     /// <exception cref="ArgumentNullException">
-    /// The specified <paramref name="builder"/> is <c>null</c>.
+    ///     The specified <paramref name="codeBuilder" /> is <c>null</c>.
     /// </exception>
-    public AttributeBuilder WithAttributeArgument(AttributeArgumentBuilder builder)
+    public AttributeBuilder WithAttributeArgument(AttributeArgumentCodeBuilder codeBuilder)
     {
-        if (builder is null)
-            throw new ArgumentNullException(nameof(builder));
+        if (codeBuilder is null)
+            throw new ArgumentNullException(nameof(codeBuilder));
 
-        _attributeArguments.Add(builder);
+        _attributeArguments.Add(codeBuilder);
         return this;
     }
 
     /// <summary>
-    /// Adds a bunch of type parameters to the field being built.
+    ///     Adds a bunch of type parameters to the field being built.
     /// </summary>
     /// <exception cref="ArgumentNullException">
-    /// The specified <paramref name="builders"/> is <c>null</c>.
+    ///     The specified <paramref name="builders" /> is <c>null</c>.
     /// </exception>
     /// <exception cref="ArgumentException">
-    /// One of the specified <paramref name="builders"/> is <c>null</c>.
+    ///     One of the specified <paramref name="builders" /> is <c>null</c>.
     /// </exception>
-    public AttributeBuilder WithAttributeArguments(params AttributeArgumentBuilder[] builders)
+    public AttributeBuilder WithAttributeArguments(params AttributeArgumentCodeBuilder[] builders)
     {
         if (builders is null)
             throw new ArgumentNullException(nameof(builders));
@@ -59,20 +55,16 @@ public class AttributeBuilder
         _attributeArguments.AddRange(builders);
         return this;
     }
-    
 
-    
+
     internal Attribute Build()
     {
-
-        if (!Attribute.InternalType.HasValue)
-        {
+        if (!_attribute.InternalType.HasValue)
             throw new MissingBuilderSettingException(
                 "Providing the internalType is required when building an attribute.");
-        }
 
-        Attribute.AttributeArguments.AddRange(_attributeArguments.Select(builder => builder.Build()));
+        _attribute.AttributeArguments.AddRange(_attributeArguments.Select(builder => builder.Build()));
 
-        return Attribute;
+        return _attribute;
     }
 }

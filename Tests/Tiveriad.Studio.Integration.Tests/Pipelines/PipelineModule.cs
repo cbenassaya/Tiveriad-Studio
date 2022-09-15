@@ -1,38 +1,12 @@
 using System.ComponentModel.Design.Serialization;
-using Microsoft.Extensions.DependencyInjection;
 using Tiveriad.Pipelines;
-using Tiveriad.Studio.Application;
 using Tiveriad.Studio.Application.Middlewares;
 using Tiveriad.Studio.Application.Pipelines;
-using Tiveriad.Studio.Core.Services;
-using Tiveriad.Studio.Infrastructure;
-using Tiveriad.Studio.Infrastructure.Services;
+using Tiveriad.Studio.Generators.Net.Middlewares;
 using Tiveriad.UnitTests;
 using Xunit;
 
 namespace Tiveriad.Studio.Integration.Tests.Pipelines;
-
-
-public class PipelineMiddlewareResolver : IMiddlewareResolver
-{
-    private readonly IServiceProvider _serviceProvider;
-    public object Resolve(Type type)
-    {
-        return _serviceProvider.GetRequiredService(type);
-    }
-}
-
-public class Startup : StartupBase
-{
-    public override void Configure(IServiceCollection services)
-    {
-        services.AddInfrastructure();
-        services.AddApplication();
-        services.AddScoped<IMiddlewareResolver, PipelineMiddlewareResolver>();
-        services.AddScoped<IPipelineBuilder<PipelineModel, PipelineContext, PipelineConfiguration>, DefaultPipelineBuilder<PipelineModel, PipelineContext, PipelineConfiguration>>();
-    }
-}
-
 
 public class PipelineModule: TestBase<Startup>
 {
@@ -41,12 +15,17 @@ public class PipelineModule: TestBase<Startup>
     {
         var pipelineBuilder = GetRequiredService<IPipelineBuilder<PipelineModel, PipelineContext, PipelineConfiguration>>();
         pipelineBuilder
+            .Configure(x=>x.OutputPath= @"C:\Dev\Data\Source")
             .Add<LoadingMiddleware>()
             .Add<AddTypesMiddleware>()
             .Add<PostLoadingMiddleware>()
             .Add<ContextBuilderMiddleware>()
             .Add<InjectorMiddleware>()
-            .Add<ManyToManyMiddleware>();
+            .Add<ManyToManyMiddleware>()
+            .Add<QueryMiddleware>()
+            .Add<CommandMiddleware>()
+            .Add<NetCodeBuilderMiddleware>()
+            .Add<WriterMiddleware>();
 
         var pipeline = pipelineBuilder.Build();
         pipeline.Execute(new PipelineModel(){ InputPath = "Samples/KpiBuilder.xml"});

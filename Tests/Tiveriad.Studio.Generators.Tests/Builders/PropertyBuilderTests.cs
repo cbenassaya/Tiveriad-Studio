@@ -1,6 +1,6 @@
 using Tiveriad.Studio.Generators.Builders;
 using Tiveriad.Studio.Generators.Net.InternalTypes;
-using Tiveriad.Studio.Generators.Net.SourceCode;
+using Tiveriad.Studio.Generators.Net.Sources;
 using Xunit;
 
 namespace Tiveriad.Studio.Generators.Tests.Builders;

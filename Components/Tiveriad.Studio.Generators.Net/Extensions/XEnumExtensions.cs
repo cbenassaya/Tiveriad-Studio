@@ -5,7 +5,7 @@ namespace Tiveriad.Studio.Generators.Net.Extensions;
 
 public static class XEnumExtensions
 {
-    public static EnumBuilder EnumBuilder(this XEnum @enum)
+    public static EnumCodeBuilder ToBuilder(this XEnum @enum)
     {
         return Code.CreateEnum(@enum.Name)
             .WithNamespace(@enum.Namespace)

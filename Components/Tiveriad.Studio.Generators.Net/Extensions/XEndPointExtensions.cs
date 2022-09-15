@@ -7,7 +7,7 @@ namespace Tiveriad.Studio.Generators.Net.Extensions;
 
 public static class XEndPointExtensions
 {
-    public static ClassBuilder ToBuilder(this XEndPoint xEndPoint)
+    public static ClassCodeBuilder ToBuilder(this XEndPoint xEndPoint)
     {
         var handleMethod = Code
             .CreateMethod()

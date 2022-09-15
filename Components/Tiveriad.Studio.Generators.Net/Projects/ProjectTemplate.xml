@@ -49,12 +49,12 @@
                 <Dependency Include="Tiveriad.Repositories.EntityFrameworkCore" Version="2.0.1.3"/>
             </Dependencies>
             <ComponentItems>
-                <ComponentItem Pattern="Requests/{entity}Requests/{request}" Stereotype="Request"/>
-                <ComponentItem Pattern="Requests/{entity}Requests/{action}" Stereotype="RequestAction"/>
-                <ComponentItem Pattern="Requests/{entity}Requests/{validator}" Stereotype="RequestValidator"/>
-                <ComponentItem Pattern="Commands/{entity}Commands/{request}" Stereotype="Command"/>
-                <ComponentItem Pattern="Commands/{entity}Commands/{action}" Stereotype="CommandAction"/>
-                <ComponentItem Pattern="Commands/{entity}Commands/{validator}" Stereotype="CommandValidator"/>
+                <ComponentItem Pattern="Queries/{entity}Queries/{request}" Stereotype="QueryRequest"/>
+                <ComponentItem Pattern="Queries/{entity}Queries/{action}" Stereotype="QueryAction"/>
+                <ComponentItem Pattern="Queries/{entity}Queries/{validator}" Stereotype="QueryValidator"/>
+                <ComponentItem Pattern="Commands/{entity}Queries/{request}" Stereotype="CommandRequest"/>
+                <ComponentItem Pattern="Commands/{entity}Queries/{action}" Stereotype="CommandAction"/>
+                <ComponentItem Pattern="Commands/{entity}Queries/{validator}" Stereotype="CommandValidator"/>
             </ComponentItems>
         </Component>
         <Component Layer="Infrastructure" Type="Component">

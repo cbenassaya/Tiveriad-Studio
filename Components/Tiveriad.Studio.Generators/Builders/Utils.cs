@@ -1,10 +1,9 @@
+namespace Tiveriad.Studio.Generators.Builders;
 
-namespace Tiveriad.Studio.Generators.Builders
+internal static class Utils
 {
-    internal static class Utils
+    public static T[] AsArray<T>(params T[] items)
     {
-        public static T[] AsArray<T>(params T[] items) => items;
-
-
+        return items;
     }
 }

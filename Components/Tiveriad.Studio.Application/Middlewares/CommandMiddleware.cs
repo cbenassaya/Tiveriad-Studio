@@ -55,25 +55,25 @@ public class CommandMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
             component.Packages.Add(commandsPackage);
         }
 
-        var requestPackage = component.Packages.FirstOrDefault(x => x.Name == $"{entity.Name}Requests");
-        if (requestPackage == null)
+        var commandPackage = component.Packages.FirstOrDefault(x => x.Name == $"{entity.Name}Commands");
+        if (commandPackage == null)
         {
-            requestPackage = new XPackage
+            commandPackage = new XPackage
             {
                 Name = $"{entity.Name}Commands",
                 Parent = commandsPackage
             };
-            commandsPackage.Add(requestPackage);
+            commandsPackage.Add(commandPackage);
         }
 
         var deleteAction = new XAction
         {
             Name = $"Delete{entity.Name}ById",
-            Package = requestPackage,
+            Package = commandPackage,
             BehaviourType = XBehaviourType.Delete,
             Entity = entity,
             EntityReference = entity.ToString(),
-            Namespace = requestPackage.GetNamespace()
+            Namespace = commandPackage.GetNamespace()
         };
 
         deleteAction.Response = new XResponse
@@ -93,17 +93,17 @@ public class CommandMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
             IsCollection = false,
         }).ToList();
 
-        requestPackage.Add(deleteAction);
+        commandPackage.Add(deleteAction);
         _typeService.Add(deleteAction);
 
         var saveOrUpdateAction = new XAction
         {
             Name = $"SaveOrUpdate{entity.Name}",
-            Package = requestPackage,
+            Package = commandPackage,
             BehaviourType = XBehaviourType.SaveOrUpdate,
             Entity = entity,
             EntityReference = entity.ToString(),
-            Namespace = requestPackage.GetNamespace()
+            Namespace = commandPackage.GetNamespace()
         };
 
         saveOrUpdateAction.Parameters = new List<XParameter>
@@ -126,7 +126,7 @@ public class CommandMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
             IsCollection = false
         };
 
-        requestPackage.Add(saveOrUpdateAction);
+        commandPackage.Add(saveOrUpdateAction);
         _typeService.Add(saveOrUpdateAction);
     }
 

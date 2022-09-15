@@ -41,7 +41,12 @@
   &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f0bc83c8_002Dec70_002D48b3_002D9f2b_002D51344a9abd44/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetPath #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::4EC9C8F3-95AE-4FDD-999B-816FAEE6B080::net6.0::Tiveriad.Studio.Generators.Tests.Projects.ProjectDefinitionLoaderTests.GetPath&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;xUnit::4EC9C8F3-95AE-4FDD-999B-816FAEE6B080::net6.0::Tiveriad.Studio.Generators.Tests.Projects.ProjectDefinitionLoaderTests.GetPath&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::B307A052-6174-4C4C-8A03-7CF1BA816991::net6.0::Tiveriad.Studio.Integration.Tests.Pipelines.PipelineModule.Integration_Test&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::B307A052-6174-4C4C-8A03-7CF1BA816991::net6.0::Tiveriad.Studio.Integration.Tests.Pipelines.PipelineModule&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+    &lt;ProjectFolder&gt;4EC9C8F3-95AE-4FDD-999B-816FAEE6B080/d:Builders&lt;/ProjectFolder&gt;&#xD;
+  &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

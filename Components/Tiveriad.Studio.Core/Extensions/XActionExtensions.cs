@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Tiveriad.Studio.Core.Entities;
 
 namespace Tiveriad.Studio.Core.Extensions;

@@ -9,18 +9,16 @@ public class LoadingMiddleware:IMiddleware<PipelineModel,PipelineContext,Pipelin
     private readonly ILoaderService _loaderService;
     private readonly IParserService _parserService;
 
-    public LoadingMiddleware(ILoaderService loaderService)
+    public LoadingMiddleware(ILoaderService loaderService, IParserService parserService)
     {
         _loaderService = loaderService;
+        _parserService = parserService;
     }
 
     public void Run(PipelineContext context, PipelineModel model)
     {
-        var middleware = async () =>
-        {
-            await using var stream = await _loaderService.GetStreamAsync(model.InputPath);
-            model.Project = _parserService.Parse(stream);
-        };
-        middleware();
+        var task = _loaderService.GetStreamAsync(model.InputPath);
+        using var stream = task.Result;
+        model.Project = _parserService.Parse(stream);
     }
 }

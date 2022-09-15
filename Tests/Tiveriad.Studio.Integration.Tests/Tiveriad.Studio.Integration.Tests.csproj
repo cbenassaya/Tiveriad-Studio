@@ -27,7 +27,13 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Components\Tiveriad.Studio.Application\Tiveriad.Studio.Application.csproj" />
       <ProjectReference Include="..\..\Components\Tiveriad.Studio.Core\Tiveriad.Studio.Core.csproj" />
+      <ProjectReference Include="..\..\Components\Tiveriad.Studio.Generators.Net\Tiveriad.Studio.Generators.Net.csproj" />
       <ProjectReference Include="..\..\Components\Tiveriad.Studio.Infrastructure\Tiveriad.Studio.Infrastructure.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Update="Samples\KpiBuilder.xml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

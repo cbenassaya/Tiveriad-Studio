@@ -2,381 +2,436 @@ using Optional.Unsafe;
 using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Generators.Models;
 
-namespace Tiveriad.Studio.Generators.Builders
+namespace Tiveriad.Studio.Generators.Builders;
+
+/// <summary>
+///     Provides functionality for creating various source code builders.
+/// </summary>
+public static class Code
 {
     /// <summary>
-    /// Provides functionality for creating various source code builders.
+    ///     Creates a new <see cref="InternalTypeCodeBuilder" /> instance for building InternalType.
     /// </summary>
-    public static class Code
+    public static InternalTypeCodeBuilder CreateInternalType()
     {
+        return new();
+    }
 
-        /// <summary>
-        /// Creates a new <see cref="InternalTypeBuilder"/> instance for building InternalType.
-        /// </summary>
-        public static InternalTypeBuilder CreateInternalType() => new();
-        
-        /// <summary>
-        /// Creates a new <see cref="InternalTypeBuilder"/> instance for building InternalType.
-        /// </summary>
-        public static InternalTypeBuilder CreateInternalType(string name,string @namespace) =>
-            new InternalTypeBuilder().WithName(name).WithNamespace(@namespace);
-        
-        /// <summary>
-        /// Creates a new <see cref="InternalTypeBuilder"/> instance for building InternalType.
-        /// </summary>
-        public static InternalTypeBuilder CreateInternalType(string name,string @namespace, XType reference ) =>
-            new InternalTypeBuilder().WithName(name).WithNamespace(@namespace).WithReference(reference);
-        
-        /// <summary>
-        /// Creates a new <see cref="InternalTypeBuilder"/> instance for building InternalType.
-        /// </summary>
-        public static InternalTypeBuilder CreateInternalType(InternalType internalType)
-            =>
-                new InternalTypeBuilder()
-                    .WithName(internalType.Name.ValueOrFailure())
-                    .WithNamespace(internalType.Namespace.ValueOrFailure());
-        
-        /// <summary>
-        /// Creates a new <see cref="EnumBuilder"/> instance for building enums.
-        /// </summary>
-        public static EnumBuilder CreateEnum() =>
-            new EnumBuilder();
+    /// <summary>
+    ///     Creates a new <see cref="InternalTypeCodeBuilder" /> instance for building InternalType.
+    /// </summary>
+    public static InternalTypeCodeBuilder CreateInternalType(string name, string @namespace)
+    {
+        return new InternalTypeCodeBuilder().WithName(name).WithNamespace(@namespace);
+    }
 
-        /// <summary>
-        /// Creates a new pre-configured <see cref="EnumBuilder"/> instance for building enums. Configures the
-        /// <see cref="EnumBuilder"/> instance with the specified <paramref name="name"/> and
-        /// <paramref name="accessModifier"/>.
-        /// </summary>
-        /// <param name="name">
-        /// The name of the enum.
-        /// </param>
-        /// <param name="accessModifier">
-        /// The access modifier of the enum.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// The specified <paramref name="name"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// The specified <paramref name="name"/> is empty or invalid.
-        /// </exception>
-        public static EnumBuilder CreateEnum(string name, AccessModifier accessModifier = AccessModifier.Public) =>
-            new EnumBuilder().WithName(name).WithAccessModifier(accessModifier);
+    /// <summary>
+    ///     Creates a new <see cref="InternalTypeCodeBuilder" /> instance for building InternalType.
+    /// </summary>
+    public static InternalTypeCodeBuilder CreateInternalType(string name, string @namespace, XType reference)
+    {
+        return new InternalTypeCodeBuilder().WithName(name).WithNamespace(@namespace).WithReference(reference);
+    }
 
-        /// <summary>
-        /// Creates a new <see cref="EnumMemberBuilder"/> instance for building enum members.
-        /// </summary>
-        public static EnumMemberBuilder CreateEnumMember() =>
-            new EnumMemberBuilder();
+    /// <summary>
+    ///     Creates a new <see cref="InternalTypeCodeBuilder" /> instance for building InternalType.
+    /// </summary>
+    public static InternalTypeCodeBuilder CreateInternalType(InternalType internalType)
+    {
+        return new InternalTypeCodeBuilder()
+            .WithName(internalType.Name.ValueOrFailure())
+            .WithNamespace(internalType.Namespace.ValueOrFailure());
+    }
 
-        /// <summary>
-        /// Creates a new pre-configured <see cref="EnumMemberBuilder"/> instance for building enum members. Configures
-        /// the <see cref="EnumMemberBuilder"/> instance with the specified <paramref name="name"/> and
-        /// <paramref name="value"/>.
-        /// </summary>
-        /// <param name="name">
-        /// The name of the enum member.
-        /// </param>
-        /// <param name="value">
-        /// Optional. Explicitly specifies the value of the enum member. <b>Note</b> that if the enum is marked as
-        /// flags, via <see cref="EnumBuilder.MakeFlagsEnum(bool)"/>, you need to explicitly provide the values of all
-        /// members to ensure correct functionality. Flags enums for which no member has an explicit value will
-        /// auto-generate appropriate values for each member.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// The specified <paramref name="name"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// The specified <paramref name="name"/> is empty or invalid.
-        /// </exception>
-        public static EnumMemberBuilder CreateEnumMember(string name, int? value = null) =>
-            new EnumMemberBuilder().WithName(name).WithValue(value);
+    /// <summary>
+    ///     Creates a new <see cref="EnumCodeBuilder" /> instance for building enums.
+    /// </summary>
+    public static EnumCodeBuilder CreateEnum()
+    {
+        return new();
+    }
 
-        /// <summary>
-        /// Creates a new <see cref="InterfaceBuilder"/> instance for building interface structures.
-        /// </summary>
-        public static InterfaceBuilder CreateInterface() =>
-            new InterfaceBuilder();
+    /// <summary>
+    ///     Creates a new pre-configured <see cref="EnumCodeBuilder" /> instance for building enums. Configures the
+    ///     <see cref="EnumCodeBuilder" /> instance with the specified <paramref name="name" /> and
+    ///     <paramref name="accessModifier" />.
+    /// </summary>
+    /// <param name="name">
+    ///     The name of the enum.
+    /// </param>
+    /// <param name="accessModifier">
+    ///     The access modifier of the enum.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    ///     The specified <paramref name="name" /> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    ///     The specified <paramref name="name" /> is empty or invalid.
+    /// </exception>
+    public static EnumCodeBuilder CreateEnum(string name, AccessModifier accessModifier = AccessModifier.Public)
+    {
+        return new EnumCodeBuilder().WithName(name).WithAccessModifier(accessModifier);
+    }
 
-        /// <summary>
-        /// Creates a new pre-configured <see cref="InterfaceBuilder"/> instance for building interface structures.
-        /// Configures the <see cref="InterfaceBuilder"/> with the specified <paramref name="name"/> and
-        /// <paramref name="accessModifier"/>.
-        /// </summary>
-        /// <param name="name">
-        /// The name of the interface. Used as-is.
-        /// </param>
-        /// <param name="accessModifier">
-        /// The access modifier of the interface.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// The specified <paramref name="name"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// The specified <paramref name="name"/> is empty or invalid.
-        /// </exception>
-        public static InterfaceBuilder CreateInterface(
-            string name,
-            AccessModifier accessModifier = AccessModifier.Public) =>
-            new InterfaceBuilder().WithName(name).WithAccessModifier(accessModifier);
+    /// <summary>
+    ///     Creates a new <see cref="EnumMemberCodeBuilder" /> instance for building enum members.
+    /// </summary>
+    public static EnumMemberCodeBuilder CreateEnumMember()
+    {
+        return new();
+    }
 
-        /// <summary>
-        /// Creates a new <see cref="ClassBuilder"/> instance for building class structures.
-        /// </summary>
-        public static ClassBuilder CreateClass() =>
-            new ClassBuilder();
+    /// <summary>
+    ///     Creates a new pre-configured <see cref="EnumMemberCodeBuilder" /> instance for building enum members. Configures
+    ///     the <see cref="EnumMemberCodeBuilder" /> instance with the specified <paramref name="name" /> and
+    ///     <paramref name="value" />.
+    /// </summary>
+    /// <param name="name">
+    ///     The name of the enum member.
+    /// </param>
+    /// <param name="value">
+    ///     Optional. Explicitly specifies the value of the enum member. <b>Note</b> that if the enum is marked as
+    ///     flags, via <see cref="EnumCodeBuilder.MakeFlagsEnum(bool)" />, you need to explicitly provide the values of all
+    ///     members to ensure correct functionality. Flags enums for which no member has an explicit value will
+    ///     auto-generate appropriate values for each member.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    ///     The specified <paramref name="name" /> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    ///     The specified <paramref name="name" /> is empty or invalid.
+    /// </exception>
+    public static EnumMemberCodeBuilder CreateEnumMember(string name, int? value = null)
+    {
+        return new EnumMemberCodeBuilder().WithName(name).WithValue(value);
+    }
 
-        /// <summary>
-        /// Creates a new pre-configured <see cref="ClassBuilder"/> instance for building class structures. Configures
-        /// the <see cref="ClassBuilder"/> with the specified <paramref name="name"/> and
-        /// <paramref name="accessModifier"/>.
-        /// </summary>
-        /// <param name="name">
-        /// The name of the class. Used as-is.
-        /// </param>
-        /// <param name="accessModifier">
-        /// The access modifier of the class.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// The specified <paramref name="name"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// The specified <paramref name="name"/> is empty or invalid.
-        /// </exception>
-        public static ClassBuilder CreateClass(string name, AccessModifier accessModifier = AccessModifier.Public) =>
-            new ClassBuilder().WithName(name).WithAccessModifier(accessModifier);
-        
-        
-        /// <summary>
-        /// Creates a new pre-configured <see cref="RecordBuilder"/> instance for building record structures. Configures
-        /// the <see cref="RecordBuilder"/> with the specified <paramref name="name"/> and
-        /// <paramref name="accessModifier"/>.
-        /// </summary>
-        /// <param name="name">
-        /// The name of the class. Used as-is.
-        /// </param>
-        /// <param name="accessModifier">
-        /// The access modifier of the class.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// The specified <paramref name="name"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// The specified <paramref name="name"/> is empty or invalid.
-        /// </exception>
-        public static RecordBuilder CreateRecord(string name, AccessModifier accessModifier = AccessModifier.Public) =>
-            new RecordBuilder().WithName(name).WithAccessModifier(accessModifier);
+    /// <summary>
+    ///     Creates a new <see cref="InterfaceCodeBuilder" /> instance for building interface structures.
+    /// </summary>
+    public static InterfaceCodeBuilder CreateInterface()
+    {
+        return new();
+    }
 
-        /// <summary>
-        /// Creates a new <see cref="StructBuilder"/> instance for building structs.
-        /// </summary>
-        public static StructBuilder CreateStruct() =>
-            new StructBuilder();
+    /// <summary>
+    ///     Creates a new pre-configured <see cref="InterfaceCodeBuilder" /> instance for building interface structures.
+    ///     Configures the <see cref="InterfaceCodeBuilder" /> with the specified <paramref name="name" /> and
+    ///     <paramref name="accessModifier" />.
+    /// </summary>
+    /// <param name="name">
+    ///     The name of the interface. Used as-is.
+    /// </param>
+    /// <param name="accessModifier">
+    ///     The access modifier of the interface.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    ///     The specified <paramref name="name" /> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    ///     The specified <paramref name="name" /> is empty or invalid.
+    /// </exception>
+    public static InterfaceCodeBuilder CreateInterface(
+        string name,
+        AccessModifier accessModifier = AccessModifier.Public)
+    {
+        return new InterfaceCodeBuilder().WithName(name).WithAccessModifier(accessModifier);
+    }
 
-        /// <summary>
-        /// Creates a new pre-configured <see cref="StructBuilder"/> instance for building structs. Configures the
-        /// <see cref="StructBuilder"/> instance with the specified <paramref name="name"/> and
-        /// <paramref name="accessModifier"/>.
-        /// </summary>
-        /// <param name="name">
-        /// The name of the struct.
-        /// </param>
-        /// <param name="accessModifier">
-        /// The access modifier of the struct.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// The specified <paramref name="name"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// The specified <paramref name="name"/> is empty or invalid.
-        /// </exception>
-        public static StructBuilder CreateStruct(string name, AccessModifier accessModifier = AccessModifier.Public) =>
-            new StructBuilder().WithName(name).WithAccessModifier(accessModifier);
+    /// <summary>
+    ///     Creates a new <see cref="ClassCodeBuilder" /> instance for building class structures.
+    /// </summary>
+    public static ClassCodeBuilder CreateClass()
+    {
+        return new();
+    }
 
-        
-        /// <summary>
-        /// Creates a new <see cref="ParameterBuilder"/> instance for building parameters.
-        /// </summary>
-        public static ParameterBuilder CreateParameter() =>
-            new ParameterBuilder();
-        
-        /// <summary>
-        /// Creates a new <see cref="ParameterBuilder"/> instance for building parameters.
-        /// </summary>
-        public static ParameterBuilder CreateParameter(
-            InternalType type,
-            string name) =>
-            new ParameterBuilder().WithType(type).WithName(name);
-        
-        /// <summary>
-        /// Creates a new <see cref="FieldBuilder"/> instance for building fields.
-        /// </summary>
-        public static FieldBuilder CreateField() =>
-            new FieldBuilder();
-
-        /// <summary>
-        /// Creates a new pre-configured <see cref="FieldBuilder"/> instance for building fields. Configures the
-        /// <see cref="FieldBuilder"/> with the specified <paramref name="type"/>, <paramref name="name"/> and
-        /// <paramref name="accessModifier"/>.
-        /// </summary>
-        /// <param name="type">
-        /// The type of the field, eg. <c>int</c>, <c>string</c>, <c>User</c>. Used as-is.
-        /// </param>
-        /// <param name="name">
-        /// The name of the field. Used as-is.
-        /// </param>
-        /// <param name="accessModifier">
-        /// The access of modifier of the field.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// If the specified <paramref name="type"/> or <paramref name="name"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// The specified <paramref name="type"/> or <paramref name="name"/> is empty or invalid.
-        /// </exception>
-        public static FieldBuilder CreateField(
-            InternalType type,
-            string name,
-            AccessModifier accessModifier = AccessModifier.Private) =>
-            new FieldBuilder().WithType(type).WithName(name).WithAccessModifier(accessModifier);
-        
-
-        /// <summary>
-        /// Creates a new <see cref="MethodBuilder"/> instance for building constructors.
-        /// </summary>
-        public static MethodBuilder CreateMethod(AccessModifier accessModifier = AccessModifier.Public) =>
-            new MethodBuilder().WithAccessModifier(accessModifier);
-
-        /// <summary>
-        /// Creates a new <see cref="PropertyBuilder"/> instance for building properties.
-        /// </summary>
-        public static PropertyBuilder CreateProperty() =>
-            new PropertyBuilder();
-
-        /// <summary>
-        /// Creates a new <see cref="AttributeBuilder"/> instance for building properties.
-        /// </summary>
-        public static AttributeBuilder CreateAttribute() =>
-            new AttributeBuilder();
-        
-        
-        /// <summary>
-        /// Creates a new <see cref="AttributeArgumentBuilder"/> instance for building properties.
-        /// </summary>
-        public static AttributeArgumentBuilder CreateAttributeArgument() =>
-            new AttributeArgumentBuilder();
-        /// <summary>
-        /// Creates a new pre-configured <see cref="PropertyBuilder"/> instance for building properties. Configures the
-        /// <see cref="PropertyBuilder"/> with the specified <paramref name="type"/>, <paramref name="name"/> and
-        /// <paramref name="accessModifier"/>.
-        /// </summary>
-        /// <param name="type">
-        /// The type of the property, eg. <c>int</c>, <c>string</c>, <c>User</c>. Used as-is.
-        /// </param>
-        /// <param name="name">
-        /// The name of the property. Used as-is.
-        /// </param>
-        /// <param name="accessModifier">
-        /// The access of modifier of the property.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// If the specified <paramref name="type"/> or <paramref name="name"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// The specified <paramref name="type"/> or <paramref name="name"/> is empty or invalid.
-        /// </exception>
-        public static PropertyBuilder CreateProperty(
-            InternalType type,
-            string name,
-            AccessModifier accessModifier = AccessModifier.Public) =>
-            new PropertyBuilder().WithType(type).WithName(name).WithAccessModifier(accessModifier);
-
-        /// <summary>
-        /// Creates a new pre-configured <see cref="PropertyBuilder"/> instance for building properties. Configures the
-        /// <see cref="PropertyBuilder"/> with the specified <paramref name="type"/>, <paramref name="name"/> and
-        /// <paramref name="accessModifier"/>.
-        /// </summary>
-        /// <param name="type">
-        /// The type of the property, eg. <c>int</c>, <c>string</c>, <c>User</c>. Used as-is.
-        /// </param>
-        /// <param name="name">
-        /// The name of the property. Used as-is.
-        /// </param>
-        /// <param name="accessModifier">
-        /// The access of modifier of the property.
-        /// </param>
-        /// <param name="setterAccessModifier">
-        /// The access of modifier of the property setter.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// If the specified <paramref name="type"/> or <paramref name="name"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// The specified <paramref name="type"/> or <paramref name="name"/> is empty or invalid.
-        /// </exception>
-        public static PropertyBuilder CreateProperty(
-            InternalType type,
-            string name,
-            AccessModifier accessModifier,
-            AccessModifier setterAccessModifier) =>
-            new PropertyBuilder()
-                .WithType(type)
-                .WithName(name)
-                .WithAccessModifier(accessModifier, setterAccessModifier);
+    /// <summary>
+    ///     Creates a new pre-configured <see cref="ClassCodeBuilder" /> instance for building class structures. Configures
+    ///     the <see cref="ClassCodeBuilder" /> with the specified <paramref name="name" /> and
+    ///     <paramref name="accessModifier" />.
+    /// </summary>
+    /// <param name="name">
+    ///     The name of the class. Used as-is.
+    /// </param>
+    /// <param name="accessModifier">
+    ///     The access modifier of the class.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    ///     The specified <paramref name="name" /> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    ///     The specified <paramref name="name" /> is empty or invalid.
+    /// </exception>
+    public static ClassCodeBuilder CreateClass(string name, AccessModifier accessModifier = AccessModifier.Public)
+    {
+        return new ClassCodeBuilder().WithName(name).WithAccessModifier(accessModifier);
+    }
 
 
-        /// <summary>
-        /// Creates a new <see cref="TypeParameterBuilder"/> instance for building type parameters.
-        /// </summary>
-        public static TypeParameterBuilder CreateTypeParameter() =>
-            new TypeParameterBuilder();
+    /// <summary>
+    ///     Creates a new pre-configured <see cref="RecordCodeBuilder" /> instance for building record structures. Configures
+    ///     the <see cref="RecordCodeBuilder" /> with the specified <paramref name="name" /> and
+    ///     <paramref name="accessModifier" />.
+    /// </summary>
+    /// <param name="name">
+    ///     The name of the class. Used as-is.
+    /// </param>
+    /// <param name="accessModifier">
+    ///     The access modifier of the class.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    ///     The specified <paramref name="name" /> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    ///     The specified <paramref name="name" /> is empty or invalid.
+    /// </exception>
+    public static RecordCodeBuilder CreateRecord(string name, AccessModifier accessModifier = AccessModifier.Public)
+    {
+        return new RecordCodeBuilder().WithName(name).WithAccessModifier(accessModifier);
+    }
 
-        /// <summary>
-        /// Creates a new pre-configured <see cref="TypeParameterBuilder"/> instance for building type parameters.
-        /// Configures the <see cref="TypeParameterBuilder"/> instance with the
-        /// specified <paramref name="name"/>.
-        /// </summary>
-        /// <param name="name">The name of the type parameter.</param>
-        /// <exception cref="ArgumentNullException">
-        /// If the specified <paramref name="name"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// The specified <paramref name="name"/> is empty or invalid.
-        /// </exception>
-        public static TypeParameterBuilder CreateTypeParameter(string name) =>
-            new TypeParameterBuilder().WithName(name);
+    /// <summary>
+    ///     Creates a new <see cref="StructCodeBuilder" /> instance for building structs.
+    /// </summary>
+    public static StructCodeBuilder CreateStruct()
+    {
+        return new();
+    }
 
-        /// <summary>
-        /// Creates a new pre-configured <see cref="TypeParameterBuilder"/> instance for building type parameters.
-        /// Configures the <see cref="TypeParameterBuilder"/> instance with the
-        /// specified <paramref name="name"/> and <paramref name="constraints"/>.
-        /// </summary>
-        /// <param name="name">The name of the type parameter.</param>
-        /// <param name="constraints">The constraints of the type parameter.</param>
-        /// <exception cref="ArgumentNullException">
-        /// If the specified <paramref name="name"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// The specified <paramref name="name"/> is empty or invalid.
-        /// </exception>
-        public static TypeParameterBuilder CreateTypeParameter(string name, params string[] constraints) =>
-            new TypeParameterBuilder().WithName(name).WithConstraints(constraints);
-
-        /// <summary>
-        /// Creates a new pre-configured <see cref="TypeParameterBuilder"/> instance for building type parameters.
-        /// Configures the <see cref="TypeParameterBuilder"/> instance with the
-        /// specified <paramref name="name"/> and <paramref name="constraints"/>.
-        /// </summary>
-        /// <param name="name">The name of the type parameter.</param>
-        /// <param name="constraints">The constraints of the type parameter.</param>
-        /// <exception cref="ArgumentNullException">
-        /// If the specified <paramref name="name"/> is <c>null</c>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// The specified <paramref name="name"/> is empty or invalid.
-        /// </exception>
-        public static TypeParameterBuilder CreateTypeParameter(string name, IEnumerable<string> constraints) =>
-            new TypeParameterBuilder().WithName(name).WithConstraints(constraints);
+    /// <summary>
+    ///     Creates a new pre-configured <see cref="StructCodeBuilder" /> instance for building structs. Configures the
+    ///     <see cref="StructCodeBuilder" /> instance with the specified <paramref name="name" /> and
+    ///     <paramref name="accessModifier" />.
+    /// </summary>
+    /// <param name="name">
+    ///     The name of the struct.
+    /// </param>
+    /// <param name="accessModifier">
+    ///     The access modifier of the struct.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    ///     The specified <paramref name="name" /> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    ///     The specified <paramref name="name" /> is empty or invalid.
+    /// </exception>
+    public static StructCodeBuilder CreateStruct(string name, AccessModifier accessModifier = AccessModifier.Public)
+    {
+        return new StructCodeBuilder().WithName(name).WithAccessModifier(accessModifier);
+    }
 
 
+    /// <summary>
+    ///     Creates a new <see cref="ParameterCodeBuilder" /> instance for building parameters.
+    /// </summary>
+    public static ParameterCodeBuilder CreateParameter()
+    {
+        return new();
+    }
+
+    /// <summary>
+    ///     Creates a new <see cref="ParameterCodeBuilder" /> instance for building parameters.
+    /// </summary>
+    public static ParameterCodeBuilder CreateParameter(
+        InternalType type,
+        string name)
+    {
+        return new ParameterCodeBuilder().WithType(type).WithName(name);
+    }
+
+    /// <summary>
+    ///     Creates a new <see cref="FieldCodeBuilder" /> instance for building fields.
+    /// </summary>
+    public static FieldCodeBuilder CreateField()
+    {
+        return new();
+    }
+
+    /// <summary>
+    ///     Creates a new pre-configured <see cref="FieldCodeBuilder" /> instance for building fields. Configures the
+    ///     <see cref="FieldCodeBuilder" /> with the specified <paramref name="type" />, <paramref name="name" /> and
+    ///     <paramref name="accessModifier" />.
+    /// </summary>
+    /// <param name="type">
+    ///     The type of the field, eg. <c>int</c>, <c>string</c>, <c>User</c>. Used as-is.
+    /// </param>
+    /// <param name="name">
+    ///     The name of the field. Used as-is.
+    /// </param>
+    /// <param name="accessModifier">
+    ///     The access of modifier of the field.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    ///     If the specified <paramref name="type" /> or <paramref name="name" /> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    ///     The specified <paramref name="type" /> or <paramref name="name" /> is empty or invalid.
+    /// </exception>
+    public static FieldCodeBuilder CreateField(
+        InternalType type,
+        string name,
+        AccessModifier accessModifier = AccessModifier.Private)
+    {
+        return new FieldCodeBuilder().WithType(type).WithName(name).WithAccessModifier(accessModifier);
+    }
+
+
+    /// <summary>
+    ///     Creates a new <see cref="MethodCodeBuilder" /> instance for building constructors.
+    /// </summary>
+    public static MethodCodeBuilder CreateMethod(AccessModifier accessModifier = AccessModifier.Public)
+    {
+        return new MethodCodeBuilder().WithAccessModifier(accessModifier);
+    }
+
+    /// <summary>
+    ///     Creates a new <see cref="PropertyCodeBuilder" /> instance for building properties.
+    /// </summary>
+    public static PropertyCodeBuilder CreateProperty()
+    {
+        return new();
+    }
+
+    /// <summary>
+    ///     Creates a new <see cref="AttributeBuilder" /> instance for building properties.
+    /// </summary>
+    public static AttributeBuilder CreateAttribute()
+    {
+        return new();
+    }
+
+
+    /// <summary>
+    ///     Creates a new <see cref="AttributeArgumentCodeBuilder" /> instance for building properties.
+    /// </summary>
+    public static AttributeArgumentCodeBuilder CreateAttributeArgument()
+    {
+        return new();
+    }
+
+    /// <summary>
+    ///     Creates a new pre-configured <see cref="PropertyCodeBuilder" /> instance for building properties. Configures the
+    ///     <see cref="PropertyCodeBuilder" /> with the specified <paramref name="type" />, <paramref name="name" /> and
+    ///     <paramref name="accessModifier" />.
+    /// </summary>
+    /// <param name="type">
+    ///     The type of the property, eg. <c>int</c>, <c>string</c>, <c>User</c>. Used as-is.
+    /// </param>
+    /// <param name="name">
+    ///     The name of the property. Used as-is.
+    /// </param>
+    /// <param name="accessModifier">
+    ///     The access of modifier of the property.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    ///     If the specified <paramref name="type" /> or <paramref name="name" /> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    ///     The specified <paramref name="type" /> or <paramref name="name" /> is empty or invalid.
+    /// </exception>
+    public static PropertyCodeBuilder CreateProperty(
+        InternalType type,
+        string name,
+        AccessModifier accessModifier = AccessModifier.Public)
+    {
+        return new PropertyCodeBuilder().WithType(type).WithName(name).WithAccessModifier(accessModifier);
+    }
+
+    /// <summary>
+    ///     Creates a new pre-configured <see cref="PropertyCodeBuilder" /> instance for building properties. Configures the
+    ///     <see cref="PropertyCodeBuilder" /> with the specified <paramref name="type" />, <paramref name="name" /> and
+    ///     <paramref name="accessModifier" />.
+    /// </summary>
+    /// <param name="type">
+    ///     The type of the property, eg. <c>int</c>, <c>string</c>, <c>User</c>. Used as-is.
+    /// </param>
+    /// <param name="name">
+    ///     The name of the property. Used as-is.
+    /// </param>
+    /// <param name="accessModifier">
+    ///     The access of modifier of the property.
+    /// </param>
+    /// <param name="setterAccessModifier">
+    ///     The access of modifier of the property setter.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    ///     If the specified <paramref name="type" /> or <paramref name="name" /> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    ///     The specified <paramref name="type" /> or <paramref name="name" /> is empty or invalid.
+    /// </exception>
+    public static PropertyCodeBuilder CreateProperty(
+        InternalType type,
+        string name,
+        AccessModifier accessModifier,
+        AccessModifier setterAccessModifier)
+    {
+        return new PropertyCodeBuilder()
+            .WithType(type)
+            .WithName(name)
+            .WithAccessModifier(accessModifier, setterAccessModifier);
+    }
+
+
+    /// <summary>
+    ///     Creates a new <see cref="TypeParameterCodeBuilder" /> instance for building type parameters.
+    /// </summary>
+    public static TypeParameterCodeBuilder CreateTypeParameter()
+    {
+        return new();
+    }
+
+    /// <summary>
+    ///     Creates a new pre-configured <see cref="TypeParameterCodeBuilder" /> instance for building type parameters.
+    ///     Configures the <see cref="TypeParameterCodeBuilder" /> instance with the
+    ///     specified <paramref name="name" />.
+    /// </summary>
+    /// <param name="name">The name of the type parameter.</param>
+    /// <exception cref="ArgumentNullException">
+    ///     If the specified <paramref name="name" /> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    ///     The specified <paramref name="name" /> is empty or invalid.
+    /// </exception>
+    public static TypeParameterCodeBuilder CreateTypeParameter(string name)
+    {
+        return new TypeParameterCodeBuilder().WithName(name);
+    }
+
+    /// <summary>
+    ///     Creates a new pre-configured <see cref="TypeParameterCodeBuilder" /> instance for building type parameters.
+    ///     Configures the <see cref="TypeParameterCodeBuilder" /> instance with the
+    ///     specified <paramref name="name" /> and <paramref name="constraints" />.
+    /// </summary>
+    /// <param name="name">The name of the type parameter.</param>
+    /// <param name="constraints">The constraints of the type parameter.</param>
+    /// <exception cref="ArgumentNullException">
+    ///     If the specified <paramref name="name" /> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    ///     The specified <paramref name="name" /> is empty or invalid.
+    /// </exception>
+    public static TypeParameterCodeBuilder CreateTypeParameter(string name, params string[] constraints)
+    {
+        return new TypeParameterCodeBuilder().WithName(name).WithConstraints(constraints);
+    }
+
+    /// <summary>
+    ///     Creates a new pre-configured <see cref="TypeParameterCodeBuilder" /> instance for building type parameters.
+    ///     Configures the <see cref="TypeParameterCodeBuilder" /> instance with the
+    ///     specified <paramref name="name" /> and <paramref name="constraints" />.
+    /// </summary>
+    /// <param name="name">The name of the type parameter.</param>
+    /// <param name="constraints">The constraints of the type parameter.</param>
+    /// <exception cref="ArgumentNullException">
+    ///     If the specified <paramref name="name" /> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    ///     The specified <paramref name="name" /> is empty or invalid.
+    /// </exception>
+    public static TypeParameterCodeBuilder CreateTypeParameter(string name, IEnumerable<string> constraints)
+    {
+        return new TypeParameterCodeBuilder().WithName(name).WithConstraints(constraints);
     }
 }

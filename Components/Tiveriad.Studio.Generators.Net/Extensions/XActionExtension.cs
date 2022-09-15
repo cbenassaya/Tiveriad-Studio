@@ -10,7 +10,7 @@ namespace Tiveriad.Studio.Generators.Net.Extensions;
 
 public static class XActionExtension
 {
-    public static RecordBuilder ToRequestBuilder(this XAction xAction)
+    public static RecordCodeBuilder ToRequestBuilder(this XAction xAction)
     {
         var res = Code
             .CreateInternalType(ComplexTypes.IREQUEST);
@@ -22,11 +22,11 @@ public static class XActionExtension
             .WithNamespace(xAction.Namespace)
             .WithImplementedInterface(res);
         if (xAction.Parameters != null)
-            recordBuilder.WithParameters(Enumerable.ToArray<ParameterBuilder>(xAction.Parameters.Select(x => XParameterExtension.ToBuilder(x))));
+            recordBuilder.WithParameters(Enumerable.ToArray<ParameterCodeBuilder>(xAction.Parameters.Select(x => XParameterExtension.ToBuilder(x))));
         return recordBuilder;
     }
 
-    public static ClassBuilder ToActionBuilder(this XAction xAction, Record request)
+    public static ClassCodeBuilder ToActionBuilder(this XAction xAction, Record request)
     {
         var res = Code
             .CreateInternalType(ComplexTypes.IREQUESTHANDLER);
@@ -128,7 +128,7 @@ public static class XActionExtension
         return classBuilder;
     }
 
-    public static ClassBuilder ToValidatorBuilder(this XAction xAction, Record request)
+    public static ClassCodeBuilder ToValidatorBuilder(this XAction xAction, Record request)
     {
         var res = Code
             .CreateInternalType(ComplexTypes.ABSTRACTVALIDATOR)
