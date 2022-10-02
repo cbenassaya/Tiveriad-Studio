@@ -2,8 +2,29 @@ using Tiveriad.Studio.Generators.Sources;
 
 namespace Tiveriad.Studio.Generators.Services;
 
-public class FileExportSourceItem:IExportSourceItem
+public class FileExportSourceItem : IExportSourceItem
 {
+    public bool Export(string content, string rootDirectory, string pathDirectory, string fileName, bool replaceIfExist)
+    {
+        var filePath = Path.Combine(GetOrCreateDirectoryInfo(rootDirectory, pathDirectory).FullName,
+            fileName);
+
+        var fileIsExist = File.Exists(filePath);
+        /*if (fileIsExist && replaceIfExist)
+        {
+            var oldContent = GetCustomContent(File.ReadAllText(filePath));
+            if (!string.IsNullOrEmpty(content))
+                content = InsertCustomContent(content, oldContent);
+            File.Delete(filePath);
+        }*/
+        if (fileIsExist)
+            File.Delete(filePath);
+        //if (!fileIsExist || replaceIfExist)
+            File.WriteAllText(filePath, content);
+
+        return true;
+    }
+
     private string GetCustomContent(string content)
     {
         var start = content.IndexOf(CodeConstants.StartBalise, StringComparison.CurrentCulture);
@@ -35,7 +56,7 @@ public class FileExportSourceItem:IExportSourceItem
     private DirectoryInfo GetOrCreateDirectoryInfo(string rootDirectory, string pathDirectory)
     {
         var directory = new DirectoryInfo(rootDirectory);
-        
+
         foreach (var temp in pathDirectory.Split(Path.PathSeparator))
         {
             var path = Path.Combine(directory.FullName, temp);
@@ -44,28 +65,7 @@ public class FileExportSourceItem:IExportSourceItem
             else
                 directory = new DirectoryInfo(path);
         }
+
         return directory;
-    }
-
-    public bool Export(string content,string rootDirectory, string pathDirectory, string fileName, bool replaceIfExist)
-    {
-
-
-        var filePath = Path.Combine(GetOrCreateDirectoryInfo(rootDirectory, pathDirectory).FullName,
-            fileName);
-        
-        var fileIsExist = File.Exists(filePath);
-        if (fileIsExist && replaceIfExist)
-        {
-            var oldContent = GetCustomContent(File.ReadAllText(filePath));
-            if (!string.IsNullOrEmpty(content))
-                content = InsertCustomContent(content, oldContent);
-            File.Delete(filePath);
-        }
-
-        if (!fileIsExist || replaceIfExist)
-            File.WriteAllText(filePath, content);
-
-        return true;
     }
 }

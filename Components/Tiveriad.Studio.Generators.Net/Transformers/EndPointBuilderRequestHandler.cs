@@ -1,14 +1,26 @@
+using Tiveriad.Pipelines;
 using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Generators.Builders;
-using Tiveriad.Studio.Generators.Models;
+using Tiveriad.Studio.Generators.Net.Extensions;
 using Tiveriad.Studio.Generators.Net.InternalTypes;
+using Tiveriad.TextTemplating;
 
-namespace Tiveriad.Studio.Generators.Net.Extensions;
+namespace Tiveriad.Studio.Generators.Net.Transformers;
 
-public static class XEndPointExtensions
+public class EndPointBuilderRequestHandler : IRequestHandler<EndPointBuilderRequest, ClassCodeBuilder>
 {
-    public static ClassCodeBuilder ToBuilder(this XEndPoint xEndPoint)
+    private ITemplateRenderer _templateRenderer;
+
+    public EndPointBuilderRequestHandler(ITemplateRenderer templateRenderer)
     {
+        _templateRenderer = templateRenderer;
+    }
+
+    public  Task<ClassCodeBuilder> Handle(EndPointBuilderRequest request, CancellationToken cancellationToken)
+    {
+        var xEndPoint = request.EndPoint;
+        var body =  _templateRenderer.RenderAsync($"{xEndPoint.Action.BehaviourType}EndPoint.tpl",
+            new { endpoint = xEndPoint });
         var handleMethod = Code
             .CreateMethod()
             .WithName("HandleAsync")
@@ -16,39 +28,39 @@ public static class XEndPointExtensions
             .WithParameters(
                 xEndPoint
                     .Parameters
-                    .Select(x => Code.CreateParameter(XTypeExtensions.ToBuilder(x.Type).Build(), x.Name))
+                    .Select(x => Code.CreateParameter(x.Type.ToBuilder().Build(), x.Name))
                     .ToList()
             )
             .WithParameters(
                 Code.CreateParameter(ComplexTypes.CANCELLATIONTOKEN, "cancellationToken"))
-            .WithBody("_mediator=mediator;_mapper=mapper;")
+            .WithBody(body.Result )
             .WithAttributes(
                 Code.CreateAttribute()
-                    .WithType(ComplexTypes.Get(Enum.GetName(typeof(XHttpMethod), xEndPoint.HttpMethod) ?? "HttpGet"  ))
+                    .WithType(ComplexTypes.Get(Enum.GetName(typeof(XHttpMethod), xEndPoint.HttpMethod) ?? "HttpGet"))
                     .WithAttributeArgument(
                         Code.CreateAttributeArgument().WithValue($"\"{xEndPoint.Route}\""))
             );
 
         if (xEndPoint.Response != null)
-            handleMethod.WithReturnType(XTypeExtensions.ToBuilder(xEndPoint.Response.Type).Build());
+            handleMethod.WithReturnType(xEndPoint.Response.Type.ToBuilder().Build());
 
         var classBuilder = Code.CreateClass(xEndPoint.Name);
         classBuilder
             .WithNamespace(xEndPoint.Namespace)
             .WithDependencies(
-                Enumerable.ToArray<string>(xEndPoint
-                        .Mappings
-                        .Select(x => x.From.Namespace))
+                xEndPoint
+                    .Mappings
+                    .Select(x => x.From.Namespace).ToArray()
             )
             .WithDependencies(
-                Enumerable.ToArray<string>(xEndPoint
-                        .Mappings
-                        .Select(x => x.To.Namespace))
+                xEndPoint
+                    .Mappings
+                    .Select(x => x.To.Namespace).ToArray()
             )
             .WithInheritedClass(ComplexTypes.CONTROLLERBASE)
             .WithFields(
-                Code.CreateField(ComplexTypes.IMEDIATOR, "_mediator", AccessModifier.Private),
-                Code.CreateField(ComplexTypes.IMAPPER, "_mapper", AccessModifier.Private))
+                Code.CreateField(ComplexTypes.IMEDIATOR, "_mediator").MakeReadonly(),
+                Code.CreateField(ComplexTypes.IMAPPER, "_mapper").MakeReadonly())
             .WithMethod(
                 Code
                     .CreateMethod()
@@ -60,7 +72,7 @@ public static class XEndPointExtensions
             .WithMethod(
                 handleMethod
             );
-
-        return classBuilder;
+        return Task.FromResult(classBuilder);
     }
 }
+

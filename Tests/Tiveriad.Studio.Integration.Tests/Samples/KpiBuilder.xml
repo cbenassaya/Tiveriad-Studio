@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="urn:xcore-mapping-2.0" RootNamespace="KpiBuilder.Services">
-    <Component Name="Core" >
+    <Component Name="Core">
         <Package Name="Entities">
             <Entities>
                 <Entity IsBusinessEntity="true" Name="Party" PluralName="Parties">
@@ -11,7 +11,7 @@
                             </Constraints>
                         </Id>
                     </Properties>
-                    <Persistence IsAuditable="true" Name="T_Party" AuditableKeyType="string" />
+                    <Persistence IsAuditable="true" Name="T_Party" AuditableKeyType="string"/>
                 </Entity>
 
                 <Entity IsBusinessEntity="true" Name="Company" PluralName="Companies" BaseType="Party">
@@ -28,7 +28,7 @@
                             </Constraints>
                         </Property>
                     </Properties>
-                    <Persistence IsAuditable="true" Name="T_Company" AuditableKeyType="string" />
+                    <Persistence IsAuditable="true" Name="T_Company" AuditableKeyType="string"/>
                 </Entity>
 
                 <Entity IsBusinessEntity="true" Name="Person" PluralName="Persons" BaseType="Party">
@@ -38,21 +38,23 @@
                                 <MaxLength Max="24"/>
                             </Constraints>
                         </Id>
-                        <Property Displayed="true" BusinessKey="true" IsCollection="false" Name="FirstName" Type="string">
+                        <Property Displayed="true" BusinessKey="true" IsCollection="false" Name="FirstName"
+                                  Type="string">
                             <Constraints>
                                 <Required/>
                                 <MaxLength Max="50"/>
                             </Constraints>
                         </Property>
-                        <Property Displayed="false" BusinessKey="true" IsCollection="false" Name="LastName" Type="string">
+                        <Property Displayed="false" BusinessKey="true" IsCollection="false" Name="LastName"
+                                  Type="string">
                             <Constraints>
                                 <Required/>
                                 <MaxLength Max="50"/>
                             </Constraints>
                         </Property>
                     </Properties>
-                    
-                    <Persistence IsAuditable="true" Name="T_Person" AuditableKeyType="string" />
+
+                    <Persistence IsAuditable="true" Name="T_Person" AuditableKeyType="string"/>
                 </Entity>
 
                 <Entity IsBusinessEntity="true" Name="Account" PluralName="Accounts">
@@ -68,14 +70,15 @@
                                 <MaxLength Max="50"/>
                             </Constraints>
                         </Property>
-                        <Property Displayed="true" BusinessKey="false" IsCollection="false" Name="Reference" Type="string"/>
+                        <Property Displayed="true" BusinessKey="false" IsCollection="false" Name="Reference"
+                                  Type="string"/>
                     </Properties>
                     <RelationShips>
-                        <ManyToOne Type="Party" Name="Owner" />
+                        <ManyToOne Type="Party" Name="Owner"/>
                     </RelationShips>
-                    <Persistence IsAuditable="true" Name="T_Account" AuditableKeyType="string" />
+                    <Persistence IsAuditable="true" Name="T_Account" AuditableKeyType="string"/>
                 </Entity>
-                
+
 
                 <Entity IsBusinessEntity="true" Name="Transaction" PluralName="Transactions">
                     <Properties>
@@ -89,26 +92,27 @@
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property Displayed="true" BusinessKey="false" IsCollection="false" Name="Reference" Type="string"/>
+                        <Property Displayed="true" BusinessKey="false" IsCollection="false" Name="Reference"
+                                  Type="string"/>
                     </Properties>
-                    
+
                     <RelationShips>
                         <ManyToOne Type="Account" Name="Account">
                             <Constraints>
                                 <Required/>
                             </Constraints>
                         </ManyToOne>
-                        <ManyToOne Type="TransactionType" Name="TransactionType" >
+                        <ManyToOne Type="TransactionType" Name="TransactionType">
                             <Constraints>
                                 <Required/>
                             </Constraints>
                         </ManyToOne>
-                        <ManyToOne Type="AccountingStatement" Name="AccountingStatement" />
+                        <ManyToOne Type="AccountingStatement" Name="AccountingStatement"/>
                     </RelationShips>
-                    <Persistence IsAuditable="true" Name="T_Transaction" AuditableKeyType="string" />
+                    <Persistence IsAuditable="true" Name="T_Transaction" AuditableKeyType="string"/>
                 </Entity>
 
-                <Entity IsBusinessEntity="true" Name="TransactionType" PluralName="TransactionTypes" >
+                <Entity IsBusinessEntity="true" Name="TransactionType" PluralName="TransactionTypes">
                     <Properties>
                         <Id Displayed="true" Type="string">
                             <Constraints>
@@ -117,24 +121,26 @@
                         </Id>
                         <Property Displayed="true" BusinessKey="false" IsCollection="false" Name="Code" Type="string"/>
                         <Property Displayed="true" BusinessKey="false" IsCollection="false" Name="Label" Type="string"/>
-                        <Property Displayed="true" BusinessKey="false" IsCollection="false" Name="Direction" Type="Direction"/>
+                        <Property Displayed="true" BusinessKey="false" IsCollection="false" Name="Direction"
+                                  Type="Direction"/>
                     </Properties>
-                    <Persistence IsAuditable="true" Name="T_TransactionType" AuditableKeyType="string" />
+                    <Persistence IsAuditable="true" Name="T_TransactionType" AuditableKeyType="string"/>
                 </Entity>
 
 
-                <Entity IsBusinessEntity="true" Name="AccountingStatement" PluralName="AccountingStatements" >
+                <Entity IsBusinessEntity="true" Name="AccountingStatement" PluralName="AccountingStatements">
                     <Properties>
                         <Id Displayed="true" Type="string">
                             <Constraints>
                                 <MaxLength Max="24"/>
                             </Constraints>
                         </Id>
-                        <Property Displayed="true" BusinessKey="false" IsCollection="false" Name="ClosingDate" Type="DateTime"/>
+                        <Property Displayed="true" BusinessKey="false" IsCollection="false" Name="ClosingDate"
+                                  Type="DateTime"/>
                     </Properties>
-                    <Persistence IsAuditable="true" Name="T_AccountingStatement" AuditableKeyType="string" />
+                    <Persistence IsAuditable="true" Name="T_AccountingStatement" AuditableKeyType="string"/>
                 </Entity>
-                
+
             </Entities>
             <Enums>
                 <Enum Name="Direction" PluralName="Directions">

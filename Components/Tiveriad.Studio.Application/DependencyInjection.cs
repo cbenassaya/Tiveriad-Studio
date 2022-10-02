@@ -9,7 +9,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddScoped<IXTypeService,XTypeService>();
+        services.AddScoped<IXTypeService, XTypeService>();
         services.AddScoped<LoadingMiddleware>();
         services.AddScoped<AddTypesMiddleware>();
         services.AddScoped<PostLoadingMiddleware>();
@@ -18,6 +18,7 @@ public static class DependencyInjection
         services.AddScoped<ManyToManyMiddleware>();
         services.AddScoped<QueryMiddleware>();
         services.AddScoped<CommandMiddleware>();
+        services.AddScoped<EndpointMiddleware>();
         services.AddScoped<AuditableMiddleware>();
         return services;
     }

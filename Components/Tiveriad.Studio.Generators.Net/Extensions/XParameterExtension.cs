@@ -14,11 +14,11 @@ public static class XParameterExtension
         {
             Code.CreateInternalType(ComplexTypes.IENUMERABLE);
             typeCodeBuilder = Code.CreateInternalType(ComplexTypes.IENUMERABLE);
-            typeCodeBuilder.WithGenericArgument(XTypeExtensions.ToBuilder(property.Type));
+            typeCodeBuilder.WithGenericArgument(property.Type.ToBuilder());
         }
         else
         {
-            typeCodeBuilder = XTypeExtensions.ToBuilder(property.Type);
+            typeCodeBuilder = property.Type.ToBuilder();
         }
 
         return Code.CreateParameter().WithType(typeCodeBuilder.Build()).WithName(property.Name);

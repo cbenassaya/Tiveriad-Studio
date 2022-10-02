@@ -1,7 +1,7 @@
 namespace Tiveriad.Studio.Generators.Models;
 
 /// <summary>
-/// Represents the access modifier of a C# structure.
+///     Represents the access modifier of a C# structure.
 /// </summary>
 public enum AccessModifier
 {

@@ -7,7 +7,6 @@ namespace Tiveriad.Studio.Generators.Tests.Builders;
 
 public class PropertyBuilderTests
 {
-
     [Fact]
     public void Create_Property_ToSourceCode_Works()
     {
@@ -15,8 +14,7 @@ public class PropertyBuilderTests
         builder
             .WithType(DataTypes.INT)
             .WithName("Property");
-        var @record = builder.Build();
-        Assert.Equal("public int Property { get; set; }", @record.ToSourceCode());
+        var record = builder.Build();
+        Assert.Equal("public int Property { get; set; }", record.ToSourceCode());
     }
-
 }

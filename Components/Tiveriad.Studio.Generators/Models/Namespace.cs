@@ -22,27 +22,29 @@ public class Namespace
         Enums = enums.ValueOr(new List<Enumeration>());
     }
 
-    public Option<string> Name { get;  private set; }
+    public Option<string> Name { get; }
 
-    public List<string> Usings { get;  private set; }
+    public List<string> Usings { get; }
 
-    public List<Class> Classes { get;  private set; }
-    
-    public List<Record> Records { get;  private set; }
+    public List<Class> Classes { get; }
 
-    public List<Struct> Structs { get;  private set; }
+    public List<Record> Records { get; }
 
-    public List<Interface> Interfaces { get;  private set; }
+    public List<Struct> Structs { get; }
 
-    public List<Enumeration> Enums { get;  private set; }
+    public List<Interface> Interfaces { get; }
 
-    public Namespace With(Option<string> name = default) =>
-        new Namespace(
-            name: name.Else(Name),
-            usings: Option.Some(Usings),
-            classes: Option.Some(Classes),
-            records:Option.Some(Records),
-            structs: Option.Some(Structs),
-            interfaces: Option.Some(Interfaces),
-            enums: Option.Some(Enums));
+    public List<Enumeration> Enums { get; }
+
+    public Namespace With(Option<string> name = default)
+    {
+        return new(
+            name.Else(Name),
+            Option.Some(Usings),
+            Option.Some(Classes),
+            Option.Some(Records),
+            Option.Some(Structs),
+            Option.Some(Interfaces),
+            Option.Some(Enums));
+    }
 }

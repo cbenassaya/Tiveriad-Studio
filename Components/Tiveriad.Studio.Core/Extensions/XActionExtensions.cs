@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using Tiveriad.Studio.Core.Entities;
 
 namespace Tiveriad.Studio.Core.Extensions;
@@ -26,8 +25,8 @@ public static class XActionExtensions
         }
 
         return xParameter;
-    } 
-    
+    }
+
     public static List<XRule> GetPreConditions(this XAction xAction)
     {
         return xAction.PreConditions ?? new List<XRule>();

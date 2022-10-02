@@ -11,19 +11,19 @@ public static class XPackageExtensions
         return
             $"{package?.Component?.Project?.RootNamespace ?? string.Empty}.{package?.Component?.Name ?? string.Empty}.{package.Name}";
     }
-    
+
     public static XProject GetProject(this XPackage package)
     {
         if (package.Parent != null)
             return package.Parent.GetProject();
         return package?.Component?.Project;
     }
-    
+
     public static List<XEntity> GetEntities(this XPackage package)
     {
         return package.Entities ?? new List<XEntity>();
     }
-    
+
     public static List<XEnum> GetEnums(this XPackage package)
     {
         return package.Enums ?? new List<XEnum>();
@@ -33,7 +33,7 @@ public static class XPackageExtensions
     {
         return package.Actions ?? new List<XAction>();
     }
-    
+
     public static void Add(this XPackage package, XAction xAction)
     {
         if (package.Actions == null)
@@ -54,12 +54,12 @@ public static class XPackageExtensions
 
         package.EndPoints.Add(xEndPoint);
     }
-    
+
     public static List<XContract> GetContracts(this XPackage package)
     {
         return package.Contracts ?? new List<XContract>();
     }
-    
+
     public static void Add(this XPackage package, XContract xContract)
     {
         if (package.Contracts == null)

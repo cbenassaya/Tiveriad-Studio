@@ -4,19 +4,25 @@ namespace Tiveriad.Studio.Core.Extensions;
 
 public static class XBehaviourTypeExtensions
 {
-    public static bool IsQuery(this XBehaviourType type) => type switch
+    public static bool IsQuery(this XBehaviourType type)
     {
-        XBehaviourType.Delete => false,
-        XBehaviourType.Query => true,
-        XBehaviourType.GetMany => true,
-        XBehaviourType.GetOne => true,
-        XBehaviourType.SaveOrUpdate => true,
-        XBehaviourType.Command => false
-    };
-    
-    public static string ToCqrs(this XBehaviourType type) => type.IsQuery() switch
+        return type switch
+        {
+            XBehaviourType.Delete => false,
+            XBehaviourType.Query => true,
+            XBehaviourType.GetMany => true,
+            XBehaviourType.GetOne => true,
+            XBehaviourType.SaveOrUpdate => true,
+            XBehaviourType.Command => false
+        };
+    }
+
+    public static string ToCqrs(this XBehaviourType type)
     {
-        true => "Query",
-        false => "Command"
-    };
+        return type.IsQuery() switch
+        {
+            true => "Query",
+            false => "Command"
+        };
+    }
 }

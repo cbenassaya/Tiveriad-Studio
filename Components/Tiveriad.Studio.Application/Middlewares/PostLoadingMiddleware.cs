@@ -6,13 +6,14 @@ using Tiveriad.Studio.Core.Processors;
 
 namespace Tiveriad.Studio.Application.Middlewares;
 
-public class PostLoadingMiddleware: AbstractProcessor<XElementBase, XNamedElement>,  IMiddleware<PipelineModel,PipelineContext,PipelineConfiguration>, IProcessor
+public class PostLoadingMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
+    IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
 {
     public void Run(PipelineContext context, PipelineModel model)
     {
         Traverse(model.Project);
     }
-    
+
     protected override bool ApplyIf(XElementBase value)
     {
         return value is XProject or XComponent or XPackage or XClassifier or XEntity or XEndPoint or XAction

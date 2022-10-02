@@ -104,7 +104,7 @@ public class CodeBuilder
 
             return _codeBuilder;
         }
-        
+
         public CodeBuilder Append(IEnumerable models, Func<string, string> code, Separator separator = null)
         {
             if (_condition())

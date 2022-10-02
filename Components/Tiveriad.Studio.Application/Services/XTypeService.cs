@@ -4,7 +4,7 @@ using Tiveriad.Studio.Core.Services;
 
 namespace Tiveriad.Studio.Application.Services;
 
-public class XTypeService:IXTypeService
+public class XTypeService : IXTypeService
 {
     private readonly IList<XType> _xtypes = new List<XType>();
 

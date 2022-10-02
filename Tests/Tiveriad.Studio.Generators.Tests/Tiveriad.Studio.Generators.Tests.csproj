@@ -13,8 +13,8 @@
         </PackageReference>
         <PackageReference Include="Faker.Net" Version="2.0.154" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.1" />
-        <PackageReference Include="Tiveriad.Pipelines" Version="3.0.0.3" />
-        <PackageReference Include="Tiveriad.UnitTests" Version="3.0.0.3" />
+        <PackageReference Include="Tiveriad.Pipelines" Version="3.0.4.2" />
+        <PackageReference Include="Tiveriad.UnitTests" Version="3.0.3.2" />
         <PackageReference Include="xunit" Version="2.4.2" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
             <PrivateAssets>all</PrivateAssets>
@@ -23,17 +23,17 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Components\Tiveriad.Studio.Generators.Net\Tiveriad.Studio.Generators.Net.csproj" />
-      <ProjectReference Include="..\..\Components\Tiveriad.Studio.Generators\Tiveriad.Studio.Generators.csproj" />
+        <ProjectReference Include="..\..\Components\Tiveriad.Studio.Generators.Net\Tiveriad.Studio.Generators.Net.csproj" />
+        <ProjectReference Include="..\..\Components\Tiveriad.Studio.Generators\Tiveriad.Studio.Generators.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="Samples\ProjectTemplate.xml">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Samples\ProjectGenerated.xml">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+        <None Include="Samples\ProjectTemplate.xml">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Samples\ProjectGenerated.xml">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

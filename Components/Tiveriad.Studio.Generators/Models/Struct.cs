@@ -2,7 +2,7 @@ using Optional;
 
 namespace Tiveriad.Studio.Generators.Models;
 
-public class Struct:InternalType
+public class Struct : InternalType
 {
     public Struct(
         AccessModifier accessModifier,
@@ -22,19 +22,19 @@ public class Struct:InternalType
         TypeParameters = typeParameters.ValueOr(new List<TypeParameter>());
     }
 
-    public AccessModifier AccessModifier { get;  private set; }
+    public AccessModifier AccessModifier { get; private set; }
 
-    public Option<string> Name { get;  private set; }
+    public Option<string> Name { get; private set; }
 
-    public Option<string> Summary { get;  private set; }
+    public Option<string> Summary { get; private set; }
 
-    public List<Interface> ImplementedInterfaces { get;  private set; }
+    public List<Interface> ImplementedInterfaces { get; }
 
-    public List<Field> Fields { get;  private set; }
+    public List<Field> Fields { get; }
 
-    public List<Property> Properties { get;  private set; }
+    public List<Property> Properties { get; }
 
-    public List<TypeParameter> TypeParameters { get;  private set; }
+    public List<TypeParameter> TypeParameters { get; }
 
     public Struct Set(
         Option<AccessModifier> accessModifier = default,
@@ -46,13 +46,15 @@ public class Struct:InternalType
         Summary = summary.Else(Summary);
         return this;
     }
-    
+
     public static Struct With(
         AccessModifier accessModifier = AccessModifier.Public,
         Option<string> name = default,
-        Option<string> summary = default) =>
-        new Struct(
-            accessModifier: accessModifier,
-            name: name,
-            summary: summary);
+        Option<string> summary = default)
+    {
+        return new(
+            accessModifier,
+            name,
+            summary);
+    }
 }

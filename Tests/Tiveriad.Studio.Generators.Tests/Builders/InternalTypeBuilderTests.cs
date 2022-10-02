@@ -4,7 +4,6 @@ using Xunit;
 
 namespace Tiveriad.Studio.Generators.Tests.Builders;
 
-
 public class InternalTypeBuilderTests
 {
     [Fact]
@@ -14,7 +13,7 @@ public class InternalTypeBuilderTests
         Assert.Equal("Type", internalType.Name.ValueOr(string.Empty));
         Assert.Equal("Namespace", internalType.Namespace.ValueOr(string.Empty));
     }
-    
+
     [Fact]
     public void Create_InternalType_AndChangeNamespace_Works()
     {
@@ -23,7 +22,7 @@ public class InternalTypeBuilderTests
         Assert.Equal("Type", internalType.Name.ValueOr(string.Empty));
         Assert.Equal("Namespace", internalType.Namespace.ValueOr(string.Empty));
     }
-    
+
     [Fact]
     public void Create_InternalType_AndChangeName_Works()
     {
@@ -32,7 +31,7 @@ public class InternalTypeBuilderTests
         Assert.Equal("Type", internalType.Name.ValueOr(string.Empty));
         Assert.Equal("Namespace", internalType.Namespace.ValueOr(string.Empty));
     }
-    
+
     [Fact]
     public void Create_InternalType_WithFullBuilder_Works()
     {
@@ -41,7 +40,7 @@ public class InternalTypeBuilderTests
         Assert.Equal("Type", internalType.Name.ValueOr(string.Empty));
         Assert.Equal("Namespace", internalType.Namespace.ValueOr(string.Empty));
     }
-    
+
     [Fact]
     public void Create_InternalType_WithGenericTypes_Works()
     {
@@ -49,14 +48,14 @@ public class InternalTypeBuilderTests
         var internalType = builder
             .WithName("Type")
             .WithNamespace("Namespace")
-            .WithGenericArgument(Code.CreateInternalType("G1","N1"))
-            .WithGenericArgument(Code.CreateInternalType("G2","N2"))
+            .WithGenericArgument(Code.CreateInternalType("G1", "N1"))
+            .WithGenericArgument(Code.CreateInternalType("G2", "N2"))
             .Build();
         Assert.Equal("Type", internalType.Name.ValueOr(string.Empty));
         Assert.Equal("Namespace", internalType.Namespace.ValueOr(string.Empty));
     }
-    
-    
+
+
     [Fact]
     public void Create_InternalType_ToSourceCode_Works()
     {
@@ -64,12 +63,12 @@ public class InternalTypeBuilderTests
         var internalType = builder
             .WithName("Type")
             .WithNamespace("Namespace")
-            .WithGenericArgument(Code.CreateInternalType("G1","N1"))
-            .WithGenericArgument(Code.CreateInternalType("G2","N2"))
+            .WithGenericArgument(Code.CreateInternalType("G1", "N1"))
+            .WithGenericArgument(Code.CreateInternalType("G2", "N2"))
             .Build();
         Assert.Equal("Type<G1,G2>", internalType.ToSourceCode());
     }
-    
+
     [Fact]
     public void Create_InternalType_Not_ToSourceCodeExpected_Works()
     {
@@ -77,9 +76,9 @@ public class InternalTypeBuilderTests
         var internalType = builder
             .WithName("Type")
             .WithNamespace("Namespace")
-            .WithGenericArgument(Code.CreateInternalType("G1","N1"))
-            .WithGenericArgument(Code.CreateInternalType("G2","N2"))
-            .WithGenericArgument(Code.CreateInternalType("G3","N3"))
+            .WithGenericArgument(Code.CreateInternalType("G1", "N1"))
+            .WithGenericArgument(Code.CreateInternalType("G2", "N2"))
+            .WithGenericArgument(Code.CreateInternalType("G3", "N3"))
             .Build();
         Assert.NotEqual("Type<G1,G2>", internalType.ToSourceCode());
     }

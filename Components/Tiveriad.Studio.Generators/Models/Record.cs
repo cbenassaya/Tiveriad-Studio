@@ -2,7 +2,7 @@ using Optional;
 
 namespace Tiveriad.Studio.Generators.Models;
 
-public class Record:InternalType
+public class Record : InternalType
 {
     public Record(
         AccessModifier accessModifier,
@@ -26,26 +26,26 @@ public class Record:InternalType
         TypeParameters = typeParameters.ValueOr(new List<TypeParameter>());
     }
 
-    public AccessModifier AccessModifier { get;  private set; }
+    public AccessModifier AccessModifier { get; private set; }
 
-    public bool IsStatic { get;  private set; }
+    public bool IsStatic { get; private set; }
 
-    public List<InternalType> ImplementedInterfaces { get;   set; }
+    public List<InternalType> ImplementedInterfaces { get; set; }
 
-    public List<Field> Fields { get;   set; }
-    
-    public List<Parameter> Parameters { get;   set; }
+    public List<Field> Fields { get; set; }
 
-    public List<Property> Properties { get;   set; }
+    public List<Parameter> Parameters { get; set; }
 
-    public List<TypeParameter> TypeParameters { get;   set; }
-    
-    public  Record Set(
+    public List<Property> Properties { get; set; }
+
+    public List<TypeParameter> TypeParameters { get; set; }
+
+    public Record Set(
         Option<AccessModifier> accessModifier = default,
         Option<bool> isStatic = default,
         Option<string> name = default,
         Option<string> summary = default,
-        Option<Class> inheritedClass = default) 
+        Option<Class> inheritedClass = default)
 
     {
         AccessModifier = accessModifier.ValueOr(AccessModifier);
@@ -59,9 +59,12 @@ public class Record:InternalType
         AccessModifier accessModifier = AccessModifier.Public,
         bool isStatic = false,
         Option<string> name = default,
-        Option<string> summary = default)=> new Record(
-        accessModifier: accessModifier,
-        isStatic: isStatic,
-        name: name,
-        summary: summary);
+        Option<string> summary = default)
+    {
+        return new(
+            accessModifier,
+            isStatic,
+            name,
+            summary);
+    }
 }

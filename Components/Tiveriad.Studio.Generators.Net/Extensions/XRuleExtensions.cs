@@ -36,8 +36,8 @@ public static class XRuleExtensions
 
         return string.Empty;
     }
-    
-      public static string GetRuleDeclaration(this XNotNullRule rule)
+
+    public static string GetRuleDeclaration(this XNotNullRule rule)
     {
         var codeBuilder = CodeBuilder.Instance();
         codeBuilder.Append($"RuleFor(x => x.{rule.Path})");

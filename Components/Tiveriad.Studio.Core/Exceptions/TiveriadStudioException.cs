@@ -1,5 +1,3 @@
-using System;
-
 namespace Tiveriad.Studio.Core.Exceptions;
 
 public class TiveriadStudioException : Exception

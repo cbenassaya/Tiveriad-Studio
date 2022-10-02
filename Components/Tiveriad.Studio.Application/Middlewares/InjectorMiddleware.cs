@@ -16,12 +16,12 @@ public class InjectorMiddleware : AbstractProcessor<XElementBase, XNamedElement>
     {
         _typeService = typeService;
     }
-    
+
     public void Run(PipelineContext context, PipelineModel model)
     {
         Traverse(model.Project);
     }
-    
+
     protected override bool ApplyIf(XElementBase value)
     {
         return value is XNamedElement;
@@ -52,6 +52,4 @@ public class InjectorMiddleware : AbstractProcessor<XElementBase, XNamedElement>
             propertyInfo.SetValue(elementBase, xComplexType);
         }
     }
-
-
 }

@@ -10,6 +10,6 @@ public class SourceItem
         Source = source;
     }
 
-    public InternalType InternalType { get; private set; }
-    public string Source { get; private set; }
+    public InternalType InternalType { get; }
+    public string Source { get; }
 }

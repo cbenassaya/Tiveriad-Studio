@@ -7,8 +7,8 @@ using Tiveriad.Studio.Core.Services;
 
 namespace Tiveriad.Studio.Application.Middlewares;
 
-public class QueryMiddleware : AbstractProcessor<XElementBase, XNamedElement>, 
-IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
+public class QueryMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
+    IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
 {
     private readonly IXTypeService _typeService;
 
@@ -16,11 +16,11 @@ IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
     {
         _typeService = typeService;
     }
-        
+
     public void Run(PipelineContext context, PipelineModel model)
     {
-    Traverse(model.Project);
-}
+        Traverse(model.Project);
+    }
 
     protected override bool ApplyIf(XElementBase value)
     {
@@ -93,7 +93,7 @@ IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
                 Type = x.Type,
                 Classifier = getById,
                 TypeReference = x.TypeReference,
-                IsCollection = false,
+                IsCollection = false
             });
         });
 

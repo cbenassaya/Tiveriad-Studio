@@ -11,16 +11,16 @@ public class EnumerationMember
         Summary = summary;
     }
 
-    public Option<string> Name { get;  private set; }
+    public Option<string> Name { get; private set; }
 
-    public Option<int> Value { get;  private set; }
+    public Option<int> Value { get; private set; }
 
-    public Option<string> Summary { get;  private set; }
+    public Option<string> Summary { get; private set; }
 
-    public  EnumerationMember Set(
+    public EnumerationMember Set(
         Option<string> name = default,
         Option<int> value = default,
-        Option<string> summary = default) 
+        Option<string> summary = default)
     {
         Name = name.Else(Name);
         Summary = summary.Else(Summary);
@@ -28,13 +28,15 @@ public class EnumerationMember
         return this;
     }
 
-    
+
     public static EnumerationMember With(
         Option<string> name = default,
         Option<int> value = default,
-        Option<string> summary = default) =>
-        new EnumerationMember(
-            name: name,
-            value: value,
-            summary: summary);
+        Option<string> summary = default)
+    {
+        return new(
+            name,
+            value,
+            summary);
+    }
 }

@@ -15,10 +15,10 @@ public class RecordCodeBuilder : ICodeBuilder
     private readonly List<InternalTypeCodeBuilder> _implementedInterfaces = new();
     private readonly List<ParameterCodeBuilder> _parameters = new();
     private readonly List<PropertyCodeBuilder> _properties = new();
-    private readonly List<TypeParameterCodeBuilder> _typeParameters = new();
 
 
     private readonly Record _record = new(AccessModifier.Public);
+    private readonly List<TypeParameterCodeBuilder> _typeParameters = new();
 
 
     /// <summary>

@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using System.Xml.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 using Tiveriad.Studio.Core.Attributes;
+using Tiveriad.Studio.Core.Extensions;
 
 namespace Tiveriad.Studio.Core.Entities;
 
@@ -19,7 +19,7 @@ public class XEntity : XClassifier
     [XmlElement] public XPersistence Persistence { get; set; }
 
     [XmlAttribute] public bool IsBusinessEntity { get; set; }
-    
+
     [XmlIgnore]
     [BsonIgnore]
     [InjectWith("BaseTypeReference")]

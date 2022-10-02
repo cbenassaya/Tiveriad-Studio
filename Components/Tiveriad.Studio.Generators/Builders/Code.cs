@@ -14,7 +14,7 @@ public static class Code
     /// </summary>
     public static InternalTypeCodeBuilder CreateInternalType()
     {
-        return new();
+        return new InternalTypeCodeBuilder();
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public static class Code
     /// </summary>
     public static EnumCodeBuilder CreateEnum()
     {
-        return new();
+        return new EnumCodeBuilder();
     }
 
     /// <summary>
@@ -78,7 +78,7 @@ public static class Code
     /// </summary>
     public static EnumMemberCodeBuilder CreateEnumMember()
     {
-        return new();
+        return new EnumMemberCodeBuilder();
     }
 
     /// <summary>
@@ -111,7 +111,7 @@ public static class Code
     /// </summary>
     public static InterfaceCodeBuilder CreateInterface()
     {
-        return new();
+        return new InterfaceCodeBuilder();
     }
 
     /// <summary>
@@ -143,7 +143,7 @@ public static class Code
     /// </summary>
     public static ClassCodeBuilder CreateClass()
     {
-        return new();
+        return new ClassCodeBuilder();
     }
 
     /// <summary>
@@ -196,7 +196,7 @@ public static class Code
     /// </summary>
     public static StructCodeBuilder CreateStruct()
     {
-        return new();
+        return new StructCodeBuilder();
     }
 
     /// <summary>
@@ -227,7 +227,7 @@ public static class Code
     /// </summary>
     public static ParameterCodeBuilder CreateParameter()
     {
-        return new();
+        return new ParameterCodeBuilder();
     }
 
     /// <summary>
@@ -245,7 +245,7 @@ public static class Code
     /// </summary>
     public static FieldCodeBuilder CreateField()
     {
-        return new();
+        return new FieldCodeBuilder();
     }
 
     /// <summary>
@@ -290,7 +290,7 @@ public static class Code
     /// </summary>
     public static PropertyCodeBuilder CreateProperty()
     {
-        return new();
+        return new PropertyCodeBuilder();
     }
 
     /// <summary>
@@ -298,7 +298,7 @@ public static class Code
     /// </summary>
     public static AttributeBuilder CreateAttribute()
     {
-        return new();
+        return new AttributeBuilder();
     }
 
 
@@ -307,7 +307,7 @@ public static class Code
     /// </summary>
     public static AttributeArgumentCodeBuilder CreateAttributeArgument()
     {
-        return new();
+        return new AttributeArgumentCodeBuilder();
     }
 
     /// <summary>
@@ -379,7 +379,7 @@ public static class Code
     /// </summary>
     public static TypeParameterCodeBuilder CreateTypeParameter()
     {
-        return new();
+        return new TypeParameterCodeBuilder();
     }
 
     /// <summary>

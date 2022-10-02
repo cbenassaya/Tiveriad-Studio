@@ -13,7 +13,8 @@ public static class EnumerationExtensions
         return builder
             //.Append($"{CodeBuilder.Instance().Append(item.Attributes, a => a.GetAttributeDeclaration(), CodeBuilder.Separator.EmptySpace)}")
             .Append($"{item.AccessModifier.ToSourceCode()} enum {item.Name.ValueOrFailure()} {{")
-            .Append(item.Members, x => $"{x.ToSourceCode()}", CodeBuilder.Separator.Combine(CodeBuilder.Separator.Comma,CodeBuilder.Separator.WhiteSpace))
+            .Append(item.Members, x => $"{x.ToSourceCode()}",
+                CodeBuilder.Separator.Combine(CodeBuilder.Separator.Comma, CodeBuilder.Separator.WhiteSpace))
             .Append("}")
             .ToString();
     }

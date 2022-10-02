@@ -1,6 +1,4 @@
-using System.Xml;
 using System.Xml.Serialization;
-using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Generators.Net.InternalTypes;
 using Tiveriad.Studio.Generators.Projects;
 using Xunit;
@@ -12,20 +10,20 @@ public class ProjectDefinitionLoaderTests
     [Fact]
     public async Task Write_File()
     {
-        var projectTemplate = new ProjectTemplate()
+        var projectTemplate = new ProjectTemplate
         {
-            Components = new List<Component>()
+            Components = new List<Component>
             {
-                new Component
+                new()
                 {
-                    ComponentItems = new List<ComponentItem>()
+                    ComponentItems = new List<ComponentItem>
                     {
-                        new ComponentItem()
+                        new()
                         {
                             Pattern = "Pattern1",
                             Stereotype = "Stereotype1"
                         },
-                        new ComponentItem()
+                        new()
                         {
                             Pattern = "Pattern2",
                             Stereotype = "Stereotype2"
@@ -33,30 +31,29 @@ public class ProjectDefinitionLoaderTests
                     },
                     Dependencies = new List<Dependency>
                     {
-                        new Dependency
+                        new()
                         {
                             Include = "Include1",
                             Version = "Version1"
                         },
-                        new Dependency
+                        new()
                         {
                             Include = "Include2",
                             Version = "Version2"
                         }
-                        
                     },
                     Type = "Type1"
                 },
-                new Component
+                new()
                 {
-                    ComponentItems = new List<ComponentItem>()
+                    ComponentItems = new List<ComponentItem>
                     {
-                        new ComponentItem()
+                        new()
                         {
                             Pattern = "Pattern1",
                             Stereotype = "Stereotype1"
                         },
-                        new ComponentItem()
+                        new()
                         {
                             Pattern = "Pattern2",
                             Stereotype = "Stereotype2"
@@ -64,32 +61,31 @@ public class ProjectDefinitionLoaderTests
                     },
                     Dependencies = new List<Dependency>
                     {
-                        new Dependency
+                        new()
                         {
                             Include = "Include1",
                             Version = "Version1"
                         },
-                        new Dependency
+                        new()
                         {
                             Include = "Include2",
                             Version = "Version2"
                         }
-                        
                     },
                     Type = "Type2"
                 }
             }
         };
-        
+
         XmlSerializer serializer = new(typeof(ProjectTemplate));
-        using(StringWriter textWriter = new StringWriter())
+        using (var textWriter = new StringWriter())
         {
             serializer.Serialize(textWriter, projectTemplate);
-            var result =  textWriter.ToString();
+            var result = textWriter.ToString();
         }
     }
-    
-    
+
+
     [Fact]
     public async Task Read_File()
     {
@@ -97,19 +93,19 @@ public class ProjectDefinitionLoaderTests
         await using var stream = new FileStream("Samples/ProjectGenerated.xml", FileMode.Open);
         var project = xmlSerializer.Deserialize(stream) as ProjectTemplate;
         stream.Close();
-        
     }
-    
-    
+
+
     [Fact]
     public async Task GetPath()
     {
         var assembly = typeof(DataTypes).Assembly;
         var xmlSerializer = new XmlSerializer(typeof(ProjectTemplate));
-        await using var stream =  assembly.GetManifestResourceStream("Tiveriad.Studio.Generators.Net.Projects.ProjectTemplate.xml");
+        await using var stream =
+            assembly.GetManifestResourceStream("Tiveriad.Studio.Generators.Net.Projects.ProjectTemplate.xml");
         var project = xmlSerializer.Deserialize(stream) as ProjectTemplate;
         stream.Close();
-        
+
         var projectTemplateService = new DefaultProjectTemplateService(project);
         /*Assert.Equal("Components/{projectName}Api/EndPoints/{entity}EndPoints/{endpoint}", projectTemplateService.GetPath("Endpoint"));
         Assert.Equal("Components/{projectName}Api/Contracts/{entity}/{contract}", projectTemplateService.GetPath("Contract"));
@@ -122,7 +118,6 @@ public class ProjectDefinitionLoaderTests
         Assert.Equal("Components/{projectName}Application/Commands/{entity}Commands/{action}", projectTemplateService.GetPath("CommandAction"));
         Assert.Equal("Components/{projectName}Application/Commands/{entity}Commands/{validator}", projectTemplateService.GetPath("CommandValidator"));
         Assert.Equal("Components/{projectName}Persistence/Configurations/{entity}Configuration", projectTemplateService.GetPath("Persistence"));*/
-
     }
 
 
@@ -131,7 +126,8 @@ public class ProjectDefinitionLoaderTests
     {
         var assembly = typeof(DataTypes).Assembly;
         var xmlSerializer = new XmlSerializer(typeof(ProjectTemplate));
-        await using var stream =  assembly.GetManifestResourceStream("Tiveriad.Studio.Generators.Net.Projects.ProjectTemplate.xml");
+        await using var stream =
+            assembly.GetManifestResourceStream("Tiveriad.Studio.Generators.Net.Projects.ProjectTemplate.xml");
         var project = xmlSerializer.Deserialize(stream) as ProjectTemplate;
         stream.Close();
     }

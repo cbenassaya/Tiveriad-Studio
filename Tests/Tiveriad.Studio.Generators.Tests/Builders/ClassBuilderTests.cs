@@ -29,9 +29,11 @@ public class MyEntity : IEntity<string>, IAuditable<string>
             .WithNamespace("NS")
             .WithName("MyEntity")
             .WithImplementedInterfaces(
-                Code.CreateInternalType(ComplexTypes.IENTITY).WithGenericArgument(Code.CreateInternalType(DataTypes.STRING)),
-                Code.CreateInternalType(ComplexTypes.IAUDITABLE).WithGenericArgument(Code.CreateInternalType(DataTypes.STRING))
-                )
+                Code.CreateInternalType(ComplexTypes.IENTITY)
+                    .WithGenericArgument(Code.CreateInternalType(DataTypes.STRING)),
+                Code.CreateInternalType(ComplexTypes.IAUDITABLE)
+                    .WithGenericArgument(Code.CreateInternalType(DataTypes.STRING))
+            )
             .WithProperties(
                 Code.CreateProperty(DataTypes.INT, "P1")
                     .WithAttributes(
@@ -42,14 +44,14 @@ public class MyEntity : IEntity<string>, IAuditable<string>
                             .WithType(ComplexTypes.REQUIREDATTRIBUTE)),
                 Code.CreateProperty(DataTypes.STRING, "P2"),
                 Code.CreateProperty(DataTypes.BOOL, "P3")
-                );
+            );
 
         var @class = builder.Build();
-        
-        Assert.Equal(expected, ((Class) @class).ToSourceCode().NormalizeWhitespace());
+
+        Assert.Equal(expected, @class.ToSourceCode().NormalizeWhitespace());
     }
-    
-    
+
+
     [Fact]
     public void Create_Class_With_Fields_ToSourceCode_Works()
     {
@@ -72,11 +74,11 @@ public class MyEntity
             );
 
         var @class = builder.Build();
-        
-        Assert.Equal(expected, ((Class) @class).ToSourceCode().NormalizeWhitespace());
+
+        Assert.Equal(expected, @class.ToSourceCode().NormalizeWhitespace());
     }
-    
-    
+
+
     [Fact]
     public void Create_Class_With_Constructors_ToSourceCode_Works()
     {
@@ -124,7 +126,7 @@ public class MyEntity
 
 
         var @class = builder.Build();
-        
-        Assert.Equal(expected, ((Class) @class).ToSourceCode().NormalizeWhitespace());
+
+        Assert.Equal(expected, @class.ToSourceCode().NormalizeWhitespace());
     }
 }

@@ -1,55 +1,17 @@
+using Tiveriad.Pipelines;
 using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Core.Extensions;
 using Tiveriad.Studio.Generators.Builders;
 using Tiveriad.Studio.Generators.Net.InternalTypes;
 using Tiveriad.Studio.Generators.Sources;
 
-namespace Tiveriad.Studio.Generators.Net.Extensions;
+namespace Tiveriad.Studio.Generators.Net.Transformers;
 
-public static class XEntityExtensions
+public class PersistenceBuilderRequestHandler : IRequestHandler<PersistenceBuilderRequest, ClassCodeBuilder>
 {
-    public static ClassCodeBuilder ToBuilder(this XEntity entity)
+    public Task<ClassCodeBuilder> Handle(PersistenceBuilderRequest request, CancellationToken cancellationToken)
     {
-        var classBuilder = Code.CreateClass(entity.Name);
-
-        if (entity.BaseType != null)
-            classBuilder.WithInheritedClass(Code.CreateInternalType(entity.BaseType.Name, entity.BaseType.Namespace)
-                .Build());
-
-        classBuilder.WithImplementedInterface(
-            Code
-                .CreateInternalType(ComplexTypes.IENTITY)
-                .WithGenericArgument(Code.CreateInternalType().WithName(entity.Name).WithNamespace(entity.Namespace)));
-
-        if (entity.Persistence is { IsAuditable: true })
-            classBuilder.WithImplementedInterface(
-                Code
-                    .CreateInternalType(ComplexTypes.IAUDITABLE)
-                    .WithGenericArgument(
-                        Code.CreateInternalType().WithName(entity.Name).WithNamespace(entity.Namespace)));
-
-        classBuilder
-            .WithNamespace(entity.Namespace)
-            .WithProperties(
-                entity.GetIds().Select(x => x.ToBuilder())
-            )
-            .WithProperties(
-                entity.GetProperties().Select(x => x.ToBuilder())
-            )
-            .WithProperties(
-                entity.GetManyToOneRelationShips().Select(x => x.ToBuilder())
-            )
-            .WithProperties(
-                entity.GetManyToManyRelationShips().Select(x => x.ToBuilder())
-            )
-            .WithProperties(
-                entity.GetOneToManyRelationShips().Select(x => x.ToBuilder())
-            );
-        return classBuilder;
-    }
-
-    public static ClassCodeBuilder ToPersistenceBuilder(this XEntity xEntity)
-    {
+        var xEntity = request.Entity;
         var classBuilder = Code.CreateClass($"{xEntity.Name}Configuration")
             .WithNamespace($"{xEntity.GetProject().RootNamespace}.Persistence.Configurations")
             .WithImplementedInterface(
@@ -75,10 +37,10 @@ public static class XEntityExtensions
                     )
                     .WithBody(GetPersistenceMethodBody(xEntity))
             );
-        return classBuilder;
+        return Task.FromResult(classBuilder);
     }
-
-    private static string GetPersistenceMethodBody(this XEntity xEntity)
+    
+    private static string GetPersistenceMethodBody( XEntity xEntity)
     {
         var children = xEntity.GetChildren();
 

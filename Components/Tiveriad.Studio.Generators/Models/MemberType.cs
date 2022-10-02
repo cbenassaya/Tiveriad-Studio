@@ -1,7 +1,7 @@
 namespace Tiveriad.Studio.Generators.Models;
 
 /// <summary>
-/// Represents the various types of C# structure members.
+///     Represents the various types of C# structure members.
 /// </summary>
 public enum MemberType
 {

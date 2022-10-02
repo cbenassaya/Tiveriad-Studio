@@ -11,8 +11,10 @@ public static class PropertyExtensions
         var builder = CodeBuilder.Instance();
 
         return builder
-            .Append($"{CodeBuilder.Instance().Append(item.Attributes, a => a.ToSourceCode(), CodeBuilder.Separator.EmptySpace)}")
-            .Append($"{item.AccessModifier.ToSourceCode()} {item.Type.ValueOrFailure().ToSourceCode()} {item.Name.ValueOrFailure()} {{ get; set; }}")
+            .Append(
+                $"{CodeBuilder.Instance().Append(item.Attributes, a => a.ToSourceCode(), CodeBuilder.Separator.EmptySpace)}")
+            .Append(
+                $"{item.AccessModifier.ToSourceCode()} {item.Type.ValueOrFailure().ToSourceCode()} {item.Name.ValueOrFailure()} {{ get; set; }}")
             .ToString();
     }
 }

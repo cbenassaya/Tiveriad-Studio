@@ -32,18 +32,18 @@ public class Method
         Attributes = attributes.ValueOr(new List<Attribute>());
     }
 
-    public AccessModifier AccessModifier { get;  private set; }
-    public bool IsStatic { get;  private set; }
-    public bool IsConstructor { get;  private set; }
-    public bool IsAsync { get;  private set; }
-    public Option<Class> Parent { get;  private set; }
-    public Option<InternalType> ReturnType { get;  private set; }
-    public Option<string> Name { get;  protected set; }
-    public Option<string> Summary { get;  private set; }
-    public Option<string> Body { get;  private set; }
-    public List<Parameter> Parameters { get;  private set; }
-    public List<Attribute> Attributes { get;  private set; }
-    public List<string> BaseCallParameters { get;  private set; }
+    public AccessModifier AccessModifier { get; private set; }
+    public bool IsStatic { get; private set; }
+    public bool IsConstructor { get; private set; }
+    public bool IsAsync { get; private set; }
+    public Option<Class> Parent { get; private set; }
+    public Option<InternalType> ReturnType { get; private set; }
+    public Option<string> Name { get; protected set; }
+    public Option<string> Summary { get; private set; }
+    public Option<string> Body { get; private set; }
+    public List<Parameter> Parameters { get; private set; }
+    public List<Attribute> Attributes { get; private set; }
+    public List<string> BaseCallParameters { get; private set; }
 
     public Method Set(
         Option<AccessModifier> accessModifier = default,
@@ -73,7 +73,7 @@ public class Method
         Attributes = attributes.ValueOr(Attributes);
         return this;
     }
-    
+
     public static Method With(
         AccessModifier accessModifier = AccessModifier.Public,
         bool isStatic = false,
@@ -83,15 +83,17 @@ public class Method
         Option<InternalType> returnType = default,
         Option<string> name = default,
         Option<string> summary = default,
-        Option<string> body = default) =>
-        new Method(
-            accessModifier: accessModifier,
-            isStatic: isStatic,
-            isAsync: isAsync,
-            isConstructor:isConstructor,
-            parent: parent,
-            returnType:returnType,
-            name: name,
-            summary: summary,
-            body:body);
+        Option<string> body = default)
+    {
+        return new(
+            accessModifier,
+            isStatic,
+            isAsync,
+            isConstructor,
+            parent,
+            returnType,
+            name,
+            summary,
+            body);
+    }
 }

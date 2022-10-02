@@ -3,7 +3,7 @@ using Tiveriad.Studio.Core.Services;
 
 namespace Tiveriad.Studio.Infrastructure.Services;
 
-public class LoaderService:ILoaderService
+public class LoaderService : ILoaderService
 {
     public async Task<Stream> GetStreamAsync(string path, CancellationToken cancellationToken = default)
     {
@@ -12,7 +12,7 @@ public class LoaderService:ILoaderService
             try
             {
                 using var httpClient = new HttpClient();
-                input = await httpClient.GetStreamAsync(path, cancellationToken );
+                input = await httpClient.GetStreamAsync(path, cancellationToken);
             }
             catch (HttpRequestException ex)
             {
@@ -34,6 +34,7 @@ public class LoaderService:ILoaderService
             {
                 throw new InvalidOperationException($"Could not open the file at {path}, reason: {ex.Message}", ex);
             }
+
         return input;
     }
 }

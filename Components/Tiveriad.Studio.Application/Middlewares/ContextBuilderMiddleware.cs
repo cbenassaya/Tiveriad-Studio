@@ -15,12 +15,12 @@ public class ContextBuilderMiddleware : AbstractProcessor<XElementBase, XNamedEl
     {
         _typeService = typeService;
     }
-    
+
     public void Run(PipelineContext context, PipelineModel model)
     {
         Traverse(model.Project);
     }
-    
+
     protected override bool ApplyIf(XElementBase value)
     {
         return value is XComplexType;
@@ -30,6 +30,4 @@ public class ContextBuilderMiddleware : AbstractProcessor<XElementBase, XNamedEl
     {
         if (value is XComplexType complexType) _typeService.Add(complexType);
     }
-
-
 }

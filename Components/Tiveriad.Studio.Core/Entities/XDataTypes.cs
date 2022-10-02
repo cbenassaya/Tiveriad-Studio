@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Tiveriad.Studio.Core.Entities;
 
 public static class XDataTypes

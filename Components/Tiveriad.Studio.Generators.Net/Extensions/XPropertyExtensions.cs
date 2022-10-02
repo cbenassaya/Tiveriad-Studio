@@ -14,12 +14,12 @@ public static class XPropertyExtensions
         {
             Code.CreateInternalType(ComplexTypes.IENUMERABLE);
             typeCodeBuilder = Code.CreateInternalType(ComplexTypes.IENUMERABLE);
-            typeCodeBuilder.WithGenericArgument(XTypeExtensions.ToBuilder(property.Type));
+            typeCodeBuilder.WithGenericArgument(property.Type.ToBuilder());
         }
         else
         {
             var nullable = property.Constraints.Any(x => x is XRequiredConstraint) ? "?" : string.Empty;
-            typeCodeBuilder = XTypeExtensions.ToBuilder(property.Type);
+            typeCodeBuilder = property.Type.ToBuilder();
         }
 
         var builder = Code.CreateProperty().WithType(typeCodeBuilder.Build()).WithName(property.Name);
@@ -52,7 +52,7 @@ public static class XPropertyExtensions
 
     public static PropertyCodeBuilder ToBuilder(this XId property)
     {
-        var builder = Code.CreateProperty().WithType(XTypeExtensions.ToBuilder(property.Type).Build()).WithName(property.Name);
+        var builder = Code.CreateProperty().WithType(property.Type.ToBuilder().Build()).WithName(property.Name);
         builder.WithAttributes(
             property.Constraints
                 .Where(x => x is XMaxLengthConstraint)

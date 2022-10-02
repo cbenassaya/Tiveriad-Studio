@@ -2,7 +2,7 @@ using Optional;
 
 namespace Tiveriad.Studio.Generators.Models;
 
-public class Enumeration:InternalType
+public class Enumeration : InternalType
 {
     public Enumeration(
         AccessModifier accessModifier,
@@ -18,13 +18,13 @@ public class Enumeration:InternalType
         Members = members.ValueOr(new List<EnumerationMember>());
     }
 
-    public AccessModifier AccessModifier { get;  private set; }
+    public AccessModifier AccessModifier { get; private set; }
 
-    public bool IsFlag { get;  private set; }
+    public bool IsFlag { get; private set; }
 
-    public List<EnumerationMember> Members { get;  private set; }
+    public List<EnumerationMember> Members { get; }
 
-    public  Enumeration Set(
+    public Enumeration Set(
         Option<AccessModifier> accessModifier = default,
         Option<string> name = default,
         Option<string> summary = default,
@@ -36,17 +36,19 @@ public class Enumeration:InternalType
         Summary = summary.Else(Summary);
         return this;
     }
-    
+
     public static Enumeration With(
         AccessModifier accessModifier = AccessModifier.Public,
         Option<string> name = default,
         Option<string> summary = default,
         bool isFlag = default,
-        Option<List<EnumerationMember>> members = default) =>
-        new Enumeration(
-            accessModifier: accessModifier,
-            name: name,
-            summary: summary,
-            isFlag: isFlag,
-            members:members);
+        Option<List<EnumerationMember>> members = default)
+    {
+        return new(
+            accessModifier,
+            name,
+            summary,
+            isFlag,
+            members);
+    }
 }

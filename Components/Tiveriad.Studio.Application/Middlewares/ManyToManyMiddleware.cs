@@ -17,15 +17,15 @@ public class ManyToManyMiddleware : AbstractProcessor<XElementBase, XNamedElemen
     {
         _typeService = typeService;
     }
-    
+
     public void Run(PipelineContext context, PipelineModel model)
     {
         Traverse(model.Project);
     }
-    
+
     protected override bool ApplyIf(XElementBase value)
     {
-        return value is  XEntity ;
+        return value is XEntity;
     }
 
     protected override void DoApply(XElementBase value)
@@ -33,7 +33,7 @@ public class ManyToManyMiddleware : AbstractProcessor<XElementBase, XNamedElemen
         if (value is XEntity entity)
             DoApply(entity);
     }
-    
+
     private void DoApply(XEntity entity)
     {
         foreach (var manyToManyRelationShip in entity.GetManyToManyRelationShips())
@@ -45,7 +45,8 @@ public class ManyToManyMiddleware : AbstractProcessor<XElementBase, XNamedElemen
             {
                 Id = ObjectId.GenerateNewId(),
                 Name = manyToManyRelationShip.Name ?? $"{entity.Name}{manyToManyRelationShip.Type.Name}",
-                PluralName = manyToManyRelationShip.PluralName ?? $"{entity.Name}{manyToManyRelationShip.Type.PluralName}",
+                PluralName = manyToManyRelationShip.PluralName ??
+                             $"{entity.Name}{manyToManyRelationShip.Type.PluralName}",
                 Package = entity.Package,
                 Namespace = entity.Namespace,
                 Properties = properties,
@@ -60,17 +61,17 @@ public class ManyToManyMiddleware : AbstractProcessor<XElementBase, XNamedElemen
 
             relationShips.Add(new XManyToOne
             {
-                Id =  ObjectId.GenerateNewId(),
-                Name =$"{entity.Name}",
+                Id = ObjectId.GenerateNewId(),
+                Name = $"{entity.Name}",
                 Type = entity,
                 Classifier = linkEntity,
                 TypeReference = $"{entity.Name}"
             });
-            
+
             relationShips.Add(new XManyToOne
             {
-                Id =  ObjectId.GenerateNewId(),
-                Name =$"{manyToManyRelationShip.Type.Name}",
+                Id = ObjectId.GenerateNewId(),
+                Name = $"{manyToManyRelationShip.Type.Name}",
                 Type = manyToManyRelationShip.Type,
                 Classifier = linkEntity,
                 TypeReference = $"{manyToManyRelationShip.Type.Name}"
@@ -86,8 +87,7 @@ public class ManyToManyMiddleware : AbstractProcessor<XElementBase, XNamedElemen
                     TypeReference = linkEntity.Name,
                     Constraints = xId.Constraints,
                     Displayed = false
-                })
-                .Cast<XPropertyBase>());
+                }));
 
             properties.AddRange(((XEntity)manyToManyRelationShip.Type).GetIds()
                 .Select(xId => new XId
@@ -99,9 +99,8 @@ public class ManyToManyMiddleware : AbstractProcessor<XElementBase, XNamedElemen
                     TypeReference = linkEntity.Name,
                     Constraints = xId.Constraints,
                     Displayed = false
-                })
-                .Cast<XPropertyBase>());
-            
+                }));
+
             entity.RelationShips.Add(new XOneToMany
             {
                 Id = ObjectId.GenerateNewId(),
@@ -110,7 +109,7 @@ public class ManyToManyMiddleware : AbstractProcessor<XElementBase, XNamedElemen
                 Classifier = entity,
                 TypeReference = linkEntity.Name
             });
-            
+
             ((XEntity)manyToManyRelationShip.Type).RelationShips.Add(new XOneToMany
             {
                 Id = ObjectId.GenerateNewId(),
@@ -119,13 +118,12 @@ public class ManyToManyMiddleware : AbstractProcessor<XElementBase, XNamedElemen
                 Classifier = manyToManyRelationShip.Type as XClassifier,
                 TypeReference = linkEntity.Name
             });
-            
+
             _typeService.Add(linkEntity);
         }
+
         var cleanList = entity.RelationShips.Where(x => x is not XManyToMany).ToList().Cast<XRelationShip>();
         entity.RelationShips = new List<XRelationShip>();
         entity.RelationShips.AddRange(cleanList);
     }
-
-
 }

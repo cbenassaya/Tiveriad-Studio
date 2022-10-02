@@ -4,8 +4,6 @@ using Tiveriad.Studio.Generators.Sources;
 
 namespace Tiveriad.Studio.Generators.Net.Sources;
 
-
-
 public static class RecordExtensions
 {
     public static string ToSourceCode(this Record item)
@@ -15,10 +13,11 @@ public static class RecordExtensions
         return builder
             //.Append($"{CodeBuilder.Instance().Append(item.Attributes, a => a.GetAttributeDeclaration(), CodeBuilder.Separator.EmptySpace)}")
             .Append($"{item.AccessModifier.ToSourceCode()} record {item.Name.ValueOrFailure()} (")
-            .Append(item.Parameters, x => $"{x.ToSourceCode()}", CodeBuilder.Separator.Combine(CodeBuilder.Separator.Comma,CodeBuilder.Separator.WhiteSpace))
+            .Append(item.Parameters, x => $"{x.ToSourceCode()}",
+                CodeBuilder.Separator.Combine(CodeBuilder.Separator.Comma, CodeBuilder.Separator.WhiteSpace))
             .Append(")")
             .If(() => item.ImplementedInterfaces.Any()).Append(":")
-            .Append( item.ImplementedInterfaces, @interface => ((InternalType) @interface).ToSourceCode(), CodeBuilder.Separator.Comma)
+            .Append(item.ImplementedInterfaces, @interface => @interface.ToSourceCode(), CodeBuilder.Separator.Comma)
             .Append(";")
             .ToString();
     }

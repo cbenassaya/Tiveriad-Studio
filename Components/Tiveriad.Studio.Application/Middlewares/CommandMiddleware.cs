@@ -16,7 +16,7 @@ public class CommandMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
     {
         _typeService = typeService;
     }
-    
+
     public void Run(PipelineContext context, PipelineModel model)
     {
         Traverse(model.Project);
@@ -90,7 +90,7 @@ public class CommandMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
             Type = x.Type,
             Classifier = deleteAction,
             TypeReference = x.TypeReference,
-            IsCollection = false,
+            IsCollection = false
         }).ToList();
 
         commandPackage.Add(deleteAction);
@@ -114,7 +114,7 @@ public class CommandMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
                 Type = entity,
                 Classifier = saveOrUpdateAction,
                 TypeReference = entity.ToString(),
-                IsCollection = false,
+                IsCollection = false
             }
         };
 
@@ -129,6 +129,4 @@ public class CommandMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
         commandPackage.Add(saveOrUpdateAction);
         _typeService.Add(saveOrUpdateAction);
     }
-
-    
 }

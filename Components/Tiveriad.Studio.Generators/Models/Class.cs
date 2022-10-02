@@ -2,10 +2,8 @@ using Optional;
 
 namespace Tiveriad.Studio.Generators.Models;
 
-
 public class NamedElement
 {
-    
 }
 
 public class Class : InternalType
@@ -36,25 +34,25 @@ public class Class : InternalType
         TypeParameters = typeParameters.ValueOr(new List<TypeParameter>());
     }
 
-    public AccessModifier AccessModifier { get;  private set; }
+    public AccessModifier AccessModifier { get; private set; }
 
-    public bool IsStatic { get;  private set; }
+    public bool IsStatic { get; private set; }
 
-    public Option<InternalType> InheritedClass { get;  private set; }
-    public List<InternalType> ImplementedInterfaces { get;   set; }
-    public List<Attribute> Attributes { get;   set; }
-    public List<Field> Fields { get;   set; }
-    public List<Property> Properties { get;   set; }
-    public List<Method> Methods { get;   set; }
-    public List<TypeParameter> TypeParameters { get;   set; }
+    public Option<InternalType> InheritedClass { get; private set; }
+    public List<InternalType> ImplementedInterfaces { get; set; }
+    public List<Attribute> Attributes { get; set; }
+    public List<Field> Fields { get; set; }
+    public List<Property> Properties { get; set; }
+    public List<Method> Methods { get; set; }
+    public List<TypeParameter> TypeParameters { get; set; }
 
-    
-    public  Class Set(
+
+    public Class Set(
         Option<AccessModifier> accessModifier = default,
         Option<bool> isStatic = default,
         Option<string> name = default,
         Option<string> summary = default,
-        Option<InternalType> inheritedClass = default) 
+        Option<InternalType> inheritedClass = default)
 
     {
         AccessModifier = accessModifier.ValueOr(AccessModifier);
@@ -70,10 +68,13 @@ public class Class : InternalType
         bool isStatic = false,
         Option<string> name = default,
         Option<string> summary = default,
-        Option<InternalType> inheritedClass = default)=> new Class(
-            accessModifier: accessModifier,
-            isStatic: isStatic,
-            name: name,
-            summary: summary,
-            inheritedClass: inheritedClass);
+        Option<InternalType> inheritedClass = default)
+    {
+        return new(
+            accessModifier,
+            isStatic,
+            name,
+            summary,
+            inheritedClass);
+    }
 }

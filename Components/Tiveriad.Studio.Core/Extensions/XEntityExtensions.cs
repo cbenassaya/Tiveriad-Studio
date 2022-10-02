@@ -32,7 +32,7 @@ public static class XEntityExtensions
 
         return nProperty;
     }
-    
+
     public static IList<XManyToOne> GetManyToOneRelationShips(this XEntity classifier)
     {
         return classifier.RelationShips.Where(x => x is XManyToOne).Cast<XManyToOne>().ToList();
@@ -47,13 +47,13 @@ public static class XEntityExtensions
     {
         return classifier.RelationShips.Where(x => x is XManyToMany).Cast<XManyToMany>().ToList();
     }
-    
+
     public static IList<XEntity> GetChildren(this XEntity xEntity)
     {
         var values = xEntity.GetProject().GetChildren<XEntity>();
         return values.Where(x => x.BaseType != null && x.BaseType.Equals(xEntity)).ToList();
     }
-    
+
     public static IEnumerable<XEntity> GetFunctionalDependencies(this XEntity entity)
     {
         if (entity == null) return Enumerable.Empty<XEntity>();

@@ -6,9 +6,9 @@ namespace Tiveriad.Studio.Generators.Models;
 public class InternalType
 {
     public InternalType(
-        Option<string> name = default, 
-        Option<string> @namespace = default, 
-        Option<string> summary = default, 
+        Option<string> name = default,
+        Option<string> @namespace = default,
+        Option<string> summary = default,
         Option<XType> reference = default,
         Option<string> stereotype = default,
         Option<List<InternalType>> genericArguments = default,
@@ -22,9 +22,18 @@ public class InternalType
         GenericArguments = genericArguments.ValueOr(new List<InternalType>());
         Dependencies = dependencies.ValueOr(new List<string>());
     }
-    
-    
-    public InternalType Set (Option<string> name = default, Option<string> @namespace = default, Option<string> summary = default, Option<XType> reference = default, Option<string> stereotype = default)
+
+    public Option<string> Name { get; protected set; }
+    public Option<string> Summary { get; protected set; }
+    public Option<string> Namespace { get; protected set; }
+    public Option<XType> Reference { get; protected set; }
+    public Option<string> Stereotype { get; protected set; }
+    public List<InternalType> GenericArguments { get; protected set; }
+    public List<string> Dependencies { get; protected set; }
+
+
+    public InternalType Set(Option<string> name = default, Option<string> @namespace = default,
+        Option<string> summary = default, Option<XType> reference = default, Option<string> stereotype = default)
     {
         Name = name.Else(Name);
         Namespace = @namespace.Else(Namespace);
@@ -33,14 +42,4 @@ public class InternalType
         Stereotype = stereotype.Else(Stereotype);
         return this;
     }
-    
-    public Option<string> Name { get;  protected set; }
-    public Option<string> Summary { get; protected set;}
-    public Option<string> Namespace { get;  protected set;}
-    public Option<XType> Reference { get;  protected set;}
-    public Option<string> Stereotype { get;  protected set;}
-    public List<InternalType> GenericArguments { get;  protected set;}
-    public List<string> Dependencies { get;  protected set;}
 }
-
-

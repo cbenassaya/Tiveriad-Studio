@@ -14,19 +14,23 @@ public static class MethodExtensions
             $"{CodeBuilder.Instance().Append(item.Attributes, a => a.ToSourceCode(), CodeBuilder.Separator.EmptySpace)}");
         if (item.IsConstructor)
         {
-            codeBuilder.Append($"{item.AccessModifier.ToSourceCode()}  {item.Parent.ValueOrFailure().Name.ValueOrFailure()}");
+            codeBuilder.Append(
+                $"{item.AccessModifier.ToSourceCode()}  {item.Parent.ValueOrFailure().Name.ValueOrFailure()}");
         }
         else
         {
             if (!item.ReturnType.HasValue)
             {
-                codeBuilder.If(() => item.IsAsync).Append($"{item.AccessModifier.ToSourceCode()} async Task {item.Name.ValueOrFailure()}");
-                codeBuilder.If(() => !item.IsAsync).Append($"{item.AccessModifier.ToSourceCode()} void {item.Name.ValueOrFailure()}");
+                codeBuilder.If(() => item.IsAsync)
+                    .Append($"{item.AccessModifier.ToSourceCode()} async Task {item.Name.ValueOrFailure()}");
+                codeBuilder.If(() => !item.IsAsync)
+                    .Append($"{item.AccessModifier.ToSourceCode()} void {item.Name.ValueOrFailure()}");
             }
             else
             {
                 codeBuilder.If(() => item.IsAsync)
-                    .Append($"public async {item.ReturnType.ValueOrFailure().ToSourceCode()} {item.Name.ValueOrFailure()}");
+                    .Append(
+                        $"public async {item.ReturnType.ValueOrFailure().ToSourceCode()} {item.Name.ValueOrFailure()}");
                 codeBuilder.If(() => !item.IsAsync)
                     .Append($"public {item.ReturnType.ValueOrFailure().ToSourceCode()} {item.Name.ValueOrFailure()}");
             }
@@ -37,9 +41,9 @@ public static class MethodExtensions
             CodeBuilder.Separator.Combine(CodeBuilder.Separator.Comma, CodeBuilder.Separator.WhiteSpace));
         codeBuilder.Append(")");
         codeBuilder.Append("{");
-        codeBuilder.If(() => item.Body.HasValue).Append(()=>item.Body.ValueOrFailure());
+        codeBuilder.If(() => item.Body.HasValue).Append(() => CodeBuilder.Separator.NewLine +  item.Body.ValueOrFailure() + CodeBuilder.Separator.NewLine);
         codeBuilder.Append("}");
-        
+
         return codeBuilder.ToString();
     }
 }

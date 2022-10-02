@@ -13,8 +13,8 @@ public class StructCodeBuilder : ICodeBuilder
     private readonly List<MethodCodeBuilder> _constructors = new();
     private readonly List<FieldCodeBuilder> _fields = new();
     private readonly List<PropertyCodeBuilder> _properties = new();
-    private readonly List<TypeParameterCodeBuilder> _typeParameters = new();
     private readonly Struct _struct = new(AccessModifier.Public);
+    private readonly List<TypeParameterCodeBuilder> _typeParameters = new();
 
     /// <summary>
     ///     Set the stereotype

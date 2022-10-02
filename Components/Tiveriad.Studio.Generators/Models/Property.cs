@@ -32,27 +32,27 @@ public class Property
         Attributes = attributes.ValueOr(new List<Attribute>());
     }
 
-    public AccessModifier AccessModifier { get;  private set; }
+    public AccessModifier AccessModifier { get; private set; }
 
-    public AccessModifier SetterAccessModifier { get;  private set; }
+    public AccessModifier SetterAccessModifier { get; private set; }
 
-    public bool IsStatic { get;  private set; }
+    public bool IsStatic { get; private set; }
 
-    public Option<InternalType> Type { get;  private set; }
+    public Option<InternalType> Type { get; private set; }
 
-    public Option<string> Name { get;  private set; }
+    public Option<string> Name { get; private set; }
 
-    public Option<string> Summary { get;  private set; }
+    public Option<string> Summary { get; private set; }
 
-    public Option<string> DefaultValue { get;  private set; }
+    public Option<string> DefaultValue { get; private set; }
 
-    public Option<string> Getter { get;  private set; }
+    public Option<string> Getter { get; private set; }
 
-    public Option<string> Setter { get;  private set; }
+    public Option<string> Setter { get; private set; }
 
-    public List<TypeParameter> TypeParameters { get;  private set; }
-        
-    public List<Attribute> Attributes { get;  private set; }
+    public List<TypeParameter> TypeParameters { get; }
+
+    public List<Attribute> Attributes { get; }
 
 
     public Property Set(
@@ -77,8 +77,8 @@ public class Property
         DefaultValue = defaultValue.Else(DefaultValue);
         return this;
     }
-    
-    public  static Property With(
+
+    public static Property With(
         AccessModifier accessModifier = AccessModifier.Public,
         AccessModifier setterAccessModifier = AccessModifier.Public,
         bool isStatic = false,
@@ -87,15 +87,17 @@ public class Property
         Option<string> summary = default,
         Option<string> defaultValue = default,
         Option<string> getter = default,
-        Option<string> setter = default) =>
-        new(
-            accessModifier: accessModifier,
-            setterAccessModifier: setterAccessModifier,
-            isStatic: isStatic,
-            type: type,
-            name: name,
-            summary: summary,
-            defaultValue:defaultValue,
-            getter:getter,
-            setter:setter);
+        Option<string> setter = default)
+    {
+        return new(
+            accessModifier,
+            setterAccessModifier,
+            isStatic,
+            type,
+            name,
+            summary,
+            defaultValue,
+            getter,
+            setter);
+    }
 }

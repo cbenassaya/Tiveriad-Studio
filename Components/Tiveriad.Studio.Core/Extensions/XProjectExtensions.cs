@@ -11,12 +11,12 @@ public static class XProjectExtensions
         processor.Traverse(project);
         return processor.Values;
     }
-    
+
     public static List<XKeyValue> GetMetadata(this XProject xProject)
     {
         return xProject.Metadata ?? new List<XKeyValue>();
     }
-    
+
     public static void Add(this XProject xProject, XKeyValue xKeyValue)
     {
         if (xProject.Metadata == null)

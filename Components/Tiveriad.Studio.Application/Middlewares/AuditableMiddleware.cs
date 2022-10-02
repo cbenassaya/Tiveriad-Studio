@@ -6,7 +6,7 @@ using Tiveriad.Studio.Core.Services;
 
 namespace Tiveriad.Studio.Application.Middlewares;
 
-public class AuditableMiddleware: AbstractProcessor<XElementBase, XNamedElement>,
+public class AuditableMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
     IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
 {
     private readonly IXTypeService _typeService;
@@ -15,7 +15,7 @@ public class AuditableMiddleware: AbstractProcessor<XElementBase, XNamedElement>
     {
         _typeService = typeService;
     }
-    
+
     public void Run(PipelineContext context, PipelineModel model)
     {
         Traverse(model.Project);
@@ -29,31 +29,29 @@ public class AuditableMiddleware: AbstractProcessor<XElementBase, XNamedElement>
     protected override void DoApply(XElementBase value)
     {
         var entity = value as XEntity;
-        entity.Properties.Add(new XProperty()
+        entity.Properties.Add(new XProperty
         {
             Type = XDataTypes.STRING,
             Name = "CreatedBy",
-            Constraints = new List<XConstraint> { new XRequiredConstraint()}
+            Constraints = new List<XConstraint> { new XRequiredConstraint() }
         });
-        
-        entity.Properties.Add(new XProperty()
+
+        entity.Properties.Add(new XProperty
         {
             Type = XDataTypes.DATETIME,
             Name = "Created",
-            Constraints = new List<XConstraint> { new XRequiredConstraint()}
+            Constraints = new List<XConstraint> { new XRequiredConstraint() }
         });
-        entity.Properties.Add(new XProperty()
+        entity.Properties.Add(new XProperty
         {
             Type = XDataTypes.STRING,
             Name = "LastModifiedBy"
         });
-        
-        entity.Properties.Add(new XProperty()
+
+        entity.Properties.Add(new XProperty
         {
             Type = XDataTypes.DATETIME,
             Name = "LastModified"
         });
     }
-
- 
 }

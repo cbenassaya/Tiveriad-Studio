@@ -14,13 +14,13 @@ public class Parameter
         ReceivingMember = receivingMember;
     }
 
-    public Option<InternalType> Type { get;  private set; }
+    public Option<InternalType> Type { get; private set; }
 
-    public Option<string> Name { get;  private set; }
+    public Option<string> Name { get; private set; }
 
-    public Option<string> ReceivingMember { get;  private set; }
-    
-    public  Parameter Set(
+    public Option<string> ReceivingMember { get; private set; }
+
+    public Parameter Set(
         Option<InternalType> type = default,
         Option<string> name = default,
         Option<string> receivingMember = default)
@@ -30,5 +30,4 @@ public class Parameter
         ReceivingMember = receivingMember.Else(ReceivingMember);
         return this;
     }
-
 }

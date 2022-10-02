@@ -8,17 +8,17 @@ public static class XClassifierExtensions
     {
         return type.Package?.GetProject();
     }
-    
+
     public static IList<XId> GetIds(this XClassifier classifier)
     {
         return classifier.Properties.Where(x => x is XId).Cast<XId>().ToList();
     }
-    
+
     public static IList<XProperty> GetProperties(this XClassifier classifier)
     {
         return classifier.Properties.Where(x => x is XProperty).Cast<XProperty>().ToList();
     }
-    
+
     public static XMemberBase GetFromPath(this XClassifier classifier, string path)
     {
         if (string.IsNullOrEmpty(path))

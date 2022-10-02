@@ -18,10 +18,10 @@ public class EnumBuilderTests
                 Code.CreateEnumMember("A"),
                 Code.CreateEnumMember("B"),
                 Code.CreateEnumMember("C")
-        );
+            );
 
         var enumeration = builder.Build();
-        
-        Assert.Equal("public enum Enum {A, B, C}", ((Enumeration) enumeration).ToSourceCode());
+
+        Assert.Equal("public enum Enum {A, B, C}", enumeration.ToSourceCode());
     }
 }
