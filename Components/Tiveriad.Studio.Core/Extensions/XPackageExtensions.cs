@@ -9,14 +9,30 @@ public static class XPackageExtensions
         if (package.Parent != null)
             return $"{package.Parent.GetNamespace()}.{package.Name}";
         return
-            $"{package?.Component?.Project?.RootNamespace ?? string.Empty}.{package?.Component?.Name ?? string.Empty}.{package.Name}";
+            $"{package?.Module?.Project?.RootNamespace ?? string.Empty}.{package?.Module?.Name ?? string.Empty}.{package.Name}";
+    }
+    
+    public static string GetPartialNamespace(this XPackage package)
+    {
+        if (package.Parent != null)
+            return $"{package.Parent.GetPartialNamespace()}.{package.Name}";
+        return
+            $"{package.Name}";
+    }
+    
+    public static XModule GetModule(this XPackage package)
+    {
+        if (package.Parent != null)
+            return package.Parent.GetModule();
+        return
+            package.Module;
     }
 
     public static XProject GetProject(this XPackage package)
     {
         if (package.Parent != null)
             return package.Parent.GetProject();
-        return package?.Component?.Project;
+        return package?.Module?.Project;
     }
 
     public static List<XEntity> GetEntities(this XPackage package)

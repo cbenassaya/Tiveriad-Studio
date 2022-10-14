@@ -6,7 +6,8 @@ namespace Tiveriad.Studio.Core.Entities;
 [XmlRoot("Project", Namespace = "urn:xcore-mapping-2.0")]
 public class XProject : XNamedElement
 {
-    [XmlElement("Component")] public List<XComponent> Components { get; set; }
+
+    [XmlElement("Module")] public List<XModule> Modules { get; set; }
 
     [XmlAttribute("RootNamespace")]
     [MaxLength(200)]
@@ -15,4 +16,6 @@ public class XProject : XNamedElement
     [XmlArray("Metadata")]
     [XmlArrayItem("KeyValue", typeof(XKeyValue))]
     public List<XKeyValue> Metadata { get; set; }
+    
+    [XmlIgnore] public Guid ReferenceId { get;  } = Guid.NewGuid();
 }

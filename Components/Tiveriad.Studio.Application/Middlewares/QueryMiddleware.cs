@@ -32,30 +32,21 @@ public class QueryMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
         var entity = value as XEntity;
         var project = entity?.GetProject();
         if (project == null) return;
+        var module = entity ?.GetModule();           
+        if (module == null) return;
 
-        var component = project.Components.FirstOrDefault(x => x.Name == "Application");
-        if (component == null)
-        {
-            component = new XComponent
-            {
-                Name = "Application",
-                Project = project
-            };
-            project.Components.Add(component);
-        }
-
-        var queriesPackage = component.Packages.FirstOrDefault(x => x.Name == "Queries");
+        var queriesPackage = module.Packages.FirstOrDefault(x => x.Name == "Queries");
         if (queriesPackage == null)
         {
             queriesPackage = new XPackage
             {
                 Name = "Queries",
-                Component = component
+                Module = module
             };
-            component.Packages.Add(queriesPackage);
+            module.Packages.Add(queriesPackage);
         }
 
-        var queryPackage = component.Packages.FirstOrDefault(x => x.Name == $"{entity.Name}Queries");
+        var queryPackage = module.Packages.FirstOrDefault(x => x.Name == $"{entity.Name}Queries");
         if (queryPackage == null)
         {
             queryPackage = new XPackage

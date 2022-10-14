@@ -15,7 +15,11 @@ public class PipelineModule : TestBase<Startup>
         var pipelineBuilder =
             GetRequiredService<IPipelineBuilder<PipelineModel, PipelineContext, PipelineConfiguration>>();
         pipelineBuilder
-            .Configure(x => x.OutputPath = @"C:\Dev\Data\Source")
+            .Configure(x =>
+            {
+                x.OutputPath = @"C:\Dev\Data\Source";
+                x.InputPath = "Samples/KpiBuilder.xml";
+            })
             .Add<LoadingMiddleware>()
             .Add<AddTypesMiddleware>()
             .Add<PostLoadingMiddleware>()
@@ -26,10 +30,11 @@ public class PipelineModule : TestBase<Startup>
             .Add<CommandMiddleware>()
             .Add<EndpointMiddleware>()
             .Add<NetCodeBuilderMiddleware>()
-            //.Add<DeleteMiddleware>()
+            //.Add<CleanSlnMiddleware>()
+            //.Add<CreateSlnMiddleware>()
             .Add<WriterMiddleware>();
 
         var pipeline = pipelineBuilder.Build();
-        pipeline.Execute(new PipelineModel { InputPath = "Samples/KpiBuilder.xml" });
+        pipeline.Execute(new PipelineModel {  });
     }
 }

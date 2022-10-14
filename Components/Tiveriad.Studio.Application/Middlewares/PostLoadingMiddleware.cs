@@ -16,7 +16,7 @@ public class PostLoadingMiddleware : AbstractProcessor<XElementBase, XNamedEleme
 
     protected override bool ApplyIf(XElementBase value)
     {
-        return value is XProject or XComponent or XPackage or XClassifier or XEntity or XEndPoint or XAction
+        return value is XProject or XModule or XPackage or XClassifier or XEntity or XEndPoint or XAction
             or XService;
     }
 
@@ -25,8 +25,8 @@ public class PostLoadingMiddleware : AbstractProcessor<XElementBase, XNamedEleme
         if (value is XProject project)
             DoApply(project);
 
-        if (value is XComponent component)
-            DoApply(component);
+        if (value is XModule module)
+            DoApply(module);
 
         if (value is XPackage package)
             DoApply(package);
@@ -49,12 +49,12 @@ public class PostLoadingMiddleware : AbstractProcessor<XElementBase, XNamedEleme
 
     private void DoApply(XProject project)
     {
-        foreach (var component in project.Components) component.Project = project;
+        foreach (var module in project.Modules) module.Project = project;
     }
 
-    private void DoApply(XComponent component)
+    private void DoApply(XModule module)
     {
-        foreach (var xPackage in component.Packages) xPackage.Component = component;
+        foreach (var xPackage in module.Packages) xPackage.Module = module;
     }
 
     private void DoApply(XPackage package)

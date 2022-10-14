@@ -5,25 +5,25 @@ namespace Tiveriad.Studio.Generators.Models;
 public class Attribute
 {
     public Attribute(
-        Option<InternalType> internalType = default,
-        Option<List<AttributeArgument>> attributeArgument = default)
+        InternalType internalType,
+        List<AttributeArgument> attributeArgument)
     {
         InternalType = internalType;
-        AttributeArguments = attributeArgument.ValueOr(new List<AttributeArgument>());
+        AttributeArguments = attributeArgument ?? new List<AttributeArgument>();
     }
 
-    public Option<InternalType> InternalType { get; private set; }
+    public InternalType InternalType { get; private set; }
     public List<AttributeArgument> AttributeArguments { get; }
 
     public Attribute Set(
-        Option<InternalType> name = default)
+        InternalType name)
     {
-        InternalType = name.Else(InternalType);
+        InternalType = name;
         return this;
     }
 
-    public static Attribute With(Option<InternalType> internalType = default)
+    public static Attribute With(InternalType internalType)
     {
-        return new(internalType);
+        return new Attribute(internalType, new List<AttributeArgument>());
     }
 }

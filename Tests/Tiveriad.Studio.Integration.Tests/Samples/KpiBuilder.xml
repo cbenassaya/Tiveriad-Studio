@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="urn:xcore-mapping-2.0" RootNamespace="KpiBuilder.Services">
-    <Component Name="Core">
+<Project xmlns="urn:xcore-mapping-2.0" RootNamespace="KpiBuilder">
+    <Module Name="Services">
         <Package Name="Entities">
             <Entities>
                 <Entity IsBusinessEntity="true" Name="Party" PluralName="Parties">
@@ -151,5 +151,5 @@
                 </Enum>
             </Enums>
         </Package>
-    </Component>
+    </Module>
 </Project>

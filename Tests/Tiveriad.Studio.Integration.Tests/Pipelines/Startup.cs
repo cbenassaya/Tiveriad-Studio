@@ -1,3 +1,4 @@
+using System.Xml.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Tiveriad.Commons.Extensions;
 using Tiveriad.Pipelines;
@@ -5,8 +6,12 @@ using Tiveriad.Pipelines.DependencyInjection;
 using Tiveriad.Studio.Application;
 using Tiveriad.Studio.Application.Pipelines;
 using Tiveriad.Studio.Core.Extensions;
+using Tiveriad.Studio.Generators.Models;
 using Tiveriad.Studio.Generators.Net.Middlewares;
+using Tiveriad.Studio.Generators.Net.Projects;
 using Tiveriad.Studio.Generators.Net.Transformers;
+using Tiveriad.Studio.Generators.Projects;
+using Tiveriad.Studio.Generators.Services;
 using Tiveriad.Studio.Infrastructure;
 using Tiveriad.TextTemplating;
 using Tiveriad.TextTemplating.Scriban;
@@ -22,6 +27,8 @@ public class Startup : StartupBase
         services.AddApplication();
         services.AddTiveriadSender(typeof(ActionBuilderRequest).Assembly);
         services.AddScoped<NetCodeBuilderMiddleware>();
+        services.AddScoped<CleanSlnMiddleware>();
+        services.AddScoped<CreateSlnMiddleware>();
         services.AddScoped<WriterMiddleware>();
         services.AddScoped<IServiceResolver, DependencyInjectionServiceResolver>();
         services.AddScoped<IPipelineBuilder<PipelineModel, PipelineContext, PipelineConfiguration>, DefaultPipelineBuilder<PipelineModel, PipelineContext, PipelineConfiguration>>();
@@ -39,5 +46,14 @@ public class Startup : StartupBase
             {
                 services.AddSingleton<ITemplateRenderer>(renderer);
             });
+        
+        
+        var assembly = typeof(WriterMiddleware).Assembly;
+        var xmlSerializer = new XmlSerializer(typeof(ProjectDefinitionTemplate));
+        using var stream =
+            assembly.GetManifestResourceStream("Tiveriad.Studio.Generators.Net.Projects.ProjectDefinitionTemplate.xml");
+        var projectTemplate = (ProjectDefinitionTemplate) xmlSerializer.Deserialize(stream) ?? new ProjectDefinitionTemplate();
+        services.AddSingleton<IProjectTemplateService<InternalType, ProjectDefinition>>(
+            new NetProjectTemplateService(projectTemplate));
     }
 }

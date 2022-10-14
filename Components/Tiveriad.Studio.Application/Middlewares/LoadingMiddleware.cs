@@ -17,7 +17,7 @@ public class LoadingMiddleware : IMiddleware<PipelineModel, PipelineContext, Pip
 
     public void Run(PipelineContext context, PipelineModel model)
     {
-        var task = _loaderService.GetStreamAsync(model.InputPath);
+        var task = _loaderService.GetStreamAsync(context.Configuration.InputPath);
         using var stream = task.Result;
         model.Project = _parserService.Parse(stream);
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ProjectTemplate xmlns="urn:project-template-mapping-2.0">
-    <Components>
-        <Component Layer="Api" Type="Component">
+<ProjectDefinitionTemplate xmlns="urn:project-template-mapping-2.0">
+    <ComponentDefinitions>
+        <ComponentDefinition Layer="Api" Type="Component" NamePattern="{0}.{1}.Api" Template="web">
             <Dependencies>
                 <Dependency Include="AutoMapper" Version="11.0.0"/>
                 <Dependency Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0"/>
@@ -27,8 +27,14 @@
                 <ComponentItem Pattern="EndPoints/{entity}EndPoints/{endpoint}" Stereotype="Endpoint"/>
                 <ComponentItem Pattern="Contracts/{entity}/{contract}" Stereotype="Contract"/>
             </ComponentItems>
-        </Component>
-        <Component Layer="Core" Type="Component">
+            <References>
+                <Reference Name="Core"/>
+                <Reference Name="Application"/>
+                <Reference Name="Infrastructure"/>
+                <Reference Name="Persistence"/>
+            </References>
+        </ComponentDefinition>
+        <ComponentDefinition Layer="Core" Type="Component" NamePattern="{0}.{1}.Core" Template="classlib">
             <Dependencies>
                 <Dependency Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.1"/>
                 <Dependency Include="Newtonsoft.Json" Version="13.0.1"/>
@@ -39,8 +45,8 @@
                 <ComponentItem Pattern="Entities/{entity}" Stereotype="Entity"/>
                 <ComponentItem Pattern="Entities/{enum}" Stereotype="Enum"/>
             </ComponentItems>
-        </Component>
-        <Component Layer="Application" Type="Component">
+        </ComponentDefinition>
+        <ComponentDefinition Layer="Application" Type="Component" NamePattern="{0}.{1}.Application" Template="classlib">
             <Dependencies>
                 <Dependency Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.4"/>
                 <Dependency Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1"/>
@@ -56,8 +62,11 @@
                 <ComponentItem Pattern="Commands/{entity}Queries/{action}" Stereotype="CommandAction"/>
                 <ComponentItem Pattern="Commands/{entity}Queries/{validator}" Stereotype="CommandValidator"/>
             </ComponentItems>
-        </Component>
-        <Component Layer="Infrastructure" Type="Component">
+            <References>
+                <Reference Name="Core"/>
+            </References>
+        </ComponentDefinition>
+        <ComponentDefinition Layer="Infrastructure" Type="Component" NamePattern="{0}.{1}.Infrastructure" Template="classlib">
             <Dependencies>
                 <Dependency Include="MediatR" Version="10.0.1"/>
                 <Dependency Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0"/>
@@ -69,8 +78,12 @@
                 <Dependency Include="Tiveriad.Repositories.EntityFrameworkCore" Version="2.0.1.3"/>
                 <Dependency Include="Tiveriad.Repositories.Microsoft.DependencyInjection" Version="2.0.1.3"/>
             </Dependencies>
-        </Component>
-        <Component Layer="Persistence" Type="Component">
+            <References>
+                <Reference Name="Core"/>
+                <Reference Name="Persistence"/>
+            </References>
+        </ComponentDefinition>
+        <ComponentDefinition Layer="Persistence" Type="Component" NamePattern="{0}.{1}.Persistence" Template="classlib">
             <Dependencies>
                 <Dependency Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1"/>
                 <Dependency Include="Microsoft.Extensions.Configuration" Version="6.0.0"/>
@@ -83,6 +96,9 @@
             <ComponentItems>
                 <ComponentItem Pattern="Configurations/{entity}Configuration" Stereotype="Persistence"/>
             </ComponentItems>
-        </Component>
-    </Components>
-</ProjectTemplate>
+            <References>
+                <Reference Name="Core"/>
+            </References>
+        </ComponentDefinition>
+    </ComponentDefinitions>
+</ProjectDefinitionTemplate>

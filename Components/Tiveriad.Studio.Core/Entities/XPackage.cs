@@ -5,7 +5,7 @@ namespace Tiveriad.Studio.Core.Entities;
 [XmlType("Package")]
 public class XPackage : XNamedElement
 {
-    [XmlIgnore] public XComponent Component { get; set; }
+    [XmlIgnore] public XModule Module { get; set; }
     [XmlIgnore] public XPackage Parent { get; set; }
 
     [XmlArray("Entities")]

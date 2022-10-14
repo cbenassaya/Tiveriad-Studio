@@ -6,6 +6,7 @@ namespace Tiveriad.Studio.Generators.Builders;
 
 public class ParameterCodeBuilder : ICodeBuilder
 {
+    private readonly List<AttributeBuilder> _attributeBuilders = new();
     private Parameter _parameter = new();
 
     /// <summary>
@@ -26,6 +27,27 @@ public class ParameterCodeBuilder : ICodeBuilder
             throw new ArgumentException("Field type must be a valid, non-empty string.", nameof(type));
 
         _parameter = _parameter.Set(Option.Some(type));
+        return this;
+    }
+    
+    public ParameterCodeBuilder WithAttribute(AttributeBuilder builder)
+    {
+        if (builder is null)
+            throw new ArgumentNullException(nameof(builder));
+
+        _attributeBuilders.Add(builder);
+        return this;
+    }
+
+    public ParameterCodeBuilder WithAttributes(params AttributeBuilder[] builders)
+    {
+        if (builders is null)
+            throw new ArgumentNullException(nameof(builders));
+
+        if (builders.Any(x => x is null))
+            throw new ArgumentException("One of the attribute builders is null.");
+
+        _attributeBuilders.AddRange(builders);
         return this;
     }
 
@@ -79,6 +101,9 @@ public class ParameterCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(_parameter.Name.ValueOrDefault()))
             throw new MissingBuilderSettingException(
                 "Providing the name of the field is required when building a field.");
+        
+        _parameter.Attributes.Clear();
+        _parameter.Attributes.AddRange(_attributeBuilders.Select(builder => builder.Build()));
         return _parameter;
     }
 }

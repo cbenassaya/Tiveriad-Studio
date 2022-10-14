@@ -13,7 +13,7 @@ public static class ClassExtensions
         if (item.InheritedClass.HasValue)
             parentAndContracts.Add(item.InheritedClass.ValueOrFailure());
         parentAndContracts.AddRange(item.ImplementedInterfaces);
-
+        builder.Append(item.Dependencies, dependency => $"using {dependency};", CodeBuilder.Separator.EmptySpace);
         builder.Append($"namespace {item.Namespace.ValueOrFailure()};");
         builder.Append(
             $"{CodeBuilder.Instance().Append(item.Attributes, a => a.ToSourceCode(), CodeBuilder.Separator.EmptySpace)}");

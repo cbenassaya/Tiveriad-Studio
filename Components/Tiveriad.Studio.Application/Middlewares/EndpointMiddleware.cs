@@ -42,30 +42,21 @@ public class EndpointMiddleware : Commons.Reflexions.AbstractProcessor<XElementB
         var action = value as XAction;
         var project = action?.GetProject();
         if (project == null) return;
+        var module = action ?.GetModule();           
+        if (module == null) return;
 
-        var component = project.Components.FirstOrDefault(x => x.Name == "Apis");
-        if (component == null)
-        {
-            component = new XComponent
-            {
-                Name = "Apis",
-                Project = project
-            };
-            project.Components.Add(component);
-        }
-
-        var endPointsPackage = component.Packages.FirstOrDefault(x => x.Name == "EndPoints");
+        var endPointsPackage = module.Packages.FirstOrDefault(x => x.Name == "EndPoints");
         if (endPointsPackage == null)
         {
             endPointsPackage = new XPackage
             {
                 Name = "EndPoints",
-                Component = component
+                Module = module
             };
-            component.Packages.Add(endPointsPackage);
+            module.Packages.Add(endPointsPackage);
         }
 
-        var endPointPackage = component.Packages.FirstOrDefault(x => x.Name == $"{action.Entity.Name}EndPoints");
+        var endPointPackage = module.Packages.FirstOrDefault(x => x.Name == $"{action.Entity.Name}EndPoints");
         if (endPointPackage == null)
         {
             endPointPackage = new XPackage
@@ -76,15 +67,15 @@ public class EndpointMiddleware : Commons.Reflexions.AbstractProcessor<XElementB
             endPointsPackage.Add(endPointPackage);
         }
 
-        var contractsEndPoint = component.Packages.FirstOrDefault(x => x.Name == "Contracts");
+        var contractsEndPoint = module.Packages.FirstOrDefault(x => x.Name == "Contracts");
         if (contractsEndPoint == null)
         {
             contractsEndPoint = new XPackage
             {
                 Name = "Contracts",
-                Component = component
+                Module = module
             };
-            component.Packages.Add(contractsEndPoint);
+            module.Packages.Add(contractsEndPoint);
         }
 
 
