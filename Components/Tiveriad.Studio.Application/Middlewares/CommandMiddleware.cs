@@ -32,7 +32,7 @@ public class CommandMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
         var entity = value as XEntity;
         var project = entity?.GetProject();
         if (project == null) return;
-        var module = entity ?.GetModule();           
+        var module = entity?.GetModule();
         if (module == null) return;
 
         var commandsPackage = module.Packages.FirstOrDefault(x => x.Name == "Commands");

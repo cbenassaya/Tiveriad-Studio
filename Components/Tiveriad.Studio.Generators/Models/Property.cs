@@ -1,5 +1,3 @@
-using Optional;
-
 namespace Tiveriad.Studio.Generators.Models;
 
 public class Property
@@ -9,27 +7,27 @@ public class Property
     public Property(
         AccessModifier accessModifier,
         AccessModifier setterAccessModifier,
-        bool isStatic = false,
-        Option<InternalType> type = default,
-        Option<string> name = default,
-        Option<string> summary = default,
-        Option<string> defaultValue = default,
-        Option<string> getter = default,
-        Option<string> setter = default,
-        Option<List<TypeParameter>> typeParameters = default,
-        Option<List<Attribute>> attributes = default)
+        bool? isStatic = false,
+        InternalType? type = default,
+        string? name = default,
+        string? summary = default,
+        string? defaultValue = default,
+        string? getter = default,
+        string? setter = default,
+        List<TypeParameter>? typeParameters = default,
+        List<Attribute>? attributes = default)
     {
         AccessModifier = accessModifier;
         SetterAccessModifier = setterAccessModifier;
-        IsStatic = isStatic;
+        IsStatic = isStatic ?? false;
         Type = type;
-        Name = name;
-        Summary = summary;
-        DefaultValue = defaultValue;
-        Getter = getter;
-        Setter = setter;
-        TypeParameters = typeParameters.ValueOr(new List<TypeParameter>());
-        Attributes = attributes.ValueOr(new List<Attribute>());
+        Name = name ?? string.Empty;
+        Summary = summary ?? string.Empty;
+        DefaultValue = defaultValue ?? string.Empty;
+        Getter = getter ?? string.Empty;
+        Setter = setter ?? string.Empty;
+        TypeParameters = typeParameters ?? new List<TypeParameter>();
+        Attributes = attributes ?? new List<Attribute>();
     }
 
     public AccessModifier AccessModifier { get; private set; }
@@ -38,17 +36,17 @@ public class Property
 
     public bool IsStatic { get; private set; }
 
-    public Option<InternalType> Type { get; private set; }
+    public InternalType? Type { get; private set; }
 
-    public Option<string> Name { get; private set; }
+    public string Name { get; private set; }
 
-    public Option<string> Summary { get; private set; }
+    public string Summary { get; private set; }
 
-    public Option<string> DefaultValue { get; private set; }
+    public string DefaultValue { get; private set; }
 
-    public Option<string> Getter { get; private set; }
+    public string Getter { get; private set; }
 
-    public Option<string> Setter { get; private set; }
+    public string Setter { get; private set; }
 
     public List<TypeParameter> TypeParameters { get; }
 
@@ -56,40 +54,42 @@ public class Property
 
 
     public Property Set(
-        Option<AccessModifier> accessModifier = default,
-        Option<AccessModifier> setterAccessModifier = default,
-        Option<bool> isStatic = default,
-        Option<InternalType> type = default,
-        Option<string> name = default,
-        Option<string> summary = default,
-        Option<string> defaultValue = default,
-        Option<Option<string>> getter = default,
-        Option<Option<string>> setter = default)
+        AccessModifier? accessModifier = default,
+        AccessModifier? setterAccessModifier = default,
+        bool? isStatic = default,
+        InternalType? type = default,
+        string? name = default,
+        string? summary = default,
+        string? defaultValue = default,
+        string? getter = default,
+        string? setter = default)
     {
-        AccessModifier = accessModifier.ValueOr(AccessModifier);
-        IsStatic = isStatic.ValueOr(IsStatic);
-        Name = name.Else(Name);
-        Type = type.Else(Type);
-        Summary = summary.Else(Summary);
-        SetterAccessModifier = setterAccessModifier.ValueOr(SetterAccessModifier);
-        Getter = getter.ValueOr(Getter);
-        Setter = setter.ValueOr(Setter);
-        DefaultValue = defaultValue.Else(DefaultValue);
+        AccessModifier = accessModifier ?? AccessModifier;
+        IsStatic = isStatic ?? IsStatic;
+        Name = name ?? Name;
+        Type = type ?? Type;
+        ;
+        Summary = summary ?? Summary;
+        ;
+        SetterAccessModifier = setterAccessModifier ?? SetterAccessModifier;
+        Getter = getter ?? Getter;
+        Setter = setter ?? Setter;
+        DefaultValue = defaultValue ?? DefaultValue;
         return this;
     }
 
     public static Property With(
         AccessModifier accessModifier = AccessModifier.Public,
         AccessModifier setterAccessModifier = AccessModifier.Public,
-        bool isStatic = false,
-        Option<InternalType> type = default,
-        Option<string> name = default,
-        Option<string> summary = default,
-        Option<string> defaultValue = default,
-        Option<string> getter = default,
-        Option<string> setter = default)
+        bool? isStatic = false,
+        InternalType? type = default,
+        string? name = default,
+        string? summary = default,
+        string? defaultValue = default,
+        string? getter = default,
+        string? setter = default)
     {
-        return new(
+        return new Property(
             accessModifier,
             setterAccessModifier,
             isStatic,

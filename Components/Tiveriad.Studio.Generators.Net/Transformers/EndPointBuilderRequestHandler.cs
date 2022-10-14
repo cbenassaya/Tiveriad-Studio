@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Tiveriad.Pipelines;
 using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Generators.Builders;
@@ -11,27 +10,17 @@ namespace Tiveriad.Studio.Generators.Net.Transformers;
 
 public class EndPointBuilderRequestHandler : IRequestHandler<EndPointBuilderRequest, ClassCodeBuilder>
 {
-    private ITemplateRenderer _templateRenderer;
+    private readonly ITemplateRenderer _templateRenderer;
 
     public EndPointBuilderRequestHandler(ITemplateRenderer templateRenderer)
     {
         _templateRenderer = templateRenderer;
     }
 
-    private  InternalType ToInternalType(XBehaviourType behaviourType) => behaviourType switch
-    {
-        XBehaviourType.Delete => ComplexTypes.FROMROUTE,
-        XBehaviourType.Query  => ComplexTypes.FROMBODY,
-        XBehaviourType.GetMany  => ComplexTypes.FROMROUTE,
-        XBehaviourType.GetOne  => ComplexTypes.FROMROUTE,
-        XBehaviourType.SaveOrUpdate  => ComplexTypes.FROMBODY,
-        _ => throw new ArgumentOutOfRangeException(nameof(behaviourType), $"Not expected internal type value: {behaviourType}"),
-    };
-    
-    public  Task<ClassCodeBuilder> Handle(EndPointBuilderRequest request, CancellationToken cancellationToken)
+    public Task<ClassCodeBuilder> Handle(EndPointBuilderRequest request, CancellationToken cancellationToken)
     {
         var xEndPoint = request.EndPoint;
-        var body =  _templateRenderer.RenderAsync($"{xEndPoint.Action.BehaviourType}EndPoint.tpl",
+        var body = _templateRenderer.RenderAsync($"{xEndPoint.Action.BehaviourType}EndPoint.tpl",
             new { endpoint = xEndPoint });
         var handleMethod = Code
             .CreateMethod()
@@ -40,12 +29,14 @@ public class EndPointBuilderRequestHandler : IRequestHandler<EndPointBuilderRequ
             .WithParameters(
                 xEndPoint
                     .Parameters
-                    .Select(x => Code.CreateParameter(x.Type.ToBuilder().Build(), x.Name).WithAttribute(Code.CreateAttribute().WithType(ToInternalType(xEndPoint.Action.BehaviourType))))
+                    .Select(x =>
+                        Code.CreateParameter(x.Type.ToBuilder().Build(), x.Name).WithAttribute(Code.CreateAttribute()
+                            .WithType(ToInternalType(xEndPoint.Action.BehaviourType))))
                     .ToList()
             )
             .WithParameters(
                 Code.CreateParameter(ComplexTypes.CANCELLATIONTOKEN, "cancellationToken"))
-            .WithBody(body.Result )
+            .WithBody(body.Result)
             .WithAttributes(
                 Code.CreateAttribute()
                     .WithType(ComplexTypes.Get(Enum.GetName(typeof(XHttpMethod), xEndPoint.HttpMethod) ?? "HttpGet"))
@@ -86,5 +77,18 @@ public class EndPointBuilderRequestHandler : IRequestHandler<EndPointBuilderRequ
             );
         return Task.FromResult(classBuilder);
     }
-}
 
+    private InternalType ToInternalType(XBehaviourType behaviourType)
+    {
+        return behaviourType switch
+        {
+            XBehaviourType.Delete => ComplexTypes.FROMROUTE,
+            XBehaviourType.Query => ComplexTypes.FROMBODY,
+            XBehaviourType.GetMany => ComplexTypes.FROMROUTE,
+            XBehaviourType.GetOne => ComplexTypes.FROMROUTE,
+            XBehaviourType.SaveOrUpdate => ComplexTypes.FROMBODY,
+            _ => throw new ArgumentOutOfRangeException(nameof(behaviourType),
+                $"Not expected internal type value: {behaviourType}")
+        };
+    }
+}

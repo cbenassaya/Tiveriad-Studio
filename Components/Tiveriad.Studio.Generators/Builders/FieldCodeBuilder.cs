@@ -1,6 +1,4 @@
-﻿using Optional;
-using Optional.Unsafe;
-using Tiveriad.Studio.Generators.Models;
+﻿using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Builders;
 
@@ -18,7 +16,7 @@ public class FieldCodeBuilder : ICodeBuilder
     /// </summary>
     public FieldCodeBuilder WithAccessModifier(AccessModifier accessModifier)
     {
-        _field = _field.Set(Option.Some(accessModifier));
+        _field = _field.Set(accessModifier);
         return this;
     }
 
@@ -39,7 +37,7 @@ public class FieldCodeBuilder : ICodeBuilder
         if (type == null)
             throw new ArgumentException("Field type must be a valid, non-empty string.", nameof(type));
 
-        _field = _field.Set(type: Option.Some(type));
+        _field = _field.Set(type: type);
         return this;
     }
 
@@ -60,7 +58,7 @@ public class FieldCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Field name must be a valid, non-empty string.", nameof(name));
 
-        _field = _field.Set(name: Option.Some(name));
+        _field = _field.Set(name: name);
         return this;
     }
 
@@ -72,7 +70,7 @@ public class FieldCodeBuilder : ICodeBuilder
     /// </param>
     public FieldCodeBuilder MakeReadonly(bool makeReadonly = true)
     {
-        _field = _field.Set(isReadonly: Option.Some(makeReadonly));
+        _field = _field.Set(isReadonly: makeReadonly);
         return this;
     }
 
@@ -84,7 +82,7 @@ public class FieldCodeBuilder : ICodeBuilder
     /// </param>
     public FieldCodeBuilder InitializeFromConstructor(bool initializeFromConstructor = false)
     {
-        _field = _field.Set(initializeFromConstructor: Option.Some(initializeFromConstructor));
+        _field = _field.Set(initializeFromConstructor: initializeFromConstructor);
         return this;
     }
 
@@ -102,7 +100,7 @@ public class FieldCodeBuilder : ICodeBuilder
         if (summary is null)
             throw new ArgumentNullException(nameof(summary));
 
-        _field = _field.Set(summary: Option.Some(summary));
+        _field = _field.Set(summary: summary);
         return this;
     }
 
@@ -165,10 +163,10 @@ public class FieldCodeBuilder : ICodeBuilder
 
     public Field Build()
     {
-        if (!_field.Type.HasValue)
+        if (_field.Type == null)
             throw new MissingBuilderSettingException(
                 "Providing the type of the field is required when building a field.");
-        if (string.IsNullOrWhiteSpace(_field.Name.ValueOrDefault()))
+        if (string.IsNullOrWhiteSpace(_field.Name))
             throw new MissingBuilderSettingException(
                 "Providing the name of the field is required when building a field.");
         _field.TypeParameters.Clear();

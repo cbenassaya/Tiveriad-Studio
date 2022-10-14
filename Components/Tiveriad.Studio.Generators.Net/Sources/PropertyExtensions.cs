@@ -1,4 +1,3 @@
-using Optional.Unsafe;
 using Tiveriad.Studio.Generators.Models;
 using Tiveriad.Studio.Generators.Sources;
 
@@ -14,7 +13,7 @@ public static class PropertyExtensions
             .Append(
                 $"{CodeBuilder.Instance().Append(item.Attributes, a => a.ToSourceCode(), CodeBuilder.Separator.EmptySpace)}")
             .Append(
-                $"{item.AccessModifier.ToSourceCode()} {item.Type.ValueOrFailure().ToSourceCode()} {item.Name.ValueOrFailure()} {{ get; set; }}")
+                $"{item.AccessModifier.ToSourceCode()} {item.Type.ToSourceCode()} {item.Name} {{ get; set; }}")
             .ToString();
     }
 }

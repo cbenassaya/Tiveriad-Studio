@@ -1,6 +1,3 @@
-using Optional;
-using Optional.Collections;
-using Optional.Unsafe;
 using Tiveriad.Commons.Extensions;
 using Tiveriad.Studio.Generators.Models;
 
@@ -21,7 +18,7 @@ public class EnumCodeBuilder : ICodeBuilder
     /// </summary>
     public EnumCodeBuilder WithStereotype(string value)
     {
-        _enumeration.Set(stereotype: Option.Some(value));
+        _enumeration.Set(stereotype: value);
         return this;
     }
 
@@ -30,7 +27,7 @@ public class EnumCodeBuilder : ICodeBuilder
     /// </summary>
     public EnumCodeBuilder WithAccessModifier(AccessModifier accessModifier)
     {
-        _enumeration = _enumeration.Set(Option.Some(accessModifier));
+        _enumeration = _enumeration.Set(accessModifier);
         return this;
     }
 
@@ -51,7 +48,7 @@ public class EnumCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("The enum name must be a valid, non-empty string.", nameof(name));
 
-        _enumeration = _enumeration.Set(name: Option.Some(name));
+        _enumeration = _enumeration.Set(name: name);
         return this;
     }
 
@@ -72,7 +69,7 @@ public class EnumCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(@namespace))
             throw new ArgumentException("The namespace must be a valid, non-empty string.", nameof(@namespace));
 
-        _enumeration.Set(@namespace: Option.Some(@namespace));
+        _enumeration.Set(@namespace: @namespace);
         return this;
     }
 
@@ -143,7 +140,7 @@ public class EnumCodeBuilder : ICodeBuilder
     /// </param>
     public EnumCodeBuilder MakeFlagsEnum(bool makeFlagsEnum = true)
     {
-        _enumeration = _enumeration.Set(isFlag: Option.Some(makeFlagsEnum));
+        _enumeration = _enumeration.Set(isFlag: makeFlagsEnum);
         return this;
     }
 
@@ -161,7 +158,7 @@ public class EnumCodeBuilder : ICodeBuilder
         if (summary is null)
             throw new ArgumentNullException(nameof(summary));
 
-        _enumeration = _enumeration.Set(summary: Option.Some(summary));
+        _enumeration = _enumeration.Set(summary: summary);
         return this;
     }
 
@@ -179,13 +176,13 @@ public class EnumCodeBuilder : ICodeBuilder
         string name,
         StringComparison comparison = StringComparison.InvariantCultureIgnoreCase)
     {
-        return _members.Any(x => x.Build().Name.Exists(n => n.Equals(name, comparison)));
+        return _members.Any(x => x.Build().Name.Equals(name, comparison));
     }
 
 
     public Enumeration Build()
     {
-        if (string.IsNullOrWhiteSpace(_enumeration.Name.ValueOr(string.Empty)))
+        if (string.IsNullOrWhiteSpace(_enumeration.Name))
             throw new MissingBuilderSettingException(
                 "Providing the name of the enum is required when building an enum.");
 
@@ -194,13 +191,6 @@ public class EnumCodeBuilder : ICodeBuilder
                 _members[i] = _members[i].WithValue(i == 0 ? 0 : (int)Math.Pow(2, i - 1));
 
         _enumeration.Members.AddRange(_members.Select(x => x.Build()));
-        _enumeration.Members
-            .GroupBy(x => x.Name.ValueOrFailure())
-            .Where(x => x.AtLeast(2))
-            .Select(x => x.Key)
-            .FirstOrNone()
-            .MatchSome(duplicateMemberName => throw new SyntaxException(
-                $"The enum '{_enumeration.Name}' already contains a definition for '{duplicateMemberName}'."));
 
         return _enumeration;
     }

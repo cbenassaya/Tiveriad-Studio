@@ -1,4 +1,3 @@
-using Optional;
 using Tiveriad.Studio.Core.Entities;
 
 namespace Tiveriad.Studio.Generators.Models;
@@ -6,40 +5,45 @@ namespace Tiveriad.Studio.Generators.Models;
 public class InternalType
 {
     public InternalType(
-        Option<string> name = default,
-        Option<string> @namespace = default,
-        Option<string> summary = default,
-        Option<XType> reference = default,
-        Option<string> stereotype = default,
-        Option<List<InternalType>> genericArguments = default,
-        Option<List<string>> dependencies = default)
+        string? name = default,
+        string? @namespace = default,
+        string? summary = default,
+        XType? reference = default,
+        string? stereotype = default,
+        List<InternalType>? genericArguments = default,
+        List<string>? dependencies = default)
     {
-        Name = name;
-        Stereotype = stereotype;
-        Namespace = @namespace;
-        Summary = summary;
+        Name = name ?? string.Empty;
+        Stereotype = stereotype ?? string.Empty;
+        Namespace = @namespace ?? string.Empty;
+        Summary = summary ?? string.Empty;
         Reference = reference;
-        GenericArguments = genericArguments.ValueOr(new List<InternalType>());
-        Dependencies = dependencies.ValueOr(new List<string>());
+        GenericArguments = genericArguments ?? new List<InternalType>();
+        Dependencies = dependencies ?? new List<string>();
     }
 
-    public Option<string> Name { get; protected set; }
-    public Option<string> Summary { get; protected set; }
-    public Option<string> Namespace { get; protected set; }
-    public Option<XType> Reference { get; protected set; }
-    public Option<string> Stereotype { get; protected set; }
+    public string Name { get; protected set; }
+    public string Summary { get; protected set; }
+    public string Namespace { get; protected set; }
+    public XType? Reference { get; protected set; }
+    public string Stereotype { get; protected set; }
     public List<InternalType> GenericArguments { get; protected set; }
     public List<string> Dependencies { get; protected set; }
 
 
-    public InternalType Set(Option<string> name = default, Option<string> @namespace = default,
-        Option<string> summary = default, Option<XType> reference = default, Option<string> stereotype = default)
+    public InternalType Set(
+        string? name = default,
+        string? @namespace = default,
+        string? summary = default,
+        XType? reference = default,
+        string? stereotype = default)
     {
-        Name = name.Else(Name);
-        Namespace = @namespace.Else(Namespace);
-        Summary = summary.Else(Summary);
-        Reference = reference.Else(Reference);
-        Stereotype = stereotype.Else(Stereotype);
+        Name = name ?? Name;
+        Namespace = @namespace ?? Namespace;
+        Summary = summary ?? Summary;
+        ;
+        Reference = reference ?? Reference;
+        Stereotype = stereotype ?? Stereotype;
         return this;
     }
 }

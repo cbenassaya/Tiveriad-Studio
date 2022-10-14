@@ -42,7 +42,7 @@ public class EndpointMiddleware : Commons.Reflexions.AbstractProcessor<XElementB
         var action = value as XAction;
         var project = action?.GetProject();
         if (project == null) return;
-        var module = action ?.GetModule();           
+        var module = action?.GetModule();
         if (module == null) return;
 
         var endPointsPackage = module.Packages.FirstOrDefault(x => x.Name == "EndPoints");

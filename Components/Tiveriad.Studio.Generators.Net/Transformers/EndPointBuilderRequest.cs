@@ -4,5 +4,4 @@ using Tiveriad.Studio.Generators.Builders;
 
 namespace Tiveriad.Studio.Generators.Net.Transformers;
 
-
-    public record EndPointBuilderRequest(XEndPoint EndPoint) : IRequest<ClassCodeBuilder>;
+public record EndPointBuilderRequest(XEndPoint EndPoint) : IRequest<ClassCodeBuilder>;

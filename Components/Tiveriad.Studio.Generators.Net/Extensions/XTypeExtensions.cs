@@ -8,7 +8,7 @@ public static class XTypeExtensions
 {
     public static InternalTypeCodeBuilder ToBuilder(this XType type)
     {
-        var ntype = DataTypes.Types.FirstOrDefault(x => x.Reference.HasValue && x.Reference.Contains(type));
+        var ntype = DataTypes.Types.FirstOrDefault(x => x.Reference != null && x.Reference.Equals(type));
 
         return ntype == null
             ? Code.CreateInternalType().WithName(type.Name).WithNamespace(type.Namespace)

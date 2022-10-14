@@ -1,4 +1,3 @@
-using Optional.Unsafe;
 using Tiveriad.Studio.Generators.Models;
 using Tiveriad.Studio.Generators.Sources;
 
@@ -14,8 +13,8 @@ public static class FieldExtensions
             //.Append($"{CodeBuilder.Instance().Append(item.Attributes, a => a.GetAttributeDeclaration(), CodeBuilder.Separator.EmptySpace)}")
             .Append($"{item.AccessModifier.ToSourceCode()} ")
             .If<Field>(x => x.IsReadonly).Append(item, x => "readonly ")
-            .Append($"{item.Type.ValueOrFailure().ToSourceCode()} ")
-            .Append($"{item.Name.ValueOrFailure()};")
+            .Append($"{item.Type.ToSourceCode()} ")
+            .Append($"{item.Name};")
             .ToString();
     }
 }

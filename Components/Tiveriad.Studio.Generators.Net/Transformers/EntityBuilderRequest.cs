@@ -4,5 +4,4 @@ using Tiveriad.Studio.Generators.Builders;
 
 namespace Tiveriad.Studio.Generators.Net.Transformers;
 
-
 public record EntityBuilderRequest(XEntity Entity) : IRequest<ClassCodeBuilder>;

@@ -1,4 +1,3 @@
-using Optional.Unsafe;
 using Tiveriad.Studio.Generators.Models;
 using Tiveriad.Studio.Generators.Sources;
 
@@ -12,8 +11,8 @@ public static class EnumerationExtensions
 
         return builder
             //.Append($"{CodeBuilder.Instance().Append(item.Attributes, a => a.GetAttributeDeclaration(), CodeBuilder.Separator.EmptySpace)}")
-            .Append($"namespace {item.Namespace.ValueOrFailure()};")
-            .Append($"{item.AccessModifier.ToSourceCode()} enum {item.Name.ValueOrFailure()} {{")
+            .If(() => !string.IsNullOrEmpty(item.Namespace)).Append($"namespace {item.Namespace};")
+            .Append($"{item.AccessModifier.ToSourceCode()} enum {item.Name} {{")
             .Append(item.Members, x => $"{x.ToSourceCode()}",
                 CodeBuilder.Separator.Combine(CodeBuilder.Separator.Comma, CodeBuilder.Separator.WhiteSpace))
             .Append("}")

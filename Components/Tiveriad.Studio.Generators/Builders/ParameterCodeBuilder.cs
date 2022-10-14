@@ -1,5 +1,3 @@
-using Optional;
-using Optional.Unsafe;
 using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Builders;
@@ -26,10 +24,10 @@ public class ParameterCodeBuilder : ICodeBuilder
         if (type == null)
             throw new ArgumentException("Field type must be a valid, non-empty string.", nameof(type));
 
-        _parameter = _parameter.Set(Option.Some(type));
+        _parameter = _parameter.Set(type);
         return this;
     }
-    
+
     public ParameterCodeBuilder WithAttribute(AttributeBuilder builder)
     {
         if (builder is null)
@@ -68,7 +66,7 @@ public class ParameterCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Field name must be a valid, non-empty string.", nameof(name));
 
-        _parameter = _parameter.Set(name: Option.Some(name));
+        _parameter = _parameter.Set(name: name);
         return this;
     }
 
@@ -89,19 +87,19 @@ public class ParameterCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(receivingMember))
             throw new ArgumentException("Receiving member must be a valid, non-empty string.", nameof(receivingMember));
 
-        _parameter = _parameter.Set(receivingMember: Option.Some(receivingMember));
+        _parameter = _parameter.Set(receivingMember: receivingMember);
         return this;
     }
 
     public Parameter Build()
     {
-        if (!_parameter.Type.HasValue)
+        if (_parameter.Type == null)
             throw new MissingBuilderSettingException(
                 "Providing the type of the field is required when building a field.");
-        if (string.IsNullOrWhiteSpace(_parameter.Name.ValueOrDefault()))
+        if (string.IsNullOrWhiteSpace(_parameter.Name))
             throw new MissingBuilderSettingException(
                 "Providing the name of the field is required when building a field.");
-        
+
         _parameter.Attributes.Clear();
         _parameter.Attributes.AddRange(_attributeBuilders.Select(builder => builder.Build()));
         return _parameter;

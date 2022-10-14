@@ -8,7 +8,7 @@ public static class XClassifierExtensions
     {
         return type.Package?.GetProject();
     }
-    
+
     public static XModule GetModule(this XClassifier type)
     {
         return type.Package.GetModule();

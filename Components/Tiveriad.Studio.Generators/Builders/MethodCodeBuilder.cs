@@ -1,4 +1,3 @@
-using Optional;
 using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Builders;
@@ -18,7 +17,7 @@ public class MethodCodeBuilder : ICodeBuilder
     /// </summary>
     public MethodCodeBuilder WithAccessModifier(AccessModifier accessModifier)
     {
-        _method.Set(Option.Some(accessModifier));
+        _method.Set(accessModifier);
         return this;
     }
 
@@ -39,7 +38,7 @@ public class MethodCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("The method name must be a valid, non-empty string.", nameof(name));
 
-        _method.Set(name: Option.Some(name));
+        _method.Set(name: name);
         return this;
     }
 
@@ -148,7 +147,7 @@ public class MethodCodeBuilder : ICodeBuilder
                 nameof(passedParameter));
 
         var items = new List<string> { passedParameter };
-        _method.Set(baseCallParameters: Option.Some(items));
+        _method.Set(baseCallParameters: items);
         return this;
     }
 
@@ -188,7 +187,7 @@ public class MethodCodeBuilder : ICodeBuilder
             throw new ArgumentException($"One of the {nameof(passedParameters)} parameter values was null.");
         var items = new List<string>();
         items.AddRange(passedParameters);
-        _method.Set(baseCallParameters: Option.Some(items));
+        _method.Set(baseCallParameters: items);
         return this;
     }
 
@@ -206,7 +205,7 @@ public class MethodCodeBuilder : ICodeBuilder
         if (summary is null)
             throw new ArgumentNullException(nameof(summary));
 
-        _method.Set(summary: Option.Some(summary));
+        _method.Set(summary: summary);
         return this;
     }
 
@@ -215,38 +214,38 @@ public class MethodCodeBuilder : ICodeBuilder
         if (body is null)
             throw new ArgumentNullException(nameof(body));
 
-        _method.Set(body: Option.Some(body));
+        _method.Set(body: body);
         return this;
     }
 
 
     public MethodCodeBuilder MakeStatic(bool makeStatic)
     {
-        _method.Set(isStatic: Option.Some(makeStatic));
+        _method.Set(isStatic: makeStatic);
         return this;
     }
 
     public MethodCodeBuilder MakeAsync(bool makeAsync)
     {
-        _method.Set(isAsync: Option.Some(makeAsync));
+        _method.Set(isAsync: makeAsync);
         return this;
     }
 
     public MethodCodeBuilder MakeConstructor(bool makeConstructor)
     {
-        _method.Set(isConstructor: Option.Some(makeConstructor));
+        _method.Set(isConstructor: makeConstructor);
         return this;
     }
 
     public MethodCodeBuilder WithReturnType(InternalType returnType)
     {
-        _method.Set(returnType: Option.Some(returnType));
+        _method.Set(returnType: returnType);
         return this;
     }
 
     internal MethodCodeBuilder WithParent(Class parent)
     {
-        _method.Set(parent: Option.Some(parent));
+        _method.Set(parent: parent);
         return this;
     }
 

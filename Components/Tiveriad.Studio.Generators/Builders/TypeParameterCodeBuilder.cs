@@ -1,5 +1,3 @@
-using Optional;
-using Optional.Unsafe;
 using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Builders;
@@ -10,7 +8,7 @@ namespace Tiveriad.Studio.Generators.Builders;
 /// </summary>
 public class TypeParameterCodeBuilder : ICodeBuilder
 {
-    private TypeParameter _typeParameter = new(Option.None<string>());
+    private TypeParameter _typeParameter = new(string.Empty);
 
     /// <summary>
     ///     Sets the name of the type parameter.
@@ -30,7 +28,7 @@ public class TypeParameterCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("The type parameter name must be a valid, non-empty string.", nameof(name));
 
-        _typeParameter = _typeParameter.With(Option.Some(name));
+        _typeParameter = _typeParameter.With(name);
         return this;
     }
 
@@ -111,7 +109,7 @@ public class TypeParameterCodeBuilder : ICodeBuilder
 
     public TypeParameter Build()
     {
-        if (string.IsNullOrWhiteSpace(_typeParameter.Name.ValueOrDefault()))
+        if (string.IsNullOrWhiteSpace(_typeParameter.Name))
             throw new MissingBuilderSettingException(
                 "Providing the name of the type parameter is required when building a type parameter.");
 

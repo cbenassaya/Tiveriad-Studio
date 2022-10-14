@@ -1,23 +1,21 @@
-using Optional;
-
 namespace Tiveriad.Studio.Generators.Models;
 
 public class Interface : InternalType
 {
     public Interface(
-        AccessModifier accessModifier,
-        Option<string> name = default,
-        Option<string> summary = default,
-        Option<List<Interface>> extentedInterfaces = default,
-        Option<List<Property>> properties = default,
-        Option<List<TypeParameter>> typeParameters = default)
+        AccessModifier? accessModifier,
+        string? name = default,
+        string? summary = default,
+        List<Interface>? extentedInterfaces = default,
+        List<Property>? properties = default,
+        List<TypeParameter>? typeParameters = default)
     {
-        AccessModifier = accessModifier;
-        Name = name;
-        Summary = summary;
-        ExtentedInterfaces = extentedInterfaces.ValueOr(new List<Interface>());
-        Properties = properties.ValueOr(new List<Property>());
-        TypeParameters = typeParameters.ValueOr(new List<TypeParameter>());
+        AccessModifier = accessModifier ?? AccessModifier;
+        Name = name ?? string.Empty;
+        Summary = summary ?? string.Empty;
+        ExtentedInterfaces = extentedInterfaces ?? new List<Interface>();
+        Properties = properties ?? new List<Property>();
+        TypeParameters = typeParameters ?? new List<TypeParameter>();
     }
 
     public AccessModifier AccessModifier { get; private set; }
@@ -29,23 +27,24 @@ public class Interface : InternalType
     public List<TypeParameter> TypeParameters { get; }
 
     public Interface Set(
-        Option<AccessModifier> accessModifier = default,
-        Option<string> name = default,
-        Option<string> summary = default)
+        AccessModifier? accessModifier = default,
+        string? name = default,
+        string? summary = default)
     {
-        AccessModifier = accessModifier.ValueOr(AccessModifier);
-        Name = name.Else(Name);
-        Summary = summary.Else(Summary);
+        AccessModifier = accessModifier ?? AccessModifier;
+        Name = name ?? Name;
+        Summary = summary ?? Summary;
+        ;
         return this;
     }
 
 
     public static Interface With(
         AccessModifier accessModifier = AccessModifier.Public,
-        Option<string> name = default,
-        Option<string> summary = default)
+        string? name = default,
+        string? summary = default)
     {
-        return new(
+        return new Interface(
             accessModifier,
             name,
             summary);

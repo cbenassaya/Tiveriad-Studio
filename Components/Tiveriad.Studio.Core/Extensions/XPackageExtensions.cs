@@ -11,7 +11,7 @@ public static class XPackageExtensions
         return
             $"{package?.Module?.Project?.RootNamespace ?? string.Empty}.{package?.Module?.Name ?? string.Empty}.{package.Name}";
     }
-    
+
     public static string GetPartialNamespace(this XPackage package)
     {
         if (package.Parent != null)
@@ -19,7 +19,7 @@ public static class XPackageExtensions
         return
             $"{package.Name}";
     }
-    
+
     public static XModule GetModule(this XPackage package)
     {
         if (package.Parent != null)

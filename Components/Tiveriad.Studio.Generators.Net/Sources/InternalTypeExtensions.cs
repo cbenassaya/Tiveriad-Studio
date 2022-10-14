@@ -1,4 +1,3 @@
-using Optional.Unsafe;
 using Tiveriad.Studio.Generators.Models;
 using Tiveriad.Studio.Generators.Sources;
 
@@ -10,7 +9,7 @@ public static class InternalTypeExtensions
     {
         var builder = CodeBuilder.Instance();
 
-        builder.Append(item.Name.ValueOrFailure());
+        builder.Append(item.Name);
 
         if (item.GenericArguments.Any())
             builder

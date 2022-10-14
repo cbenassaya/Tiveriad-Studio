@@ -3,7 +3,7 @@ using Tiveriad.Studio.Generators.Projects;
 
 namespace Tiveriad.Studio.Generators.Services;
 
-public interface IProjectTemplateService<T,P>
+public interface IProjectTemplateService<T, P>
 {
     public string GetItemPath(T internalType);
     public IEnumerable<P> GetProjects(XProject project);

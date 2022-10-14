@@ -1,4 +1,3 @@
-using Optional.Unsafe;
 using Tiveriad.Studio.Generators.Models;
 using Tiveriad.Studio.Generators.Sources;
 
@@ -11,9 +10,9 @@ public static class InterfaceTypeExtensions
         var builder = CodeBuilder.Instance();
 
         return builder
-            .Append($"namespace {item.Namespace.ValueOrFailure()};")
+            .Append($"namespace {item.Namespace};")
             //.Append($"{CodeBuilder.Instance().Append(item.Attributes, a => a.ToSourceCode(), CodeBuilder.Separator.EmptySpace)}")
-            .Append($"{item.AccessModifier.ToSourceCode()} class {item.Name.ValueOrFailure()}")
+            .Append($"{item.AccessModifier.ToSourceCode()} class {item.Name}")
             .If(() => item.ExtentedInterfaces.Any()).Append(":")
             .Append(item.ExtentedInterfaces, @interface => ((InternalType)@interface).ToSourceCode(),
                 CodeBuilder.Separator.Comma)

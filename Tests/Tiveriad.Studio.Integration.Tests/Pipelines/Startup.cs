@@ -31,8 +31,10 @@ public class Startup : StartupBase
         services.AddScoped<CreateSlnMiddleware>();
         services.AddScoped<WriterMiddleware>();
         services.AddScoped<IServiceResolver, DependencyInjectionServiceResolver>();
-        services.AddScoped<IPipelineBuilder<PipelineModel, PipelineContext, PipelineConfiguration>, DefaultPipelineBuilder<PipelineModel, PipelineContext, PipelineConfiguration>>();
-        
+        services
+            .AddScoped<IPipelineBuilder<PipelineModel, PipelineContext, PipelineConfiguration>,
+                DefaultPipelineBuilder<PipelineModel, PipelineContext, PipelineConfiguration>>();
+
         TemplateRendererFactoryBuilder
             .With<ScribanTemplateRenderer, ScribanTemplateRendererConfiguration>()
             .Add(typeof(ActionBuilderRequest).Assembly)
@@ -42,17 +44,15 @@ public class Startup : StartupBase
                 configuration.Add(typeof(XClassifierExtensions));
                 configuration.Add(typeof(XEntityExtensions));
             })
-            .Register(renderer =>
-            {
-                services.AddSingleton<ITemplateRenderer>(renderer);
-            });
-        
-        
+            .Register(renderer => { services.AddSingleton<ITemplateRenderer>(renderer); });
+
+
         var assembly = typeof(WriterMiddleware).Assembly;
         var xmlSerializer = new XmlSerializer(typeof(ProjectDefinitionTemplate));
         using var stream =
             assembly.GetManifestResourceStream("Tiveriad.Studio.Generators.Net.Projects.ProjectDefinitionTemplate.xml");
-        var projectTemplate = (ProjectDefinitionTemplate) xmlSerializer.Deserialize(stream) ?? new ProjectDefinitionTemplate();
+        var projectTemplate = (ProjectDefinitionTemplate)xmlSerializer.Deserialize(stream) ??
+                              new ProjectDefinitionTemplate();
         services.AddSingleton<IProjectTemplateService<InternalType, ProjectDefinition>>(
             new NetProjectTemplateService(projectTemplate));
     }

@@ -1,4 +1,3 @@
-using Optional.Unsafe;
 using Tiveriad.Studio.Generators.Models;
 using Tiveriad.Studio.Generators.Sources;
 
@@ -15,24 +14,24 @@ public static class MethodExtensions
         if (item.IsConstructor)
         {
             codeBuilder.Append(
-                $"{item.AccessModifier.ToSourceCode()}  {item.Parent.ValueOrFailure().Name.ValueOrFailure()}");
+                $"{item.AccessModifier.ToSourceCode()}  {item.Parent.Name}");
         }
         else
         {
-            if (!item.ReturnType.HasValue)
+            if (item.ReturnType == null)
             {
                 codeBuilder.If(() => item.IsAsync)
-                    .Append($"{item.AccessModifier.ToSourceCode()} async Task {item.Name.ValueOrFailure()}");
+                    .Append($"{item.AccessModifier.ToSourceCode()} async Task {item.Name}");
                 codeBuilder.If(() => !item.IsAsync)
-                    .Append($"{item.AccessModifier.ToSourceCode()} void {item.Name.ValueOrFailure()}");
+                    .Append($"{item.AccessModifier.ToSourceCode()} void {item.Name}");
             }
             else
             {
                 codeBuilder.If(() => item.IsAsync)
                     .Append(
-                        $"public async {item.ReturnType.ValueOrFailure().ToSourceCode()} {item.Name.ValueOrFailure()}");
+                        $"public async {item.ReturnType.ToSourceCode()} {item.Name}");
                 codeBuilder.If(() => !item.IsAsync)
-                    .Append($"public {item.ReturnType.ValueOrFailure().ToSourceCode()} {item.Name.ValueOrFailure()}");
+                    .Append($"public {item.ReturnType.ToSourceCode()} {item.Name}");
             }
         }
 
@@ -41,7 +40,8 @@ public static class MethodExtensions
             CodeBuilder.Separator.Combine(CodeBuilder.Separator.Comma, CodeBuilder.Separator.WhiteSpace));
         codeBuilder.Append(")");
         codeBuilder.Append("{");
-        codeBuilder.If(() => item.Body.HasValue).Append(() => CodeBuilder.Separator.NewLine +  item.Body.ValueOrFailure() + CodeBuilder.Separator.NewLine);
+        codeBuilder.If(() => !string.IsNullOrEmpty(item.Body)).Append(() =>
+            CodeBuilder.Separator.NewLine + item.Body + CodeBuilder.Separator.NewLine);
         codeBuilder.Append("}");
 
         return codeBuilder.ToString();

@@ -1,4 +1,3 @@
-using Optional.Unsafe;
 using Tiveriad.Studio.Generators.Models;
 using Tiveriad.Studio.Generators.Sources;
 
@@ -10,17 +9,17 @@ public static class ClassExtensions
     {
         var builder = CodeBuilder.Instance();
         var parentAndContracts = new List<InternalType>();
-        if (item.InheritedClass.HasValue)
-            parentAndContracts.Add(item.InheritedClass.ValueOrFailure());
+        if (item.InheritedClass != null)
+            parentAndContracts.Add(item.InheritedClass);
         parentAndContracts.AddRange(item.ImplementedInterfaces);
         builder.Append(item.Dependencies, dependency => $"using {dependency};", CodeBuilder.Separator.EmptySpace);
-        builder.Append($"namespace {item.Namespace.ValueOrFailure()};");
+        builder.Append($"namespace {item.Namespace};");
         builder.Append(
             $"{CodeBuilder.Instance().Append(item.Attributes, a => a.ToSourceCode(), CodeBuilder.Separator.EmptySpace)}");
-        builder.Append($"{item.AccessModifier.ToSourceCode()} class {item.Name.ValueOrFailure()}");
+        builder.Append($"{item.AccessModifier.ToSourceCode()} class {item.Name}");
         builder.If(() => parentAndContracts.Any()).Append(":");
-        builder.If(() => item.InheritedClass.HasValue).Append(()=>item.InheritedClass.ValueOrFailure().ToSourceCode());
-        builder.If(() => item.InheritedClass.HasValue && item.ImplementedInterfaces.Any()).Append(", ");
+        builder.If(() => item.InheritedClass != null).Append(() => item.InheritedClass.ToSourceCode());
+        builder.If(() => item.InheritedClass != null && item.ImplementedInterfaces.Any()).Append(", ");
         builder.Append(item.ImplementedInterfaces, @interface => @interface.ToSourceCode(),
             CodeBuilder.Separator.Comma);
         builder.Append("{");

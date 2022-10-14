@@ -1,27 +1,24 @@
-using Optional;
-
 namespace Tiveriad.Studio.Generators.Models;
 
 public class AttributeArgument
 {
-    public AttributeArgument(Option<string> value = default)
+    public AttributeArgument(string value)
     {
         Value = value;
     }
 
-    public Option<string> Value { get; private set; }
+    public string Value { get; private set; }
 
 
     public AttributeArgument Set(
-        Option<string> value = default)
+        string value)
     {
-        Value = value.Else(Value);
+        Value = value;
         return this;
     }
 
-    public AttributeArgument With(Option<string> value)
+    public AttributeArgument With(string value)
     {
-        return new(
-            value.Else(Value));
+        return new AttributeArgument(value);
     }
 }

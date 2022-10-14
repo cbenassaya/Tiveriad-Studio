@@ -1,28 +1,26 @@
-using Optional;
-
 namespace Tiveriad.Studio.Generators.Models;
 
 public class Namespace
 {
     public Namespace(
-        Option<string> name = default,
-        Option<List<string>> usings = default,
-        Option<List<Class>> classes = default,
-        Option<List<Record>> records = default,
-        Option<List<Struct>> structs = default,
-        Option<List<Interface>> interfaces = default,
-        Option<List<Enumeration>> enums = default)
+        string? name = default,
+        List<string>? usings = default,
+        List<Class>? classes = default,
+        List<Record>? records = default,
+        List<Struct>? structs = default,
+        List<Interface>? interfaces = default,
+        List<Enumeration>? enums = default)
     {
-        Name = name;
-        Usings = usings.ValueOr(new List<string>());
-        Classes = classes.ValueOr(new List<Class>());
-        Records = records.ValueOr(new List<Record>());
-        Structs = structs.ValueOr(new List<Struct>());
-        Interfaces = interfaces.ValueOr(new List<Interface>());
-        Enums = enums.ValueOr(new List<Enumeration>());
+        Name = name ?? string.Empty;
+        Usings = usings ?? new List<string>();
+        Classes = classes ?? new List<Class>();
+        Records = records ?? new List<Record>();
+        Structs = structs ?? new List<Struct>();
+        Interfaces = interfaces ?? new List<Interface>();
+        Enums = enums ?? new List<Enumeration>();
     }
 
-    public Option<string> Name { get; }
+    public string Name { get; }
 
     public List<string> Usings { get; }
 
@@ -36,15 +34,8 @@ public class Namespace
 
     public List<Enumeration> Enums { get; }
 
-    public Namespace With(Option<string> name = default)
+    public Namespace With(string name)
     {
-        return new(
-            name.Else(Name),
-            Option.Some(Usings),
-            Option.Some(Classes),
-            Option.Some(Records),
-            Option.Some(Structs),
-            Option.Some(Interfaces),
-            Option.Some(Enums));
+        return new Namespace(name);
     }
 }

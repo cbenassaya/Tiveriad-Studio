@@ -1,40 +1,38 @@
-using Optional;
-
 namespace Tiveriad.Studio.Generators.Models;
 
 public class EnumerationMember
 {
-    public EnumerationMember(Option<string> name, Option<int> value = default, Option<string> summary = default)
+    public EnumerationMember(string name, int? value = default, string? summary = default)
     {
         Name = name;
         Value = value;
         Summary = summary;
     }
 
-    public Option<string> Name { get; private set; }
+    public string Name { get; private set; }
 
-    public Option<int> Value { get; private set; }
+    public int? Value { get; private set; }
 
-    public Option<string> Summary { get; private set; }
+    public string? Summary { get; private set; }
 
     public EnumerationMember Set(
-        Option<string> name = default,
-        Option<int> value = default,
-        Option<string> summary = default)
+        string? name = default,
+        int? value = default,
+        string? summary = default)
     {
-        Name = name.Else(Name);
-        Summary = summary.Else(Summary);
-        Value = value.Else(Value);
+        Name = name ?? Name;
+        Summary = summary ?? Summary;
+        Value = value ?? Value;
         return this;
     }
 
 
     public static EnumerationMember With(
-        Option<string> name = default,
-        Option<int> value = default,
-        Option<string> summary = default)
+        string name,
+        int? value = default,
+        string? summary = default)
     {
-        return new(
+        return new EnumerationMember(
             name,
             value,
             summary);

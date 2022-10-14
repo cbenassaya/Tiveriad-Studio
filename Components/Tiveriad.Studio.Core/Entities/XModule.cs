@@ -12,6 +12,6 @@ public class XModule : XNamedElement
 
     [XmlIgnore] public XProject Project { get; set; }
     [XmlElement("Package")] public List<XPackage> Packages { get; set; }
-    
-    [XmlIgnore] public Guid ReferenceId { get;  } = Guid.NewGuid();
+
+    [XmlIgnore] public Guid ReferenceId { get; } = Guid.NewGuid();
 }

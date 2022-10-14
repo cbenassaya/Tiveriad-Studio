@@ -1,5 +1,3 @@
-using Optional;
-using Optional.Unsafe;
 using Tiveriad.Studio.Core.Processors;
 using Tiveriad.Studio.Generators.Models;
 
@@ -10,19 +8,21 @@ public class NamespaceProcessor :
 {
     private readonly IList<string> _dependencies = new List<string>();
 
-    private NamespaceProcessor() {}
+    private NamespaceProcessor()
+    {
+    }
 
-    public static  void UpdateDependencies(InternalType type)
+    public static void UpdateDependencies(InternalType type)
     {
         var namespaceProcessor = new NamespaceProcessor();
         namespaceProcessor.DoUpdateDependencies(type);
     }
-    
+
     private void DoUpdateDependencies(InternalType type)
     {
         Traverse(type);
 
-        _dependencies.Where(x => x != type.Namespace.ValueOrFailure()).ToList().ForEach(x =>
+        _dependencies.Where(x => x != type.Namespace).ToList().ForEach(x =>
         {
             if (!type.Dependencies.Contains(x))
                 type.Dependencies.Add(x);
@@ -32,11 +32,11 @@ public class NamespaceProcessor :
 
     protected override bool ApplyIf(InternalType value)
     {
-        return value.Namespace.HasValue;
+        return !string.IsNullOrEmpty(value.Namespace);
     }
 
     protected override void DoApply(InternalType value)
     {
-        _dependencies.Add(value.Namespace.ValueOrFailure());
+        _dependencies.Add(value.Namespace);
     }
 }

@@ -66,7 +66,8 @@
                 <Reference Name="Core"/>
             </References>
         </ComponentDefinition>
-        <ComponentDefinition Layer="Infrastructure" Type="Component" NamePattern="{0}.{1}.Infrastructure" Template="classlib">
+        <ComponentDefinition Layer="Infrastructure" Type="Component" NamePattern="{0}.{1}.Infrastructure"
+                             Template="classlib">
             <Dependencies>
                 <Dependency Include="MediatR" Version="10.0.1"/>
                 <Dependency Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0"/>

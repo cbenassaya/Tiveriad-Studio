@@ -8,15 +8,14 @@ public static class XTypeExtensions
     {
         return type.Package?.GetProject() ?? throw new ArgumentNullException("XProject");
     }
-    
+
     public static XModule GetModule(this XType type)
     {
         return type.Package.GetModule();
     }
-    
+
     public static string GetPartialNamespace(this XType type)
     {
         return type.Package?.GetPartialNamespace() ?? string.Empty;
     }
-
 }

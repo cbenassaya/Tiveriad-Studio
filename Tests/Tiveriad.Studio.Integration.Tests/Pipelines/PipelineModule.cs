@@ -35,6 +35,6 @@ public class PipelineModule : TestBase<Startup>
             .Add<WriterMiddleware>();
 
         var pipeline = pipelineBuilder.Build();
-        pipeline.Execute(new PipelineModel {  });
+        pipeline.Execute(new PipelineModel());
     }
 }

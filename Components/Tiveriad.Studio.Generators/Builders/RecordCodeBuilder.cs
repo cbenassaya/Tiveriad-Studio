@@ -1,5 +1,3 @@
-using Optional;
-using Optional.Unsafe;
 using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Builders;
@@ -26,7 +24,7 @@ public class RecordCodeBuilder : ICodeBuilder
     /// </summary>
     public RecordCodeBuilder WithStereotype(string value)
     {
-        _record.Set(stereotype: Option.Some(value));
+        _record.Set(stereotype: value);
         return this;
     }
 
@@ -35,7 +33,7 @@ public class RecordCodeBuilder : ICodeBuilder
     /// </summary>
     public RecordCodeBuilder WithAccessModifier(AccessModifier accessModifier)
     {
-        _record.Set(Option.Some(accessModifier));
+        _record.Set(accessModifier);
         return this;
     }
 
@@ -56,7 +54,7 @@ public class RecordCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("The class name must be a valid, non-empty string.", nameof(name));
 
-        _record.Set(name: Option.Some(name));
+        _record.Set(name: name);
         return this;
     }
 
@@ -77,28 +75,7 @@ public class RecordCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(@namespace))
             throw new ArgumentException("The namespace must be a valid, non-empty string.", nameof(@namespace));
 
-        _record.Set(@namespace: Option.Some(@namespace));
-        return this;
-    }
-
-    /// <summary>
-    ///     Sets the class that the class being built inherits from.
-    /// </summary>
-    /// <exception cref="ArgumentNullException">
-    ///     The specified <paramref name="class" /> is <c>null</c>.
-    /// </exception>
-    /// <exception cref="ArgumentException">
-    ///     The specified <paramref name="class" /> is empty or invalid.
-    /// </exception>
-    public RecordCodeBuilder WithInheritedRecord(Class @class)
-    {
-        if (@class is null)
-            throw new ArgumentNullException(nameof(@class));
-
-        if (@class == null)
-            throw new ArgumentException("The implemented class name must be a valid, not null.", nameof(@class));
-
-        _record.Set(inheritedClass: Option.Some(@class));
+        _record.Set(@namespace: @namespace);
         return this;
     }
 
@@ -174,7 +151,7 @@ public class RecordCodeBuilder : ICodeBuilder
         if (summary is null)
             throw new ArgumentNullException(nameof(summary));
 
-        _record.Set(summary: Option.Some(summary));
+        _record.Set(summary: summary);
         return this;
     }
 
@@ -409,7 +386,7 @@ public class RecordCodeBuilder : ICodeBuilder
     /// </param>
     public RecordCodeBuilder MakeStatic(bool makeStatic = true)
     {
-        _record.Set(isStatic: Option.Some(makeStatic));
+        _record.Set(isStatic: makeStatic);
         return this;
     }
 
@@ -438,12 +415,12 @@ public class RecordCodeBuilder : ICodeBuilder
         if (memberType == MemberType.Field)
             return _fields
                 .Where(x => !accessModifier.HasValue || x.Build().AccessModifier == accessModifier)
-                .Any(x => x.Build().Name.Exists(n => n.Equals(name, comparison)));
+                .Any(x => x.Build().Name.Equals(name, comparison));
 
         if (memberType == MemberType.Property)
             return _properties
                 .Where(x => !accessModifier.HasValue || x.Build().AccessModifier == accessModifier)
-                .Any(x => x.Build().Name.Exists(n => n.Equals(name, comparison)));
+                .Any(x => x.Build().Name.Equals(name, comparison));
 
         if (!memberType.HasValue)
             // Lookup all possible members
@@ -456,7 +433,7 @@ public class RecordCodeBuilder : ICodeBuilder
 
     public Record Build()
     {
-        if (string.IsNullOrWhiteSpace(_record.Name.ValueOrDefault()))
+        if (string.IsNullOrWhiteSpace(_record.Name))
             throw new MissingBuilderSettingException(
                 "Providing the name of the class is required when building a class.");
         if (_record.IsStatic && _constructors.Count > 1)

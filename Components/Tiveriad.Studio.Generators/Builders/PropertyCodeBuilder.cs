@@ -1,5 +1,3 @@
-using Optional;
-using Optional.Unsafe;
 using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Builders;
@@ -15,16 +13,14 @@ public class PropertyCodeBuilder : ICodeBuilder
 
     private Property _property = new(
         AccessModifier.Public,
-        AccessModifier.Public,
-        getter: Option.Some(Property.AutoGetterSetter),
-        setter: Option.Some(Property.AutoGetterSetter));
+        AccessModifier.Public);
 
     /// <summary>
     ///     Sets the access modifier of the property being built.
     /// </summary>
     public PropertyCodeBuilder WithAccessModifier(AccessModifier accessModifier)
     {
-        _property = _property.Set(Option.Some(accessModifier), Option.Some(accessModifier));
+        _property = _property.Set(accessModifier, accessModifier);
         return this;
     }
 
@@ -34,7 +30,7 @@ public class PropertyCodeBuilder : ICodeBuilder
     public PropertyCodeBuilder WithAccessModifier(AccessModifier getterAccessModifier,
         AccessModifier setterAccessModifier)
     {
-        _property = _property.Set(Option.Some(getterAccessModifier), Option.Some(setterAccessModifier));
+        _property = _property.Set(getterAccessModifier, setterAccessModifier);
         return this;
     }
 
@@ -55,7 +51,7 @@ public class PropertyCodeBuilder : ICodeBuilder
         if (type == null)
             throw new ArgumentException("Property type must be a valid, not null.", nameof(type));
 
-        _property = _property.Set(type: Option.Some(type));
+        _property = _property.Set(type: type);
         return this;
     }
 
@@ -77,7 +73,7 @@ public class PropertyCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Property name must be a valid, non-empty string.", nameof(name));
 
-        _property = _property.Set(name: Option.Some(name));
+        _property = _property.Set(name: name);
         return this;
     }
 
@@ -132,7 +128,7 @@ public class PropertyCodeBuilder : ICodeBuilder
         var expressionNormalized = string.IsNullOrWhiteSpace(expression)
             ? Property.AutoGetterSetter
             : expression!;
-        _property = _property.Set(getter: Option.Some(Option.Some(expressionNormalized)));
+        _property = _property.Set(getter: expressionNormalized);
         return this;
     }
 
@@ -141,7 +137,7 @@ public class PropertyCodeBuilder : ICodeBuilder
     /// </summary>
     public PropertyCodeBuilder WithoutGetter()
     {
-        _property = _property.Set(getter: Option.Some(Option.None<string>()));
+        _property = _property.Set(getter: string.Empty);
         return this;
     }
 
@@ -198,7 +194,7 @@ public class PropertyCodeBuilder : ICodeBuilder
         var expressionNormalized = string.IsNullOrWhiteSpace(expression)
             ? Property.AutoGetterSetter
             : expression!;
-        _property = _property.Set(setter: Option.Some(Option.Some(expressionNormalized)));
+        _property = _property.Set(setter: expressionNormalized);
         return this;
     }
 
@@ -207,7 +203,7 @@ public class PropertyCodeBuilder : ICodeBuilder
     /// </summary>
     public PropertyCodeBuilder WithoutSetter()
     {
-        _property = _property.Set(setter: Option.Some(Option.None<string>()));
+        _property = _property.Set(setter: string.Empty);
         return this;
     }
 
@@ -236,7 +232,7 @@ public class PropertyCodeBuilder : ICodeBuilder
                 "For default value of an empty string please use WithDefaultValue(\"string.Empty\").",
                 nameof(defaultValue));
 
-        _property = _property.Set(defaultValue: Option.Some(defaultValue));
+        _property = _property.Set(defaultValue: defaultValue);
         return this;
     }
 
@@ -248,7 +244,7 @@ public class PropertyCodeBuilder : ICodeBuilder
     /// </param>
     public PropertyCodeBuilder MakeStatic(bool makeStatic = true)
     {
-        _property = _property.Set(isStatic: Option.Some(makeStatic));
+        _property = _property.Set(isStatic: makeStatic);
         return this;
     }
 
@@ -266,7 +262,7 @@ public class PropertyCodeBuilder : ICodeBuilder
         if (summary is null)
             throw new ArgumentNullException(nameof(summary));
 
-        _property = _property.Set(summary: Option.Some(summary));
+        _property = _property.Set(summary: summary);
         return this;
     }
 
@@ -352,29 +348,14 @@ public class PropertyCodeBuilder : ICodeBuilder
 
     public Property Build()
     {
-        if (string.IsNullOrWhiteSpace(_property.Name.ValueOrDefault()))
+        if (string.IsNullOrWhiteSpace(_property.Name))
             throw new MissingBuilderSettingException(
                 "Providing the name of the property is required when building a property.");
 
-        if (!_property.Type.HasValue)
+        if (_property.Type == null)
             throw new MissingBuilderSettingException(
                 "Providing the type of the property is required when building a property.");
 
-        if (_property.Setter.Exists(value => value.Equals(Property.AutoGetterSetter)))
-        {
-            if (!_property.Getter.HasValue)
-                throw new SyntaxException(
-                    "Properties with auto implemented setters must also have auto implemented getters. (CS8051)");
-            if (_property.Getter.Exists(value => !value.Equals(Property.AutoGetterSetter)))
-                throw new SyntaxException(
-                    "Properties with custom getters cannot have auto implemented setters.");
-        }
-        else if (_property.DefaultValue.HasValue)
-        {
-            if (_property.Getter.Exists(value => !value.Equals(Property.AutoGetterSetter)) ||
-                _property.Setter.Exists(value => !value.Equals(Property.AutoGetterSetter)))
-                throw new SyntaxException("Only auto implemented properties can have a default value. (CS8050)");
-        }
 
         _property.TypeParameters.Clear();
         _property.Attributes.Clear();

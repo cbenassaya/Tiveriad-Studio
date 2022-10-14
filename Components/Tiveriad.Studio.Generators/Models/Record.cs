@@ -1,29 +1,27 @@
-using Optional;
-
 namespace Tiveriad.Studio.Generators.Models;
 
 public class Record : InternalType
 {
     public Record(
         AccessModifier accessModifier,
-        bool isStatic = false,
-        Option<string> name = default,
-        Option<string> summary = default,
-        Option<List<InternalType>> implementedInterfaces = default,
-        Option<List<Field>> fields = default,
-        Option<List<Parameter>> parameters = default,
-        Option<List<Property>> properties = default,
-        Option<List<TypeParameter>> typeParameters = default)
+        bool? isStatic = false,
+        string? name = default,
+        string? summary = default,
+        List<InternalType>? implementedInterfaces = default,
+        List<Field>? fields = default,
+        List<Parameter>? parameters = default,
+        List<Property>? properties = default,
+        List<TypeParameter>? typeParameters = default)
     {
         AccessModifier = accessModifier;
-        IsStatic = isStatic;
-        Name = name;
-        Summary = summary;
-        ImplementedInterfaces = implementedInterfaces.ValueOr(new List<InternalType>());
-        Fields = fields.ValueOr(new List<Field>());
-        Parameters = parameters.ValueOr(new List<Parameter>());
-        Properties = properties.ValueOr(new List<Property>());
-        TypeParameters = typeParameters.ValueOr(new List<TypeParameter>());
+        IsStatic = isStatic ?? false;
+        Name = name ?? string.Empty;
+        Summary = summary ?? string.Empty;
+        ImplementedInterfaces = implementedInterfaces ?? new List<InternalType>();
+        Fields = fields ?? new List<Field>();
+        Parameters = parameters ?? new List<Parameter>();
+        Properties = properties ?? new List<Property>();
+        TypeParameters = typeParameters ?? new List<TypeParameter>();
     }
 
     public AccessModifier AccessModifier { get; private set; }
@@ -41,27 +39,26 @@ public class Record : InternalType
     public List<TypeParameter> TypeParameters { get; set; }
 
     public Record Set(
-        Option<AccessModifier> accessModifier = default,
-        Option<bool> isStatic = default,
-        Option<string> name = default,
-        Option<string> summary = default,
-        Option<Class> inheritedClass = default)
+        AccessModifier? accessModifier = default,
+        bool? isStatic = default,
+        string? name = default,
+        string? summary = default)
 
     {
-        AccessModifier = accessModifier.ValueOr(AccessModifier);
-        IsStatic = isStatic.ValueOr(IsStatic);
-        Name = name.Else(Name);
-        Summary = summary.Else(Summary);
+        AccessModifier = accessModifier ?? AccessModifier;
+        IsStatic = isStatic ?? IsStatic;
+        Name = name ?? Name;
+        Summary = summary ?? Summary;
         return this;
     }
 
     public static Record With(
         AccessModifier accessModifier = AccessModifier.Public,
-        bool isStatic = false,
-        Option<string> name = default,
-        Option<string> summary = default)
+        bool? isStatic = false,
+        string? name = default,
+        string? summary = default)
     {
-        return new(
+        return new Record(
             accessModifier,
             isStatic,
             name,

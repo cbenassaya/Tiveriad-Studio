@@ -1,25 +1,23 @@
-using Optional;
-
 namespace Tiveriad.Studio.Generators.Models;
 
 public class Field
 {
     public Field(
         AccessModifier accessModifier,
-        bool isReadonly = false,
-        bool initializeFromConstructor = false,
-        Option<InternalType> type = default,
-        Option<string> name = default,
-        Option<string> summary = default,
-        Option<List<TypeParameter>> typeParameters = default)
+        bool? isReadonly = false,
+        bool? initializeFromConstructor = false,
+        InternalType? type = default,
+        string? name = default,
+        string? summary = default,
+        List<TypeParameter>? typeParameters = default)
     {
         AccessModifier = accessModifier;
-        IsReadonly = isReadonly;
-        InitializeFromConstructor = initializeFromConstructor;
+        IsReadonly = isReadonly ?? false;
+        InitializeFromConstructor = initializeFromConstructor ?? false;
         Type = type;
-        Name = name;
-        Summary = summary;
-        TypeParameters = typeParameters.ValueOr(new List<TypeParameter>());
+        Name = name ?? string.Empty;
+        Summary = summary ?? string.Empty;
+        TypeParameters = typeParameters ?? new List<TypeParameter>();
     }
 
     public AccessModifier AccessModifier { get; private set; }
@@ -27,42 +25,42 @@ public class Field
     public bool IsReadonly { get; private set; }
     public bool InitializeFromConstructor { get; private set; }
 
-    public Option<InternalType> Type { get; private set; }
+    public InternalType? Type { get; private set; }
 
-    public Option<string> Name { get; private set; }
+    public string Name { get; private set; }
 
-    public Option<string> Summary { get; private set; }
+    public string Summary { get; private set; }
 
     public List<TypeParameter> TypeParameters { get; }
 
 
     public Field Set(
-        Option<AccessModifier> accessModifier = default,
-        Option<bool> isReadonly = default,
-        Option<bool> initializeFromConstructor = default,
-        Option<InternalType> type = default,
-        Option<string> name = default,
-        Option<string> summary = default)
+        AccessModifier? accessModifier = default,
+        bool? isReadonly = default,
+        bool? initializeFromConstructor = default,
+        InternalType? type = default,
+        string? name = default,
+        string? summary = default)
     {
-        AccessModifier = accessModifier.ValueOr(AccessModifier);
-        Name = name.Else(Name);
-        Type = type.Else(Type);
-        Summary = summary.Else(Summary);
-        IsReadonly = isReadonly.ValueOr(IsReadonly);
-        InitializeFromConstructor = initializeFromConstructor.ValueOr(InitializeFromConstructor);
+        AccessModifier = accessModifier ?? AccessModifier;
+        Name = name ?? Name;
+        Type = type ?? Type;
+        Summary = summary ?? Summary;
+        IsReadonly = isReadonly ?? IsReadonly;
+        InitializeFromConstructor = initializeFromConstructor ?? InitializeFromConstructor;
         return this;
     }
 
 
     public static Field With(
         AccessModifier accessModifier = AccessModifier.Public,
-        bool isReadonly = default,
-        bool initializeFromConstructor = default,
-        Option<InternalType> type = default,
-        Option<string> name = default,
-        Option<string> summary = default)
+        bool? isReadonly = default,
+        bool? initializeFromConstructor = default,
+        InternalType? type = default,
+        string? name = default,
+        string? summary = default)
     {
-        return new(
+        return new Field(
             accessModifier,
             isReadonly,
             initializeFromConstructor,

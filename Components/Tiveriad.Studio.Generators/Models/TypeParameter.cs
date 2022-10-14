@@ -1,29 +1,25 @@
-using Optional;
-
 namespace Tiveriad.Studio.Generators.Models;
 
 public class TypeParameter
 {
-    public TypeParameter(Option<string> name = default, Option<List<string>> constraints = default)
+    public TypeParameter(string name = default, List<string>? constraints = default)
     {
         Name = name;
-        Constraints = constraints.ValueOr(new List<string>());
+        Constraints = constraints ?? new List<string>();
     }
 
-    public Option<string> Name { get; private set; }
+    public string Name { get; private set; }
 
     public List<string> Constraints { get; }
 
-    public TypeParameter Set(Option<string> name)
+    public TypeParameter Set(string name)
     {
-        Name = name.Else(Name);
+        Name = name;
         return this;
     }
 
-    public TypeParameter With(Option<string> name)
+    public TypeParameter With(string name)
     {
-        return new(
-            name.Else(Name),
-            Option.Some(Constraints));
+        return new TypeParameter(name, new List<string>());
     }
 }

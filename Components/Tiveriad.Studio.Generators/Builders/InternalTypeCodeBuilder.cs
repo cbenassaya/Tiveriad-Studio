@@ -1,5 +1,3 @@
-using Optional;
-using Optional.Unsafe;
 using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Generators.Models;
 
@@ -10,7 +8,7 @@ public class InternalTypeCodeBuilder : ICodeBuilder
     private readonly List<InternalTypeCodeBuilder> _genericArgumentBuilders = new();
 
 
-    private InternalType _internalType = new(Option.None<string>());
+    private InternalType _internalType = new(string.Empty);
 
     /// <summary>
     ///     Sets the name of the internalType being built.
@@ -29,7 +27,7 @@ public class InternalTypeCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Property name must be a valid, non-empty string.", nameof(name));
 
-        _internalType = _internalType.Set(Option.Some(name));
+        _internalType = _internalType.Set(name);
         return this;
     }
 
@@ -51,7 +49,7 @@ public class InternalTypeCodeBuilder : ICodeBuilder
             throw new ArgumentException("InternalType namespace must be a valid, non-empty string.",
                 nameof(@namespace));
 
-        _internalType = _internalType.Set(@namespace: Option.Some(@namespace));
+        _internalType = _internalType.Set(@namespace: @namespace);
         return this;
     }
 
@@ -69,7 +67,7 @@ public class InternalTypeCodeBuilder : ICodeBuilder
         if (reference is null)
             throw new ArgumentNullException(nameof(reference));
 
-        _internalType = _internalType.Set(reference: Option.Some(reference));
+        _internalType = _internalType.Set(reference: reference);
         return this;
     }
 
@@ -87,7 +85,7 @@ public class InternalTypeCodeBuilder : ICodeBuilder
         if (summary is null)
             throw new ArgumentNullException(nameof(summary));
 
-        _internalType = _internalType.Set(summary: Option.Some(summary));
+        _internalType = _internalType.Set(summary: summary);
         return this;
     }
 
@@ -151,10 +149,10 @@ public class InternalTypeCodeBuilder : ICodeBuilder
 
     public InternalType Build()
     {
-        if (string.IsNullOrWhiteSpace(_internalType.Namespace.ValueOrDefault()))
+        if (string.IsNullOrWhiteSpace(_internalType.Namespace))
             throw new MissingBuilderSettingException(
                 "Providing the namespace of the internalType is required when building a internalType.");
-        if (string.IsNullOrWhiteSpace(_internalType.Name.ValueOrDefault()))
+        if (string.IsNullOrWhiteSpace(_internalType.Name))
             throw new MissingBuilderSettingException(
                 "Providing the name of the internalType is required when building a internalType.");
 

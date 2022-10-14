@@ -1,5 +1,3 @@
-using Optional;
-using Optional.Unsafe;
 using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Builders;
@@ -11,7 +9,7 @@ namespace Tiveriad.Studio.Generators.Builders;
 public class EnumMemberCodeBuilder : ICodeBuilder
 {
     private EnumerationMember _enumerationMember = new(
-        Option.None<string>());
+        string.Empty);
 
 
     /// <summary>
@@ -34,7 +32,7 @@ public class EnumMemberCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("The enum member name must be a valid, non-empty string.", nameof(name));
 
-        _enumerationMember = _enumerationMember.Set(Option.Some(name));
+        _enumerationMember = _enumerationMember.Set(name);
         return this;
     }
 
@@ -47,7 +45,7 @@ public class EnumMemberCodeBuilder : ICodeBuilder
     /// </param>
     public EnumMemberCodeBuilder WithValue(int? value = null)
     {
-        _enumerationMember = _enumerationMember.Set(value: value.ToOption());
+        _enumerationMember = _enumerationMember.Set(value: value);
         return this;
     }
 
@@ -65,13 +63,13 @@ public class EnumMemberCodeBuilder : ICodeBuilder
         if (summary is null)
             throw new ArgumentNullException(nameof(summary));
 
-        _enumerationMember = _enumerationMember.Set(summary: Option.Some(summary));
+        _enumerationMember = _enumerationMember.Set(summary);
         return this;
     }
 
     public EnumerationMember Build()
     {
-        if (string.IsNullOrWhiteSpace(_enumerationMember.Name.ValueOrDefault()))
+        if (string.IsNullOrWhiteSpace(_enumerationMember.Name))
             throw new MissingBuilderSettingException(
                 "Providing the name of the enum member is required when building an enum.");
 

@@ -1,4 +1,3 @@
-using Optional.Unsafe;
 using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Generators.Models;
 
@@ -39,8 +38,8 @@ public static class Code
     public static InternalTypeCodeBuilder CreateInternalType(InternalType internalType)
     {
         return new InternalTypeCodeBuilder()
-            .WithName(internalType.Name.ValueOrFailure())
-            .WithNamespace(internalType.Namespace.ValueOrFailure());
+            .WithName(internalType.Name)
+            .WithNamespace(internalType.Namespace);
     }
 
     /// <summary>
@@ -303,11 +302,11 @@ public static class Code
 
 
     /// <summary>
-    ///     Creates a new <see cref="AttributeArgumentCodeBuilder" /> instance for building properties.
+    ///     Creates a new <see cref="AttributeArgumentBuilder" /> instance for building properties.
     /// </summary>
-    public static AttributeArgumentCodeBuilder CreateAttributeArgument()
+    public static AttributeArgumentBuilder CreateAttributeArgument()
     {
-        return new AttributeArgumentCodeBuilder();
+        return new AttributeArgumentBuilder();
     }
 
     /// <summary>

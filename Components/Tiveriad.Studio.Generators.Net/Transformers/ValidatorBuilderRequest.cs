@@ -5,5 +5,4 @@ using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Net.Transformers;
 
-
 public record ValidatorBuilderRequest(XAction Action, Record Request) : IRequest<ClassCodeBuilder>;

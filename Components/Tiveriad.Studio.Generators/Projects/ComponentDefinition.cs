@@ -13,7 +13,7 @@ public class ComponentDefinition : ElementBase
     [XmlArray("ComponentItems")]
     [XmlArrayItem("ComponentItem", typeof(ComponentItem))]
     public List<ComponentItem> ComponentItems { get; set; }
-    
+
     [XmlArray("References")]
     [XmlArrayItem("Reference", typeof(Reference))]
     public List<Reference> References { get; set; }

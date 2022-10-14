@@ -1,5 +1,3 @@
-using Optional;
-
 namespace Tiveriad.Studio.Generators.Models;
 
 public class Attribute

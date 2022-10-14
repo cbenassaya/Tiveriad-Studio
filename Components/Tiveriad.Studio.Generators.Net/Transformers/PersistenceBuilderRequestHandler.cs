@@ -39,8 +39,8 @@ public class PersistenceBuilderRequestHandler : IRequestHandler<PersistenceBuild
             );
         return Task.FromResult(classBuilder);
     }
-    
-    private static string GetPersistenceMethodBody( XEntity xEntity)
+
+    private static string GetPersistenceMethodBody(XEntity xEntity)
     {
         var children = xEntity.GetChildren();
 

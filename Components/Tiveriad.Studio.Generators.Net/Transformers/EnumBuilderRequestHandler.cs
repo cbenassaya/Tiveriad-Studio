@@ -8,7 +8,7 @@ public class EnumBuilderRequestHandler : IRequestHandler<EnumBuilderRequest, Enu
     public Task<EnumCodeBuilder> Handle(EnumBuilderRequest request, CancellationToken cancellationToken)
     {
         var @enum = request.Enum;
-        var classBuilder= Code.CreateEnum(@enum.Name)
+        var classBuilder = Code.CreateEnum(@enum.Name)
             .WithNamespace(@enum.Namespace)
             .WithMembers(@enum.Values.Select(x => Code.CreateEnumMember(x)).ToList());
         return Task.FromResult(classBuilder);

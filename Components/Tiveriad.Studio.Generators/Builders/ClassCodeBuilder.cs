@@ -1,5 +1,3 @@
-using Optional;
-using Optional.Unsafe;
 using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Builders;
@@ -24,7 +22,7 @@ public class ClassCodeBuilder : ICodeBuilder
     /// </summary>
     public ClassCodeBuilder WithStereotype(string value)
     {
-        _class.Set(stereotype: Option.Some(value));
+        _class.Set(stereotype: value);
         return this;
     }
 
@@ -33,7 +31,7 @@ public class ClassCodeBuilder : ICodeBuilder
     /// </summary>
     public ClassCodeBuilder WithAccessModifier(AccessModifier accessModifier)
     {
-        _class.Set(Option.Some(accessModifier));
+        _class.Set(accessModifier);
         return this;
     }
 
@@ -54,7 +52,7 @@ public class ClassCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("The class name must be a valid, non-empty string.", nameof(name));
 
-        _class.Set(name: Option.Some(name));
+        _class.Set(name: name);
         return this;
     }
 
@@ -75,7 +73,7 @@ public class ClassCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(@namespace))
             throw new ArgumentException("The namespace must be a valid, non-empty string.", nameof(@namespace));
 
-        _class.Set(@namespace: Option.Some(@namespace));
+        _class.Set(@namespace: @namespace);
         return this;
     }
 
@@ -91,7 +89,7 @@ public class ClassCodeBuilder : ICodeBuilder
             throw new ArgumentNullException(nameof(@class));
 
 
-        _class.Set(inheritedClass: Option.Some(@class));
+        _class.Set(inheritedClass: @class);
         return this;
     }
 
@@ -167,7 +165,7 @@ public class ClassCodeBuilder : ICodeBuilder
         if (summary is null)
             throw new ArgumentNullException(nameof(summary));
 
-        _class = _class.Set(summary: Option.Some(summary));
+        _class = _class.Set(summary: summary);
         return this;
     }
 
@@ -409,7 +407,7 @@ public class ClassCodeBuilder : ICodeBuilder
     /// </param>
     public ClassCodeBuilder MakeStatic(bool makeStatic = true)
     {
-        _class.Set(isStatic: Option.Some(makeStatic));
+        _class.Set(isStatic: makeStatic);
         return this;
     }
 
@@ -438,12 +436,12 @@ public class ClassCodeBuilder : ICodeBuilder
         if (memberType == MemberType.Field)
             return _fields
                 .Where(x => !accessModifier.HasValue || x.Build().AccessModifier == accessModifier)
-                .Any(x => x.Build().Name.Exists(n => n.Equals(name, comparison)));
+                .Any(x => x.Build().Name.Equals(name, comparison));
 
         if (memberType == MemberType.Property)
             return _properties
                 .Where(x => !accessModifier.HasValue || x.Build().AccessModifier == accessModifier)
-                .Any(x => x.Build().Name.Exists(n => n.Equals(name, comparison)));
+                .Any(x => x.Build().Name.Equals(name, comparison));
 
         if (!memberType.HasValue)
             // Lookup all possible members
@@ -455,7 +453,7 @@ public class ClassCodeBuilder : ICodeBuilder
 
     public Class Build()
     {
-        if (string.IsNullOrWhiteSpace(_class.Name.ValueOrDefault()))
+        if (string.IsNullOrWhiteSpace(_class.Name))
             throw new MissingBuilderSettingException(
                 "Providing the name of the class is required when building a class.");
         if (_class.IsStatic && _methods.Count > 1)

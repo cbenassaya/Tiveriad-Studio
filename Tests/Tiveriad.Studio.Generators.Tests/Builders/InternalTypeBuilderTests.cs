@@ -10,8 +10,8 @@ public class InternalTypeBuilderTests
     public void Create_InternalType_Works()
     {
         var internalType = Code.CreateInternalType("Type", "Namespace").Build();
-        Assert.Equal("Type", internalType.Name.ValueOr(string.Empty));
-        Assert.Equal("Namespace", internalType.Namespace.ValueOr(string.Empty));
+        Assert.Equal("Type", internalType.Name);
+        Assert.Equal("Namespace", internalType.Namespace);
     }
 
     [Fact]
@@ -19,8 +19,8 @@ public class InternalTypeBuilderTests
     {
         var builder = Code.CreateInternalType("Type", "FakeNamespace");
         var internalType = builder.WithNamespace("Namespace").Build();
-        Assert.Equal("Type", internalType.Name.ValueOr(string.Empty));
-        Assert.Equal("Namespace", internalType.Namespace.ValueOr(string.Empty));
+        Assert.Equal("Type", internalType.Name);
+        Assert.Equal("Namespace", internalType.Namespace);
     }
 
     [Fact]
@@ -28,8 +28,8 @@ public class InternalTypeBuilderTests
     {
         var builder = Code.CreateInternalType("FakeType", "Namespace");
         var internalType = builder.WithName("Type").Build();
-        Assert.Equal("Type", internalType.Name.ValueOr(string.Empty));
-        Assert.Equal("Namespace", internalType.Namespace.ValueOr(string.Empty));
+        Assert.Equal("Type", internalType.Name);
+        Assert.Equal("Namespace", internalType.Namespace);
     }
 
     [Fact]
@@ -37,8 +37,8 @@ public class InternalTypeBuilderTests
     {
         var builder = Code.CreateInternalType();
         var internalType = builder.WithName("Type").WithNamespace("Namespace").Build();
-        Assert.Equal("Type", internalType.Name.ValueOr(string.Empty));
-        Assert.Equal("Namespace", internalType.Namespace.ValueOr(string.Empty));
+        Assert.Equal("Type", internalType.Name);
+        Assert.Equal("Namespace", internalType.Namespace);
     }
 
     [Fact]
@@ -51,8 +51,8 @@ public class InternalTypeBuilderTests
             .WithGenericArgument(Code.CreateInternalType("G1", "N1"))
             .WithGenericArgument(Code.CreateInternalType("G2", "N2"))
             .Build();
-        Assert.Equal("Type", internalType.Name.ValueOr(string.Empty));
-        Assert.Equal("Namespace", internalType.Namespace.ValueOr(string.Empty));
+        Assert.Equal("Type", internalType.Name);
+        Assert.Equal("Namespace", internalType.Namespace);
     }
 
 

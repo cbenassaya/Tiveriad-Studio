@@ -1,39 +1,37 @@
-using Optional;
-
 namespace Tiveriad.Studio.Generators.Models;
 
 public class Parameter
 {
     public Parameter(
-        Option<InternalType> type = default,
-        Option<string> name = default,
-        Option<string> receivingMember = default,
-        Option<List<Attribute>> attributes = default)
+        InternalType? type = default,
+        string? name = default,
+        string? receivingMember = default,
+        List<Attribute>? attributes = default)
     {
         Type = type;
-        Name = name;
-        ReceivingMember = receivingMember;
-        Attributes = attributes.ValueOr(new List<Attribute>());
+        Name = name ?? string.Empty;
+        ReceivingMember = receivingMember ?? string.Empty;
+        Attributes = attributes ?? new List<Attribute>();
     }
 
-    public Option<InternalType> Type { get; private set; }
+    public InternalType? Type { get; private set; }
 
-    public Option<string> Name { get; private set; }
-    
+    public string Name { get; private set; }
+
     public List<Attribute> Attributes { get; private set; }
 
-    public Option<string> ReceivingMember { get; private set; }
+    public string ReceivingMember { get; private set; }
 
     public Parameter Set(
-        Option<InternalType> type = default,
-        Option<string> name = default,
-        Option<List<Attribute>> attributes = default,
-        Option<string> receivingMember = default)
+        InternalType? type = default,
+        string? name = default,
+        List<Attribute>? attributes = default,
+        string? receivingMember = default)
     {
-        Name = name.Else(Name);
-        Type = type.Else(Type);
-        Attributes = attributes.ValueOr(Attributes);
-        ReceivingMember = receivingMember.Else(ReceivingMember);
+        Name = name ?? Name;
+        Type = type ?? Type;
+        Attributes = attributes ?? Attributes;
+        ReceivingMember = receivingMember ?? ReceivingMember;
         return this;
     }
 }

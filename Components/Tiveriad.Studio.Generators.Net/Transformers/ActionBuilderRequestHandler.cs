@@ -12,7 +12,7 @@ namespace Tiveriad.Studio.Generators.Net.Transformers;
 
 public class ActionBuilderRequestHandler : IRequestHandler<ActionBuilderRequest, ClassCodeBuilder>
 {
-    private ITemplateRenderer _templateRenderer;
+    private readonly ITemplateRenderer _templateRenderer;
 
     public ActionBuilderRequestHandler(ITemplateRenderer templateRenderer)
     {
@@ -24,9 +24,9 @@ public class ActionBuilderRequestHandler : IRequestHandler<ActionBuilderRequest,
     {
         var xAction = actionBuilderRequest.Action;
         var request = actionBuilderRequest.Request;
-        
-        var body =  _templateRenderer.RenderAsync($"{xAction.BehaviourType}Action.tpl",
-            new { action = xAction, request = request });
+
+        var body = _templateRenderer.RenderAsync($"{xAction.BehaviourType}Action.tpl",
+            new { action = xAction, request });
 
         var res = Code
             .CreateInternalType(ComplexTypes.IREQUESTHANDLER);

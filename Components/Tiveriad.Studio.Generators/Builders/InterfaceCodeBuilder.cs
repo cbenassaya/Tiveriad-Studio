@@ -1,4 +1,3 @@
-using Optional;
 using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Builders;
@@ -20,7 +19,7 @@ public class InterfaceCodeBuilder : ICodeBuilder
     /// </summary>
     public InterfaceCodeBuilder WithStereotype(string value)
     {
-        _interface.Set(stereotype: Option.Some(value));
+        _interface.Set(stereotype: value);
         return this;
     }
 
@@ -29,7 +28,7 @@ public class InterfaceCodeBuilder : ICodeBuilder
     /// </summary>
     public InterfaceCodeBuilder WithAccessModifier(AccessModifier accessModifier)
     {
-        _interface = _interface.Set(Option.Some(accessModifier));
+        _interface = _interface.Set(accessModifier);
         return this;
     }
 
@@ -50,7 +49,7 @@ public class InterfaceCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Interface name must be a valid, non-empty string.", nameof(name));
 
-        _interface = _interface.Set(name: Option.Some(name));
+        _interface = _interface.Set(name: name);
         return this;
     }
 
@@ -71,7 +70,7 @@ public class InterfaceCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(@namespace))
             throw new ArgumentException("The namespace must be a valid, non-empty string.", nameof(@namespace));
 
-        _interface.Set(@namespace: Option.Some(@namespace));
+        _interface.Set(@namespace: @namespace);
         return this;
     }
 
@@ -218,7 +217,7 @@ public class InterfaceCodeBuilder : ICodeBuilder
         if (summary is null)
             throw new ArgumentNullException(nameof(summary));
 
-        _interface = _interface.Set(summary: Option.Some(summary));
+        _interface = _interface.Set(summary: summary);
         return this;
     }
 
@@ -298,7 +297,7 @@ public class InterfaceCodeBuilder : ICodeBuilder
         StringComparison comparison = StringComparison.InvariantCultureIgnoreCase)
     {
         if (memberType == MemberType.Property)
-            return _properties.Any(x => x.Build().Name.Exists(n => n.Equals(name, comparison)));
+            return _properties.Any(x => x.Build().Name.Equals(name, comparison));
 
         if (!memberType.HasValue) return HasMember(name, MemberType.Property, comparison);
 
@@ -335,7 +334,7 @@ public class InterfaceCodeBuilder : ICodeBuilder
 
     public Interface Build()
     {
-        if (string.IsNullOrWhiteSpace(_interface.Name.ValueOr(string.Empty)))
+        if (string.IsNullOrWhiteSpace(_interface.Name))
             throw new MissingBuilderSettingException(
                 "Providing the name of the interface is required when building an interface.");
 
@@ -343,15 +342,6 @@ public class InterfaceCodeBuilder : ICodeBuilder
             _properties.Select(builder => builder
                 .WithAccessModifier(AccessModifier.None)
                 .Build()));
-        if (_interface.Properties.Any(prop => prop.DefaultValue.HasValue))
-            throw new SyntaxException("Interface properties cannot have a default value. (CS8053)");
-        if (_interface.Properties.Any(prop => !prop.Getter.HasValue && !prop.Setter.HasValue))
-            throw new SyntaxException("Interface properties should have at least a getter or a setter.");
-        if (_interface.Properties.Any(prop => prop.Getter.Exists(expr => !expr.Equals(Property.AutoGetterSetter))))
-            throw new SyntaxException("Interface properties can only define an auto implemented getter.");
-        if (_interface.Properties.Any(prop => prop.Setter.Exists(expr => !expr.Equals(Property.AutoGetterSetter))))
-            throw new SyntaxException("Interface properties can only define an auto implemented setter.");
-
         _interface.TypeParameters.AddRange(_typeParameters.Select(builder => builder.Build()));
 
         return _interface;

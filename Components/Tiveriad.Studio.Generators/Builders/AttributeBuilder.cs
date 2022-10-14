@@ -1,4 +1,3 @@
-using Optional;
 using Tiveriad.Studio.Generators.Models;
 using Attribute = Tiveriad.Studio.Generators.Models.Attribute;
 
@@ -6,17 +5,15 @@ namespace Tiveriad.Studio.Generators.Builders;
 
 public class AttributeBuilder
 {
-    private readonly List<AttributeArgumentCodeBuilder> _attributeArguments = new();
+    private readonly List<AttributeArgumentBuilder> _attributeArguments = new();
+    private Attribute _attribute;
 
-    private Attribute _attribute = new();
-
-    public AttributeBuilder WithType(InternalType name)
+    public AttributeBuilder WithType(InternalType internalType)
     {
-        if (name is null)
-            throw new ArgumentNullException(nameof(name));
+        if (internalType is null)
+            throw new ArgumentNullException(nameof(internalType));
 
-
-        _attribute = Attribute.With(Option.Some(name));
+        _attribute = Attribute.With(internalType);
         return this;
     }
 
@@ -24,14 +21,14 @@ public class AttributeBuilder
     ///     Adds a type parameter to the field being built.
     /// </summary>
     /// <exception cref="ArgumentNullException">
-    ///     The specified <paramref name="codeBuilder" /> is <c>null</c>.
+    ///     The specified <paramref name="builder" /> is <c>null</c>.
     /// </exception>
-    public AttributeBuilder WithAttributeArgument(AttributeArgumentCodeBuilder codeBuilder)
+    public AttributeBuilder WithAttributeArgument(AttributeArgumentBuilder builder)
     {
-        if (codeBuilder is null)
-            throw new ArgumentNullException(nameof(codeBuilder));
+        if (builder is null)
+            throw new ArgumentNullException(nameof(builder));
 
-        _attributeArguments.Add(codeBuilder);
+        _attributeArguments.Add(builder);
         return this;
     }
 
@@ -44,7 +41,7 @@ public class AttributeBuilder
     /// <exception cref="ArgumentException">
     ///     One of the specified <paramref name="builders" /> is <c>null</c>.
     /// </exception>
-    public AttributeBuilder WithAttributeArguments(params AttributeArgumentCodeBuilder[] builders)
+    public AttributeBuilder WithAttributeArguments(params AttributeArgumentBuilder[] builders)
     {
         if (builders is null)
             throw new ArgumentNullException(nameof(builders));
@@ -59,7 +56,7 @@ public class AttributeBuilder
 
     internal Attribute Build()
     {
-        if (!_attribute.InternalType.HasValue)
+        if (_attribute?.InternalType == null)
             throw new MissingBuilderSettingException(
                 "Providing the internalType is required when building an attribute.");
 

@@ -1,5 +1,3 @@
-using Optional;
-using Optional.Collections;
 using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Builders;
@@ -21,7 +19,7 @@ public class StructCodeBuilder : ICodeBuilder
     /// </summary>
     public StructCodeBuilder WithStereotype(string value)
     {
-        _struct.Set(stereotype: Option.Some(value));
+        _struct.Set(stereotype: value);
         return this;
     }
 
@@ -33,7 +31,7 @@ public class StructCodeBuilder : ICodeBuilder
     /// </param>
     public StructCodeBuilder WithAccessModifier(AccessModifier accessModifier)
     {
-        _struct.Set(Option.Some(accessModifier));
+        _struct.Set(accessModifier);
         return this;
     }
 
@@ -57,7 +55,7 @@ public class StructCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Struct name must be a valid, non-empty string.", nameof(name));
 
-        _struct.Set(name: Option.Some(name));
+        _struct.Set(name: name);
         return this;
     }
 
@@ -78,7 +76,7 @@ public class StructCodeBuilder : ICodeBuilder
         if (string.IsNullOrWhiteSpace(@namespace))
             throw new ArgumentException("The namespace must be a valid, non-empty string.", nameof(@namespace));
 
-        _struct.Set(@namespace: Option.Some(@namespace));
+        _struct.Set(@namespace: @namespace);
         return this;
     }
 
@@ -96,7 +94,7 @@ public class StructCodeBuilder : ICodeBuilder
         if (summary is null)
             throw new ArgumentNullException(nameof(summary));
 
-        _struct.Set(summary: Option.Some(summary));
+        _struct.Set(summary: summary);
         return this;
     }
 
@@ -404,12 +402,12 @@ public class StructCodeBuilder : ICodeBuilder
         if (memberType == MemberType.Field)
             return _fields
                 .Where(x => !accessModifier.HasValue || x.Build().AccessModifier == accessModifier)
-                .Any(x => x.Build().Name.Exists(n => n.Equals(name, comparison)));
+                .Any(x => x.Build().Name.Equals(name, comparison));
 
         if (memberType == MemberType.Property)
             return _properties
                 .Where(x => !accessModifier.HasValue || x.Build().AccessModifier == accessModifier)
-                .Any(x => x.Build().Name.Exists(n => n.Equals(name, comparison)));
+                .Any(x => x.Build().Name.Equals(name, comparison));
 
         if (!memberType.HasValue)
             return HasMember(name, MemberType.Field, accessModifier, comparison) ||
@@ -448,17 +446,12 @@ public class StructCodeBuilder : ICodeBuilder
 
     public Struct Build()
     {
-        var structName = _struct.Name.ValueOr(string.Empty);
-        if (string.IsNullOrWhiteSpace(structName))
+        if (string.IsNullOrWhiteSpace(_struct.Name))
             throw new MissingBuilderSettingException(
                 "Providing the name of the struct is required when building a struct.");
 
         _struct.Fields.AddRange(_fields.Select(field => field.Build()));
         _struct.Properties.AddRange(_properties.Select(prop => prop.Build()));
-        _struct.Properties
-            .FirstOrNone(x => x.DefaultValue.HasValue)
-            .MatchSome(prop => throw new SyntaxException(
-                "Default property values are not allowed in structs. (CS0573)"));
 
         _struct.TypeParameters.AddRange(_typeParameters.Select(builder => builder.Build()));
 

@@ -1,4 +1,3 @@
-using Optional.Unsafe;
 using Tiveriad.Pipelines;
 using Tiveriad.Studio.Application.Pipelines;
 using Tiveriad.Studio.Core.Processors;
@@ -12,9 +11,9 @@ namespace Tiveriad.Studio.Generators.Net.Middlewares;
 
 public class WriterMiddleware : IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
 {
-    private IProjectTemplateService<InternalType,ProjectDefinition> defaultProjectTemplateService;
+    private readonly IProjectTemplateService<InternalType, ProjectDefinition> defaultProjectTemplateService;
 
-    public WriterMiddleware(IProjectTemplateService<InternalType,ProjectDefinition> defaultProjectTemplateService)
+    public WriterMiddleware(IProjectTemplateService<InternalType, ProjectDefinition> defaultProjectTemplateService)
     {
         this.defaultProjectTemplateService = defaultProjectTemplateService;
     }
@@ -27,7 +26,7 @@ public class WriterMiddleware : IMiddleware<PipelineModel, PipelineContext, Pipe
         foreach (var sourceItem in sourceItems)
             writer.Export(
                 sourceItem.Source.NormalizeWhitespace(),
-                fileName: $"{sourceItem.InternalType.Name.ValueOrFailure()}.cs",
+                fileName: $"{sourceItem.InternalType.Name}.cs",
                 rootDirectory: context.Configuration.OutputPath,
                 pathDirectory: defaultProjectTemplateService.GetItemPath(sourceItem.InternalType),
                 replaceIfExist: true

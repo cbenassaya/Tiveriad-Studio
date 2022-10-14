@@ -20,7 +20,7 @@ public class FileExportSourceItem : IExportSourceItem
         if (fileIsExist)
             File.Delete(filePath);
         //if (!fileIsExist || replaceIfExist)
-            File.WriteAllText(filePath, content);
+        File.WriteAllText(filePath, content);
 
         return true;
     }
