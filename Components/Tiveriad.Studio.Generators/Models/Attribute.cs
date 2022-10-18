@@ -1,6 +1,6 @@
 namespace Tiveriad.Studio.Generators.Models;
 
-public class Attribute
+public class Attribute:ITransversable
 {
     public Attribute(
         InternalType internalType,

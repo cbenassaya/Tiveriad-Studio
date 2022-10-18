@@ -1,6 +1,6 @@
 namespace Tiveriad.Studio.Generators.Models;
 
-public class Namespace
+public class Namespace:ITransversable
 {
     public Namespace(
         string? name = default,

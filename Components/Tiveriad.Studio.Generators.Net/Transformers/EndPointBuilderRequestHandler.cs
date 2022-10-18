@@ -1,3 +1,4 @@
+using Tiveriad.Commons.Extensions;
 using Tiveriad.Pipelines;
 using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Generators.Builders;
@@ -30,7 +31,7 @@ public class EndPointBuilderRequestHandler : IRequestHandler<EndPointBuilderRequ
                 xEndPoint
                     .Parameters
                     .Select(x =>
-                        Code.CreateParameter(x.Type.ToBuilder().Build(), x.Name).WithAttribute(Code.CreateAttribute()
+                        Code.CreateParameter(x.Type.ToBuilder().Build(), x.Name.ToCamelCase()).WithAttribute(Code.CreateAttribute()
                             .WithType(ToInternalType(xEndPoint.Action.BehaviourType))))
                     .ToList()
             )
@@ -45,20 +46,30 @@ public class EndPointBuilderRequestHandler : IRequestHandler<EndPointBuilderRequ
             );
 
         if (xEndPoint.Response != null)
-            handleMethod.WithReturnType(xEndPoint.Response.Type.ToBuilder().Build());
+        {
+            var returnType = Code
+                .CreateInternalType(ComplexTypes.TASK)
+                .WithGenericArgument(
+                    Code.CreateInternalType(ComplexTypes.ACTIONRESULT)
+                        .WithGenericArgument(xEndPoint.Response.Type.ToBuilder())
+                );
+            handleMethod.WithReturnType(returnType.Build());
+        }
+           
 
         var classBuilder = Code.CreateClass(xEndPoint.Name);
         classBuilder
             .WithNamespace(xEndPoint.Namespace)
-            .WithDependencies(
+            .WithReference(xEndPoint)
+            .WithUsing(
                 xEndPoint
                     .Mappings
-                    .Select(x => x.From.Namespace).ToArray()
+                    .Select(x => Code.CreateInternalType(x.From).Build()).ToArray()
             )
-            .WithDependencies(
+            .WithUsing(
                 xEndPoint
                     .Mappings
-                    .Select(x => x.To.Namespace).ToArray()
+                    .Select(x =>  Code.CreateInternalType(x.To).Build()).ToArray()
             )
             .WithInheritedClass(ComplexTypes.CONTROLLERBASE)
             .WithFields(
@@ -91,4 +102,6 @@ public class EndPointBuilderRequestHandler : IRequestHandler<EndPointBuilderRequ
                 $"Not expected internal type value: {behaviourType}")
         };
     }
+    
+    
 }

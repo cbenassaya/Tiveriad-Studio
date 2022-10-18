@@ -14,10 +14,11 @@ public class PersistenceBuilderRequestHandler : IRequestHandler<PersistenceBuild
         var xEntity = request.Entity;
         var classBuilder = Code.CreateClass($"{xEntity.Name}Configuration")
             .WithNamespace($"{xEntity.GetProject().RootNamespace}.Persistence.Configurations")
+            .WithReference(xEntity)
             .WithImplementedInterface(
                 Code
                     .CreateInternalType(ComplexTypes.IENTITYTYPECONFIGURATION)
-                    .WithGenericArgument(Code.CreateInternalType().WithName(xEntity.Name)
+                    .WithGenericArgument(Code.CreateInternalType(xEntity)
                         .WithNamespace(xEntity.Namespace))
             )
             .WithMethod(
@@ -31,8 +32,7 @@ public class PersistenceBuilderRequestHandler : IRequestHandler<PersistenceBuild
                             .WithType(
                                 Code
                                     .CreateInternalType(ComplexTypes.ENTITYTYPEBUILDER)
-                                    .WithGenericArgument(Code.CreateInternalType().WithName(xEntity.Name)
-                                        .WithNamespace(xEntity.Namespace)).Build()
+                                    .WithGenericArgument(Code.CreateInternalType(xEntity)).Build()
                             )
                     )
                     .WithBody(GetPersistenceMethodBody(xEntity))

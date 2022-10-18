@@ -11,6 +11,7 @@ public static class RecordExtensions
 
         return builder
             //.Append($"{CodeBuilder.Instance().Append(item.Attributes, a => a.GetAttributeDeclaration(), CodeBuilder.Separator.EmptySpace)}")
+            .Append(item.Dependencies, dependency => $"using {dependency};", CodeBuilder.Separator.EmptySpace)
             .Append($"{item.AccessModifier.ToSourceCode()} record {item.Name} (")
             .Append(item.Parameters, x => $"{x.ToSourceCode()}",
                 CodeBuilder.Separator.Combine(CodeBuilder.Separator.Comma, CodeBuilder.Separator.WhiteSpace))

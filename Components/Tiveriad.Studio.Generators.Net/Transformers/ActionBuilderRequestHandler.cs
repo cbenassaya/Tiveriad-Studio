@@ -29,12 +29,13 @@ public class ActionBuilderRequestHandler : IRequestHandler<ActionBuilderRequest,
             new { action = xAction, request });
 
         var res = Code
-            .CreateInternalType(ComplexTypes.IREQUESTHANDLER);
+            .CreateInternalType(ComplexTypes.IREQUESTHANDLER).WithGenericArgument(Code.CreateInternalType(request));
         if (xAction.Response != null)
-            res.WithGenericArgument(xAction.Response.Type.ToBuilder());
+            res.WithGenericArgument(xAction.Response.Type.ToBuilder(xAction.BehaviourType));
 
         var classBuilder = Code
             .CreateClass($"{xAction.Name}RequestHandler")
+            .WithReference(xAction)
             .WithNamespace(xAction.Namespace)
             .WithImplementedInterface(res);
 
@@ -50,10 +51,8 @@ public class ActionBuilderRequestHandler : IRequestHandler<ActionBuilderRequest,
                     .CreateField(
                         Code
                             .CreateInternalType(ComplexTypes.IREPOSITORY)
-                            .WithGenericArgument(Code.CreateInternalType(xAction.Entity.Name,
-                                xAction.Entity.Namespace))
-                            .WithGenericArgument(Code.CreateInternalType(xAction.Entity.GetIds().First().Type.Name,
-                                xAction.Entity.GetIds().First().Type.Namespace))
+                            .WithGenericArgument(Code.CreateInternalType(xAction.Entity))
+                            .WithGenericArgument(Code.CreateInternalType(xAction.Entity.GetIds().First().Type))
                             .Build(),
                         $"_{xAction.Entity.Name.ToCamelCase()}Repository").MakeReadonly()
             );
@@ -64,10 +63,8 @@ public class ActionBuilderRequestHandler : IRequestHandler<ActionBuilderRequest,
                     .WithType(
                         Code
                             .CreateInternalType(ComplexTypes.IREPOSITORY)
-                            .WithGenericArgument(Code.CreateInternalType(xAction.Entity.Name,
-                                xAction.Entity.Namespace))
-                            .WithGenericArgument(Code.CreateInternalType(xAction.Entity.GetIds().First().Type.Name,
-                                xAction.Entity.GetIds().First().Type.Namespace))
+                            .WithGenericArgument(Code.CreateInternalType(xAction.Entity))
+                            .WithGenericArgument(Code.CreateInternalType(xAction.Entity.GetIds().First().Type))
                             .Build()
                     )
             );
@@ -88,9 +85,8 @@ public class ActionBuilderRequestHandler : IRequestHandler<ActionBuilderRequest,
                     .CreateField(
                         Code
                             .CreateInternalType(ComplexTypes.IREPOSITORY)
-                            .WithGenericArgument(Code.CreateInternalType(target.Name, target.Namespace))
-                            .WithGenericArgument(Code.CreateInternalType(target.GetIds().First().Type.Name,
-                                target.GetIds().First().Type.Namespace))
+                            .WithGenericArgument(Code.CreateInternalType(target))
+                            .WithGenericArgument(Code.CreateInternalType(target.GetIds().First().Type))
                             .Build(),
                         $"_{target.Name.ToCamelCase()}Repository").MakeReadonly()
             );
@@ -101,9 +97,8 @@ public class ActionBuilderRequestHandler : IRequestHandler<ActionBuilderRequest,
                     .WithType(
                         Code
                             .CreateInternalType(ComplexTypes.IREPOSITORY)
-                            .WithGenericArgument(Code.CreateInternalType(target.Name, target.Namespace))
-                            .WithGenericArgument(Code.CreateInternalType(target.GetIds().First().Type.Name,
-                                target.GetIds().First().Type.Namespace))
+                            .WithGenericArgument(Code.CreateInternalType(target))
+                            .WithGenericArgument(Code.CreateInternalType(target.GetIds().First().Type))
                             .Build()
                     )
             );
@@ -116,16 +111,20 @@ public class ActionBuilderRequestHandler : IRequestHandler<ActionBuilderRequest,
         var handleMethod = Code
             .CreateMethod()
             .WithName("Handle")
-            .MakeAsync(true)
+            .MakeAsync(false)
             .WithBody(body.Result)
             .WithParameters(
                 Code.CreateParameter().WithName("request").WithType(request),
                 Code.CreateParameter().WithName("cancellationToken").WithType(ComplexTypes.CANCELLATIONTOKEN)
             );
         if (xAction.Response != null)
-            handleMethod.WithReturnType(xAction.Response.Type.ToBuilder().Build());
+        {
+            handleMethod.WithReturnType(Code.CreateInternalType(ComplexTypes.TASK).WithGenericArgument(xAction.Response.Type.ToBuilder(xAction.BehaviourType)).Build());
+
+        }
         classBuilder.WithMethod(constructorBuilder);
         classBuilder.WithMethod(handleMethod);
+        classBuilder.WithDependencies("Microsoft.EntityFrameworkCore");
         return Task.FromResult(classBuilder);
     }
 }

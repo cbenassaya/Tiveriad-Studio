@@ -23,6 +23,7 @@ public class ValidatorBuilderRequestHandler : IRequestHandler<ValidatorBuilderRe
 
         var classBuilder = Code
             .CreateClass($"{xAction.Name}PreValidator")
+            .WithReference(xAction)
             .WithNamespace(xAction.Namespace)
             .WithInheritedClass(res.Build());
 
@@ -38,10 +39,8 @@ public class ValidatorBuilderRequestHandler : IRequestHandler<ValidatorBuilderRe
                     .CreateField(
                         Code
                             .CreateInternalType(ComplexTypes.IREPOSITORY)
-                            .WithGenericArgument(Code.CreateInternalType(xAction.Entity.Name,
-                                xAction.Entity.Namespace))
-                            .WithGenericArgument(Code.CreateInternalType(xAction.Entity.GetIds().First().Type.Name,
-                                xAction.Entity.GetIds().First().Type.Namespace))
+                            .WithGenericArgument(Code.CreateInternalType(xAction.Entity))
+                            .WithGenericArgument(Code.CreateInternalType(xAction.Entity.GetIds().First().Type))
                             .Build(),
                         $"_{xAction.Entity.Name.ToCamelCase()}Repository")
             );
@@ -52,10 +51,8 @@ public class ValidatorBuilderRequestHandler : IRequestHandler<ValidatorBuilderRe
                     .WithType(
                         Code
                             .CreateInternalType(ComplexTypes.IREPOSITORY)
-                            .WithGenericArgument(Code.CreateInternalType(xAction.Entity.Name,
-                                xAction.Entity.Namespace))
-                            .WithGenericArgument(Code.CreateInternalType(xAction.Entity.GetIds().First().Type.Name,
-                                xAction.Entity.GetIds().First().Type.Namespace))
+                            .WithGenericArgument(Code.CreateInternalType(xAction.Entity))
+                            .WithGenericArgument(Code.CreateInternalType(xAction.Entity.GetIds().First().Type))
                             .Build()
                     )
             );
@@ -76,9 +73,8 @@ public class ValidatorBuilderRequestHandler : IRequestHandler<ValidatorBuilderRe
                     .CreateField(
                         Code
                             .CreateInternalType(ComplexTypes.IREPOSITORY)
-                            .WithGenericArgument(Code.CreateInternalType(target.Name, target.Namespace))
-                            .WithGenericArgument(Code.CreateInternalType(target.GetIds().First().Type.Name,
-                                target.GetIds().First().Type.Namespace))
+                            .WithGenericArgument(Code.CreateInternalType(target))
+                            .WithGenericArgument(Code.CreateInternalType(target.GetIds().First().Type))
                             .Build(),
                         $"_{target.Name.ToCamelCase()}Repository")
             );
@@ -89,9 +85,8 @@ public class ValidatorBuilderRequestHandler : IRequestHandler<ValidatorBuilderRe
                     .WithType(
                         Code
                             .CreateInternalType(ComplexTypes.IREPOSITORY)
-                            .WithGenericArgument(Code.CreateInternalType(target.Name, target.Namespace))
-                            .WithGenericArgument(Code.CreateInternalType(target.GetIds().First().Type.Name,
-                                target.GetIds().First().Type.Namespace))
+                            .WithGenericArgument(Code.CreateInternalType(target))
+                            .WithGenericArgument(Code.CreateInternalType(target.GetIds().First().Type))
                             .Build()
                     )
             );

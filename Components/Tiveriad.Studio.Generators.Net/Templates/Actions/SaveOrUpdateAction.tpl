@@ -1,5 +1,9 @@
 
-var query = _{{model.action.entity.name | ToCamelCase}}Repository.Queryable.Include(x => x.Laboratory).Where(x => x.Id == request.Brand.Id);
+var query = _{{model.action.entity.name | ToCamelCase}}Repository.Queryable
+{{for manytoone in model.action.entity | GetManyToOneRelationShips}} 
+.Include(x => x.{{manytoone.name}})
+{{end}}
+.Where(x => x.Id == request.{{model.action.entity.name}}.Id);
 return Task.Run(async () =>
 {
     //<-- START CUSTOM CODE-->

@@ -1,6 +1,6 @@
 namespace Tiveriad.Studio.Generators.Models;
 
-public class Struct : InternalType
+public class Struct : InternalType, ITransversable
 {
     public Struct(
         AccessModifier accessModifier,

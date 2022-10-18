@@ -1,3 +1,4 @@
+using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Builders;
@@ -29,6 +30,23 @@ public class InterfaceCodeBuilder : ICodeBuilder
     public InterfaceCodeBuilder WithAccessModifier(AccessModifier accessModifier)
     {
         _interface = _interface.Set(accessModifier);
+        return this;
+    }
+    
+    /// <summary>
+    ///     Sets the reference of the XType being built.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">
+    ///     The specified <paramref name="type" /> is <c>null</c>.
+    /// </exception>
+    /// </exception>
+    
+    public InterfaceCodeBuilder WithReference(XType type)
+    {
+        if (type is null)
+            throw new ArgumentNullException(nameof(type));
+
+        _interface.Set(reference: @type);
         return this;
     }
 

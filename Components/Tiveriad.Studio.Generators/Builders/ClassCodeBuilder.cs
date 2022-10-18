@@ -1,3 +1,4 @@
+using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Builders;
@@ -166,6 +167,23 @@ public class ClassCodeBuilder : ICodeBuilder
             throw new ArgumentNullException(nameof(summary));
 
         _class = _class.Set(summary: summary);
+        return this;
+    }
+    
+    /// <summary>
+    ///     Sets the reference of the XType being built.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">
+    ///     The specified <paramref name="type" /> is <c>null</c>.
+    /// </exception>
+    /// </exception>
+    
+    public ClassCodeBuilder WithReference(XType type)
+    {
+        if (type is null)
+            throw new ArgumentNullException(nameof(type));
+
+        _class.Set(reference: @type);
         return this;
     }
 
@@ -391,11 +409,26 @@ public class ClassCodeBuilder : ICodeBuilder
             throw new ArgumentNullException(nameof(dependencies));
 
         if (dependencies.Any(x => x is null))
-            throw new ArgumentException("One of the field dependencies is null.");
+            throw new ArgumentException("One of the dependencies is null.");
 
         foreach (var dependency in dependencies)
             if (!_class.Dependencies.Contains(dependency))
                 _class.Dependencies.Add(dependency);
+        return this;
+    }
+    
+    
+    public ClassCodeBuilder WithUsing(params InternalType[] usings)
+    {
+        if (usings is null)
+            throw new ArgumentNullException(nameof(usings));
+
+        if (usings.Any(x => x is null))
+            throw new ArgumentException("One of the usings is null.");
+
+        foreach (var @using in usings)
+            if (!_class.Usings.Contains(@using))
+                _class.Usings.Add(@using);
         return this;
     }
 

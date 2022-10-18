@@ -31,6 +31,11 @@ public static class Code
     {
         return new InternalTypeCodeBuilder().WithName(name).WithNamespace(@namespace).WithReference(reference);
     }
+    
+    public static InternalTypeCodeBuilder CreateInternalType( XType reference)
+    {
+        return new InternalTypeCodeBuilder().WithName(reference.Name).WithNamespace(reference.Namespace).WithReference(reference);
+    }
 
     /// <summary>
     ///     Creates a new <see cref="InternalTypeCodeBuilder" /> instance for building InternalType.

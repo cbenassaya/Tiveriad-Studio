@@ -1,3 +1,4 @@
+using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Builders;
@@ -20,6 +21,23 @@ public class StructCodeBuilder : ICodeBuilder
     public StructCodeBuilder WithStereotype(string value)
     {
         _struct.Set(stereotype: value);
+        return this;
+    }
+    
+    /// <summary>
+    ///     Sets the reference of the XType being built.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">
+    ///     The specified <paramref name="type" /> is <c>null</c>.
+    /// </exception>
+    /// </exception>
+    
+    public StructCodeBuilder WithReference(XType type)
+    {
+        if (type is null)
+            throw new ArgumentNullException(nameof(type));
+
+        _struct.Set(reference: @type);
         return this;
     }
 

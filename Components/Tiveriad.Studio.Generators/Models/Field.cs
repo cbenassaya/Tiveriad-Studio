@@ -1,6 +1,6 @@
 namespace Tiveriad.Studio.Generators.Models;
 
-public class Field
+public class Field:ITransversable
 {
     public Field(
         AccessModifier accessModifier,

@@ -12,6 +12,7 @@ public class ContractBuilderRequestHandler : IRequestHandler<ContractBuilderRequ
         var contract = request.Contract;
         var classBuilder = Code.CreateClass(contract.Name)
             .WithNamespace(contract.Namespace)
+            .WithReference(contract)
             .WithProperties(
                 contract.GetProperties().Select(x => x.ToBuilder())
             );

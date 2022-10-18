@@ -13,15 +13,16 @@ using Tiveriad.Studio.Generators.Sources;
 
 namespace Tiveriad.Studio.Generators.Net.Middlewares;
 
-public class NetCodeBuilderMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
+public class NetXTypeToInternalTypeMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
     IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
 {
     private readonly ISender _sender;
-    private readonly IList<SourceItem> _sourceItems = new List<SourceItem>();
+    private readonly IList<InternalType> _internalTypes = new List<InternalType>();
 
+    
     private readonly IProjectTemplateService<InternalType, ProjectDefinition> _projectTemplateService;
 
-    public NetCodeBuilderMiddleware(ISender sender,
+    public NetXTypeToInternalTypeMiddleware(ISender sender,
         IProjectTemplateService<InternalType, ProjectDefinition> projectTemplateService)
     {
         _sender = sender;
@@ -32,7 +33,7 @@ public class NetCodeBuilderMiddleware : AbstractProcessor<XElementBase, XNamedEl
     {
         ArgumentNullException.ThrowIfNull("IInternalTypeFormatter");
         Traverse(model.Project);
-        context.Properties.SourceItems = _sourceItems;
+        context.Properties.InternalTypes = _internalTypes;
     }
 
     protected override bool ApplyIf(XElementBase value)
@@ -75,12 +76,10 @@ public class NetCodeBuilderMiddleware : AbstractProcessor<XElementBase, XNamedEl
         builder.WithStereotype("Enum");
 
         var internalType = builder.Build();
-        internalType.Set(reference: @enum);
         internalType.Set(
             @namespace:
             $"{@enum.GetProject().RootNamespace}.{@enum.GetModule().Name}.{_projectTemplateService.GetLayer(internalType.Stereotype)}.{@enum.GetPartialNamespace()}");
-        NamespaceProcessor.UpdateDependencies(internalType);
-        _sourceItems.Add(new SourceItem(internalType, internalType.ToSourceCode()));
+        _internalTypes.Add(internalType);
     }
 
     private async void DoApply(XEntity item)
@@ -89,23 +88,19 @@ public class NetCodeBuilderMiddleware : AbstractProcessor<XElementBase, XNamedEl
                             ?? throw new NullReferenceException("EntityBuilder is null");
         entityBuilder.WithStereotype("Entity");
         var entity = entityBuilder.Build();
-        entity.Set(reference: item);
         entity.Set(
             @namespace:
             $"{item.GetProject().RootNamespace}.{item.GetModule().Name}.{_projectTemplateService.GetLayer(entity.Stereotype)}.{item.GetPartialNamespace()}");
-        NamespaceProcessor.UpdateDependencies(entity);
-        _sourceItems.Add(new SourceItem(entity, entity.ToSourceCode()));
+        _internalTypes.Add(entity);
 
         var persistenceBuilder = await _sender.Send(new PersistenceBuilderRequest(item))
                                  ?? throw new NullReferenceException("PersistenceBuilder is null");
         persistenceBuilder.WithStereotype("Persistence");
         var persistence = persistenceBuilder.Build();
-        persistence.Set(reference: item);
         persistence.Set(
             @namespace:
             $"{item.GetProject().RootNamespace}.{item.GetModule().Name}.{_projectTemplateService.GetLayer(persistence.Stereotype)}.{item.GetPartialNamespace()}");
-        NamespaceProcessor.UpdateDependencies(persistence);
-        _sourceItems.Add(new SourceItem(persistence, persistence.ToSourceCode()));
+        _internalTypes.Add(persistence);
     }
 
     private void DoApply(XService entity)
@@ -118,12 +113,10 @@ public class NetCodeBuilderMiddleware : AbstractProcessor<XElementBase, XNamedEl
                       ?? throw new NullReferenceException("EndPointBuilder is null");
         builder.WithStereotype("Endpoint");
         var internalType = builder.Build();
-        internalType.Set(reference: endPoint);
         internalType.Set(
             @namespace:
             $"{endPoint.GetProject().RootNamespace}.{endPoint.GetModule().Name}.{_projectTemplateService.GetLayer(internalType.Stereotype)}.{endPoint.GetPartialNamespace()}");
-        NamespaceProcessor.UpdateDependencies(internalType);
-        _sourceItems.Add(new SourceItem(internalType, internalType.ToSourceCode()));
+        _internalTypes.Add(internalType);
     }
 
     private async void DoApply(XAction entity)
@@ -132,35 +125,29 @@ public class NetCodeBuilderMiddleware : AbstractProcessor<XElementBase, XNamedEl
                             ?? throw new NullReferenceException("RequestBuilder is null");
         recordBuilder.WithStereotype($"{entity.BehaviourType.ToCqrs()}Request");
         var record = recordBuilder.Build();
-        record.Set(reference: entity);
         record.Set(
             @namespace:
             $"{entity.GetProject().RootNamespace}.{entity.GetModule().Name}.{_projectTemplateService.GetLayer(record.Stereotype)}.{entity.GetPartialNamespace()}");
-        NamespaceProcessor.UpdateDependencies(record);
-        _sourceItems.Add(new SourceItem(record, record.ToSourceCode()));
+        _internalTypes.Add(record);
 
         var actionBuilder = await _sender.Send(new ActionBuilderRequest(entity, record))
                             ?? throw new NullReferenceException("ActionBuilder is null");
         actionBuilder.WithStereotype($"{entity.BehaviourType.ToCqrs()}Action");
         var action = actionBuilder.Build();
-        action.Set(reference: entity);
         action.Set(
             @namespace:
             $"{entity.GetProject().RootNamespace}.{entity.GetModule().Name}.{_projectTemplateService.GetLayer(action.Stereotype)}.{entity.GetPartialNamespace()}");
-        NamespaceProcessor.UpdateDependencies(action);
-        _sourceItems.Add(new SourceItem(action, action.ToSourceCode()));
+        _internalTypes.Add(action);
 
 
         var validatorBuilder = await _sender.Send(new ValidatorBuilderRequest(entity, record))
                                ?? throw new NullReferenceException("ActionBuilder is null");
         validatorBuilder.WithStereotype($"{entity.BehaviourType.ToCqrs()}Validator");
         var validator = validatorBuilder.Build();
-        validator.Set(reference: entity);
         validator.Set(
             @namespace:
             $"{entity.GetProject().RootNamespace}.{entity.GetModule().Name}.{_projectTemplateService.GetLayer(validator.Stereotype)}.{entity.GetPartialNamespace()}");
-        NamespaceProcessor.UpdateDependencies(validator);
-        _sourceItems.Add(new SourceItem(validator, validator.ToSourceCode()));
+        _internalTypes.Add(validator);
     }
 
     private async void DoApply(XContract contract)
@@ -170,11 +157,9 @@ public class NetCodeBuilderMiddleware : AbstractProcessor<XElementBase, XNamedEl
 
         builder.WithStereotype("Contract");
         var internalType = builder.Build();
-        internalType.Set(reference: contract);
         internalType.Set(
             @namespace:
             $"{contract.GetProject().RootNamespace}.{contract.GetModule().Name}.{_projectTemplateService.GetLayer(internalType.Stereotype)}.{contract.GetPartialNamespace()}");
-        NamespaceProcessor.UpdateDependencies(internalType);
-        _sourceItems.Add(new SourceItem(internalType, internalType.ToSourceCode()));
+        _internalTypes.Add(internalType);
     }
 }

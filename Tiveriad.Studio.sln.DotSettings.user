@@ -1,5 +1,14 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1de683e2_002Da19c_002D49a6_002Da0b6_002D4ec15e7a2781/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Load_XmlModel_Work" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1de683e2_002Da19c_002D49a6_002Da0b6_002D4ec15e7a2781/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Load_XmlModel_Work" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;xUnit::4EC9C8F3-95AE-4FDD-999B-816FAEE6B080::net6.0::Tiveriad.Studio.Generators.Tests.Projects.ProjectDefinitionLoaderTests.Load_XmlModel_Work&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::B307A052-6174-4C4C-8A03-7CF1BA816991::net6.0::Tiveriad.Studio.Integration.Tests.Pipelines.PipelineModule.Integration_Test&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+    &lt;ProjectFile&gt;B307A052-6174-4C4C-8A03-7CF1BA816991/d:Pipelines/f:PipelineModule.cs&lt;/ProjectFile&gt;&#xD;
+  &lt;/Or&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=21e14cf7_002D9106_002D40d3_002D8a29_002D447a95af9ee2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Session" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Or&gt;&#xD;
     &lt;TestAncestor&gt;&#xD;
       &lt;TestId&gt;xUnit::4EC9C8F3-95AE-4FDD-999B-816FAEE6B080::net6.0::Tiveriad.Studio.Generators.Tests.Projects.ProjectDefinitionLoaderTests.Load_XmlModel_Work&lt;/TestId&gt;&#xD;
@@ -44,7 +53,7 @@
     &lt;/TestAncestor&gt;&#xD;
   &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f0bc83c8_002Dec70_002D48b3_002D9f2b_002D51344a9abd44/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetPath #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f0bc83c8_002Dec70_002D48b3_002D9f2b_002D51344a9abd44/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetPath #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Or&gt;&#xD;
     &lt;TestAncestor&gt;&#xD;
       &lt;TestId&gt;xUnit::4EC9C8F3-95AE-4FDD-999B-816FAEE6B080::net6.0::Tiveriad.Studio.Generators.Tests.Projects.ProjectDefinitionLoaderTests.GetPath&lt;/TestId&gt;&#xD;

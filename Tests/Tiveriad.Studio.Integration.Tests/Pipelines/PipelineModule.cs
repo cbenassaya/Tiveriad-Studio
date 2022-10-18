@@ -26,12 +26,14 @@ public class PipelineModule : TestBase<Startup>
             .Add<ContextBuilderMiddleware>()
             .Add<InjectorMiddleware>()
             .Add<ManyToManyMiddleware>()
+            .Add<AuditableMiddleware>()
             .Add<QueryMiddleware>()
             .Add<CommandMiddleware>()
             .Add<EndpointMiddleware>()
-            .Add<NetCodeBuilderMiddleware>()
+            .Add<NetXTypeToInternalTypeMiddleware>()
             //.Add<CleanSlnMiddleware>()
             //.Add<CreateSlnMiddleware>()
+            .Add<LinkerAndBuilderMiddleware>()
             .Add<WriterMiddleware>();
 
         var pipeline = pipelineBuilder.Build();

@@ -1,6 +1,6 @@
 namespace Tiveriad.Studio.Generators.Models;
 
-public class Interface : InternalType
+public class Interface : InternalType,ITransversable
 {
     public Interface(
         AccessModifier? accessModifier,

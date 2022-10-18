@@ -1,3 +1,4 @@
+using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Builders;
@@ -25,6 +26,23 @@ public class RecordCodeBuilder : ICodeBuilder
     public RecordCodeBuilder WithStereotype(string value)
     {
         _record.Set(stereotype: value);
+        return this;
+    }
+    
+    /// <summary>
+    ///     Sets the reference of the XType being built.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">
+    ///     The specified <paramref name="type" /> is <c>null</c>.
+    /// </exception>
+    /// </exception>
+    
+    public RecordCodeBuilder WithReference(XType type)
+    {
+        if (type is null)
+            throw new ArgumentNullException(nameof(type));
+
+        _record.Set(reference: @type);
         return this;
     }
 

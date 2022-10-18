@@ -11,25 +11,26 @@ public class EntityBuilderRequestHandler : IRequestHandler<EntityBuilderRequest,
     public Task<ClassCodeBuilder> Handle(EntityBuilderRequest request, CancellationToken cancellationToken)
     {
         var entity = request.Entity;
+        var ids = entity.GetIds();
         var classBuilder = Code.CreateClass(entity.Name);
         if (entity.BaseType != null)
-            classBuilder.WithInheritedClass(Code.CreateInternalType(entity.BaseType.Name, entity.BaseType.Namespace)
+            classBuilder.WithInheritedClass(Code.CreateInternalType(entity.BaseType)
                 .Build());
 
         classBuilder.WithImplementedInterface(
             Code
                 .CreateInternalType(ComplexTypes.IENTITY)
-                .WithGenericArgument(Code.CreateInternalType().WithName(entity.Name).WithNamespace(entity.Namespace)));
+                .WithGenericArguments(ids.Select(x=>Code.CreateInternalType(x.Type)).ToList()));
 
         if (entity.Persistence is { IsAuditable: true })
             classBuilder.WithImplementedInterface(
                 Code
                     .CreateInternalType(ComplexTypes.IAUDITABLE)
-                    .WithGenericArgument(
-                        Code.CreateInternalType().WithName(entity.Name).WithNamespace(entity.Namespace)));
+                    .WithGenericArguments(ids.Select(x=>Code.CreateInternalType(x.Type)).ToList()));
 
         classBuilder
             .WithNamespace(entity.Namespace)
+            .WithReference(entity)
             .WithProperties(
                 entity.GetIds().Select(x => x.ToBuilder())
             )

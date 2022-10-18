@@ -4,7 +4,7 @@ public class NamedElement
 {
 }
 
-public class Class : InternalType
+public class Class : InternalType,ITransversable
 {
     public Class(
         AccessModifier accessModifier,

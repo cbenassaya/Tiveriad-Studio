@@ -10,6 +10,7 @@ public class EnumBuilderRequestHandler : IRequestHandler<EnumBuilderRequest, Enu
         var @enum = request.Enum;
         var classBuilder = Code.CreateEnum(@enum.Name)
             .WithNamespace(@enum.Namespace)
+            .WithReference(@enum)
             .WithMembers(@enum.Values.Select(x => Code.CreateEnumMember(x)).ToList());
         return Task.FromResult(classBuilder);
     }

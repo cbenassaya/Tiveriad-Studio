@@ -8,6 +8,8 @@ public static class ComplexTypes
     public static InternalType IENUMERABLE =>
         Code.CreateInternalType("IEnumerable", "System.Collections.Generic").Build();
 
+    public static InternalType NULLABLE =>
+        Code.CreateInternalType("Nullable", "System").Build();
     public static InternalType IENTITY =>
         Code.CreateInternalType("IEntity", "Tiveriad.Repositories").Build();
 

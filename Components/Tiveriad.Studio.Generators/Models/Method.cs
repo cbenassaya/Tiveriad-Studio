@@ -1,6 +1,6 @@
 namespace Tiveriad.Studio.Generators.Models;
 
-public class Method
+public class Method:ITransversable
 {
     public Method(
         AccessModifier accessModifier,

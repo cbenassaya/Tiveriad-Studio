@@ -1,6 +1,6 @@
 namespace Tiveriad.Studio.Generators.Models;
 
-public class Record : InternalType
+public class Record : InternalType,ITransversable
 {
     public Record(
         AccessModifier accessModifier,

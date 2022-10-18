@@ -1,4 +1,5 @@
 using Tiveriad.Commons.Extensions;
+using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Generators.Models;
 
 namespace Tiveriad.Studio.Generators.Builders;
@@ -70,6 +71,23 @@ public class EnumCodeBuilder : ICodeBuilder
             throw new ArgumentException("The namespace must be a valid, non-empty string.", nameof(@namespace));
 
         _enumeration.Set(@namespace: @namespace);
+        return this;
+    }
+    
+    /// <summary>
+    ///     Sets the reference of the XType being built.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">
+    ///     The specified <paramref name="type" /> is <c>null</c>.
+    /// </exception>
+    /// </exception>
+    
+    public EnumCodeBuilder WithReference(XType type)
+    {
+        if (type is null)
+            throw new ArgumentNullException(nameof(type));
+
+        _enumeration.Set(reference: @type);
         return this;
     }
 

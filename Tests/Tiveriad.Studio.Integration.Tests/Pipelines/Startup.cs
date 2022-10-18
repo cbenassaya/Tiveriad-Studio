@@ -26,7 +26,8 @@ public class Startup : StartupBase
         services.AddInfrastructure();
         services.AddApplication();
         services.AddTiveriadSender(typeof(ActionBuilderRequest).Assembly);
-        services.AddScoped<NetCodeBuilderMiddleware>();
+        services.AddScoped<NetXTypeToInternalTypeMiddleware>();
+        services.AddScoped<LinkerAndBuilderMiddleware>();
         services.AddScoped<CleanSlnMiddleware>();
         services.AddScoped<CreateSlnMiddleware>();
         services.AddScoped<WriterMiddleware>();

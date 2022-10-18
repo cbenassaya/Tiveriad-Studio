@@ -6,12 +6,17 @@ namespace Tiveriad.Studio.Generators.Net.Extensions;
 
 public static class XTypeExtensions
 {
-    public static InternalTypeCodeBuilder ToBuilder(this XType type)
+    public static InternalTypeCodeBuilder ToBuilder(this XType type, XBehaviourType behaviourType = XBehaviourType.Command)
     {
         var ntype = DataTypes.Types.FirstOrDefault(x => x.Reference != null && x.Reference.Equals(type));
 
-        return ntype == null
-            ? Code.CreateInternalType().WithName(type.Name).WithNamespace(type.Namespace)
-            : Code.CreateInternalType(ntype);
+        if (ntype!=null)
+            return Code.CreateInternalType(ntype);
+
+        if (behaviourType is XBehaviourType.GetMany or XBehaviourType.Query)
+        {
+            return Code.CreateInternalType(ComplexTypes.IENUMERABLE).WithGenericArgument(Code.CreateInternalType(type));
+        }
+        return Code.CreateInternalType(type);
     }
 }

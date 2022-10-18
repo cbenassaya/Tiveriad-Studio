@@ -1,6 +1,6 @@
 namespace Tiveriad.Studio.Generators.Models;
 
-public class Parameter
+public class Parameter:ITransversable
 {
     public Parameter(
         InternalType? type = default,

@@ -1,6 +1,6 @@
 namespace Tiveriad.Studio.Generators.Models;
 
-public class Property
+public class Property:ITransversable
 {
     public const string AutoGetterSetter = "@auto";
 
