@@ -42,9 +42,13 @@ public static class Code
     /// </summary>
     public static InternalTypeCodeBuilder CreateInternalType(InternalType internalType)
     {
-        return new InternalTypeCodeBuilder()
+        var value = new InternalTypeCodeBuilder()
             .WithName(internalType.Name)
             .WithNamespace(internalType.Namespace);
+
+        if (internalType.Reference != null)
+            value.WithReference(internalType.Reference);
+        return value;
     }
 
     /// <summary>

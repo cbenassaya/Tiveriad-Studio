@@ -7,6 +7,8 @@ namespace Tiveriad.Studio.Core.Entities;
 [XmlType("Mapping")]
 public class XMapping : XElementBase
 {
+
+
     private string _fromReference;
     private string _toReference;
 
@@ -34,4 +36,32 @@ public class XMapping : XElementBase
     [XmlIgnore]
     [InjectWith("ToReference")]
     public XType To { get; set; }
+    
+    protected bool Equals(XMapping other)
+    {
+        return From.Equals(other.From) && To.Equals(other.To);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((XMapping)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(From, To);
+    }
+
+    public static bool operator ==(XMapping? left, XMapping? right)
+    {
+        return Equals(left, right);
+    }
+
+    public static bool operator !=(XMapping? left, XMapping? right)
+    {
+        return !Equals(left, right);
+    }
 }

@@ -19,7 +19,7 @@ public abstract class XType : XNamedElement
 
     protected bool Equals(XType other)
     {
-        return Namespace == other.Namespace && Name == other.Namespace;
+        return Namespace == other.Namespace && Name == other.Name;
     }
 
     public override bool Equals(object obj)

@@ -11,7 +11,7 @@ public class PipelineContext : IPipelineContext<PipelineConfiguration>
         Configuration = configuration;
     }
 
-    public dynamic Properties { get; } = new ExpandoObject();
+    public IDictionary<string, object> Properties { get; } = new Dictionary<string, object>();
 
     public CancellationToken CancellationToken { get; }
     public PipelineConfiguration Configuration { get; }

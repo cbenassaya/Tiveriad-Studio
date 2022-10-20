@@ -21,31 +21,44 @@
 
     <ItemGroup>
         <EmbeddedResource Include="Projects\ProjectDefinitionTemplate.xml" />
-        <EmbeddedResource Include="Templates\EndPoints\SaveOrUpdateEndPoint.tpl" />
+        <EmbeddedResource Include="Templates\Api\EndPoints\CommandEndPoint.tpl" />
+        <EmbeddedResource Include="Templates\Api\EndPoints\DeleteEndPoint.tpl" />
+        <EmbeddedResource Include="Templates\Api\EndPoints\GetManyEndPoint.tpl" />
+        <EmbeddedResource Include="Templates\Api\EndPoints\GetOneEndPoint.tpl" />
+        <EmbeddedResource Include="Templates\Api\EndPoints\QueryEndPoint.tpl" />
+        <EmbeddedResource Include="Templates\Api\EndPoints\SaveOrUpdateEndPoint.tpl" />
+        <EmbeddedResource Include="Templates\Application\Actions\CommandAction.tpl" />
+        <EmbeddedResource Include="Templates\Application\Actions\DeleteAction.tpl" />
+        <EmbeddedResource Include="Templates\Application\Actions\GetManyAction.tpl" />
+        <EmbeddedResource Include="Templates\Application\Actions\GetOneAction.tpl" />
+        <EmbeddedResource Include="Templates\Application\Actions\QueryAction.tpl" />
+        <EmbeddedResource Include="Templates\Application\Actions\SaveOrUpdateAction.tpl" />
+        <EmbeddedResource Include="Templates\Application\ApplicationDependencyInjection.tpl" />
         <None Remove="Projects\ProjectDefinition.xml" />
         <None Remove="Templates\CommandEndPoint.tpl" />
         <None Remove="Templates\DeleteEndPoint.tpl" />
         <None Remove="Templates\GerManyEndPoint.tpl" />
-        <EmbeddedResource Include="Templates\EndPoints\CommandEndPoint.tpl" />
-        <EmbeddedResource Include="Templates\EndPoints\DeleteEndPoint.tpl" />
         <None Remove="Templates\GetOneEndPoint.tpl" />
-        <EmbeddedResource Include="Templates\EndPoints\GetManyEndPoint.tpl" />
         <None Remove="Templates\QueryEndPoint.tpl" />
-        <EmbeddedResource Include="Templates\EndPoints\GetOneEndPoint.tpl" />
         <None Remove="Templates\SaveOrUpdateEndPoint.tpl" />
-        <EmbeddedResource Include="Templates\EndPoints\QueryEndPoint.tpl" />
         <None Remove="Templates\Actions\CommandAction.tpl" />
-        <EmbeddedResource Include="Templates\Actions\CommandAction.tpl" />
         <None Remove="Templates\Actions\DeleteAction.tpl" />
-        <EmbeddedResource Include="Templates\Actions\DeleteAction.tpl" />
         <None Remove="Templates\Actions\GetManyAction.tpl" />
-        <EmbeddedResource Include="Templates\Actions\GetManyAction.tpl" />
         <None Remove="Templates\Actions\GetOneAction.tpl" />
-        <EmbeddedResource Include="Templates\Actions\GetOneAction.tpl" />
         <None Remove="Templates\Actions\QueryAction.tpl" />
-        <EmbeddedResource Include="Templates\Actions\QueryAction.tpl" />
         <None Remove="Templates\Actions\SaveOrUpdateAction.tpl" />
-        <EmbeddedResource Include="Templates\Actions\SaveOrUpdateAction.tpl" />
+        <None Remove="Templates\Commons\Extensions.tpl" />
+        <EmbeddedResource Include="Templates\Api\Extensions.tpl" />
+        <None Remove="Templates\Commons\Program.tpl" />
+        <EmbeddedResource Include="Templates\Api\Program.tpl" />
+        <None Remove="Templates\Commons\TransactionActionFilter.tpl" />
+        <EmbeddedResource Include="Templates\Api\TransactionActionFilter.tpl" />
+        <None Remove="Templates\Commons\Profile.tpl" />
+        <EmbeddedResource Include="Templates\Api\Profile.tpl" />
+        <None Remove="Templates\Infrastructure\InfrastructureDependencyInjection.tpl" />
+        <EmbeddedResource Include="Templates\Infrastructure\InfrastructureDependencyInjection.tpl" />
+        <None Remove="Templates\Persistence\DefaultContext.tpl" />
+        <EmbeddedResource Include="Templates\Persistence\DefaultContext.tpl" />
     </ItemGroup>
 
 </Project>

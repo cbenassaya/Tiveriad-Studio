@@ -1,9 +1,12 @@
+using Tiveriad.Commons.Extensions;
 using Tiveriad.Pipelines;
 using Tiveriad.Studio.Application.Pipelines;
 using Tiveriad.Studio.Core.Processors;
 using Tiveriad.Studio.Generators.Models;
 using Tiveriad.Studio.Generators.Net.InternalTypes;
+using Tiveriad.Studio.Generators.Net.Projects;
 using Tiveriad.Studio.Generators.Net.Sources;
+using Tiveriad.Studio.Generators.Services;
 using Tiveriad.Studio.Generators.Sources;
 
 namespace Tiveriad.Studio.Generators.Net.Middlewares;
@@ -11,17 +14,25 @@ namespace Tiveriad.Studio.Generators.Net.Middlewares;
 public class LinkerAndBuilderMiddleware : 
     IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
 {
-    private  IList<InternalType> _internalTypes;
-    private readonly IList<SourceItem> _sourceItems = new List<SourceItem>();
+    private readonly IProjectTemplateService<InternalType, ProjectDefinition> _defaultProjectTemplateService;
+    public LinkerAndBuilderMiddleware(IProjectTemplateService<InternalType, ProjectDefinition> defaultProjectTemplateService)
+    {
+        _defaultProjectTemplateService = defaultProjectTemplateService;
+    }
 
 
     public void Run(PipelineContext context, PipelineModel model)
     {
-        _internalTypes = context.Properties.InternalTypes as IList<InternalType> ?? new List<InternalType>();
-        foreach (var internalType in _internalTypes)
+        var internalTypes = context.Properties.GetOrAdd("InternalTypes", ()=> new List<InternalType>()) as IList<InternalType>;
+        var sourcesItems = context.Properties.GetOrAdd("SourceItems", ()=> new List<SourceItem>()) as IList<SourceItem>;
+        foreach (var internalType in internalTypes)
             if (ApplyIf(internalType))
-                DoApply(internalType);
-        context.Properties.SourceItems = _sourceItems;
+            {
+                NamespaceProcessor.UpdateDependencies(internalType,internalTypes);
+                var item = DoApply(internalType);
+                if (item!=null)
+                    sourcesItems.Add(item);
+            }
     }
 
     private bool ApplyIf(InternalType value)
@@ -33,40 +44,29 @@ public class LinkerAndBuilderMiddleware :
             Enumeration;
     }
 
-    private void DoApply(InternalType value)
+    private SourceItem? DoApply(InternalType value)
     {
         if (value is Class @class)
-            DoApply(@class);
+            return DoApply(@class);
 
         if (value is Record record)
-            DoApply(record);
+            return DoApply(record);
 
         if (value is Interface @interface)
-            DoApply(@interface);
+            return DoApply(@interface);
 
         if (value is Enumeration enumeration)
-            DoApply(enumeration);
+            return DoApply(enumeration);
+        return null;
     }
 
-    private  void DoApply(Class item)
-    {
-        NamespaceProcessor.UpdateDependencies(item,_internalTypes);
-        _sourceItems.Add(new SourceItem(item, item.ToSourceCode()));
-    }
-    private  void DoApply(Record item)
-    {
-        NamespaceProcessor.UpdateDependencies(item,_internalTypes);
-        _sourceItems.Add(new SourceItem(item, item.ToSourceCode()));
-    }
-    private  void DoApply(Interface item)
-    {
-        NamespaceProcessor.UpdateDependencies(item,_internalTypes);
-        _sourceItems.Add(new SourceItem(item, item.ToSourceCode()));
-    }
-    private  void DoApply(Enumeration item)
-    {
-        NamespaceProcessor.UpdateDependencies(item,_internalTypes);
-        _sourceItems.Add(new SourceItem(item, item.ToSourceCode()));
-    }
-   
+    private  SourceItem DoApply(Class item)=> SourceItem.Init().WithName($"{item.Name}.cs")
+        .WithDirectory(_defaultProjectTemplateService.GetItemPath(item)).WithSource(item.ToSourceCode());
+    private  SourceItem DoApply(Record item)=> SourceItem.Init().WithName($"{item.Name}.cs")
+        .WithDirectory(_defaultProjectTemplateService.GetItemPath(item)).WithSource(item.ToSourceCode());
+    private  SourceItem DoApply(Interface item)=> SourceItem.Init().WithName($"{item.Name}.cs")
+        .WithDirectory(_defaultProjectTemplateService.GetItemPath(item)).WithSource(item.ToSourceCode());
+    private SourceItem DoApply(Enumeration item) => SourceItem.Init().WithName($"{item.Name}.cs")
+        .WithDirectory(_defaultProjectTemplateService.GetItemPath(item)).WithSource(item.ToSourceCode());
+
 }

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="urn:xcore-mapping-2.0" RootNamespace="Samples">
+    <Module Name="Users">
+        <Package Name="Entities">
+            <Entities>
+                <Entity IsBusinessEntity="true" Name="User" PluralName="Users">
+                    <Properties>
+                        <Id Displayed="true" Name="Id" Type="string"/>
+                        <Property Displayed="true" Name="Firstname"  Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Displayed="true" Name="Lastname"  Type="string">
+                            <Constraints>
+                                <MaxLength Max="100"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Displayed="true" Name="Email"  Type="string">
+                            <Constraints>
+                                <MaxLength Max="100"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                </Entity>
+            </Entities>
+        </Package>
+        <Package Name="Queries">
+            <Packages>
+                <Package Name="UserQueries">
+                    <Actions>
+                        <Action BehaviourType="GetOne" Name="GetUserById" Entity="User" >
+                            <Response Type="User"/>
+                        </Action>
+                    </Actions>
+                </Package>
+            </Packages>
+        </Package>
+        <Package Name="EndPoints">
+            <EndPoints>
+                <EndPoint HttpMethod="HttpGet" Authorize="true" Action="GetUserById"  Route="/users/{id}"  Name="GetById" >
+                    <Properties>
+                        <Property Displayed="false" BusinessKey="false" IsCollection="false" Type="string" Name="id"/>
+                    </Properties>
+                    <Response Type="UserReaderModel"/>
+                    <Mappings>
+                        <Mapping From="User" To="UserReaderModel"/>
+                    </Mappings>
+                </EndPoint>
+            </EndPoints>
+        </Package>
+        <Package Name="Contracts">
+            <Contracts>
+                <Contract Name="UserReaderModel">
+                    <Properties>
+                        <Id Displayed="true" Name="Id" Type="string"/>
+                        <Property Displayed="true" Name="Firstname"  Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Displayed="true" Name="Lastname"  Type="string">
+                            <Constraints>
+                                <MaxLength Max="100"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Displayed="true" Name="Email"  Type="string">
+                            <Constraints>
+                                <MaxLength Max="100"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                </Contract>
+            </Contracts>
+        </Package>
+    </Module>
+</Project>

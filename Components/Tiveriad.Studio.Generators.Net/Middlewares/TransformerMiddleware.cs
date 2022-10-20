@@ -1,28 +1,26 @@
+using Tiveriad.Commons.Extensions;
 using Tiveriad.Pipelines;
 using Tiveriad.Studio.Application.Pipelines;
 using Tiveriad.Studio.Core.Entities;
 using Tiveriad.Studio.Core.Extensions;
 using Tiveriad.Studio.Core.Processors;
 using Tiveriad.Studio.Generators.Models;
-using Tiveriad.Studio.Generators.Net.InternalTypes;
 using Tiveriad.Studio.Generators.Net.Projects;
-using Tiveriad.Studio.Generators.Net.Sources;
 using Tiveriad.Studio.Generators.Net.Transformers;
 using Tiveriad.Studio.Generators.Services;
-using Tiveriad.Studio.Generators.Sources;
 
 namespace Tiveriad.Studio.Generators.Net.Middlewares;
 
-public class NetXTypeToInternalTypeMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
+public class TransformerMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
     IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
 {
     private readonly ISender _sender;
-    private readonly IList<InternalType> _internalTypes = new List<InternalType>();
+    private IList<InternalType> _internalTypes;
 
     
     private readonly IProjectTemplateService<InternalType, ProjectDefinition> _projectTemplateService;
 
-    public NetXTypeToInternalTypeMiddleware(ISender sender,
+    public TransformerMiddleware(ISender sender,
         IProjectTemplateService<InternalType, ProjectDefinition> projectTemplateService)
     {
         _sender = sender;
@@ -32,8 +30,9 @@ public class NetXTypeToInternalTypeMiddleware : AbstractProcessor<XElementBase, 
     public void Run(PipelineContext context, PipelineModel model)
     {
         ArgumentNullException.ThrowIfNull("IInternalTypeFormatter");
+        _internalTypes= context.Properties.GetOrAdd("InternalTypes", ()=> new List<InternalType>()) as IList<InternalType>;
         Traverse(model.Project);
-        context.Properties.InternalTypes = _internalTypes;
+
     }
 
     protected override bool ApplyIf(XElementBase value)

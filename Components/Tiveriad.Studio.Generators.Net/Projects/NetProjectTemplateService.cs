@@ -7,7 +7,7 @@ using Tiveriad.Studio.Generators.Services;
 namespace Tiveriad.Studio.Generators.Net.Projects;
 
 public record ProjectDefinition(string ProjectName, string ProjectPath, string ProjectTemplate, string Layer,
-    XModule Module);
+    XModule Module, string RootNamespace);
 
 public class NetProjectTemplateService : IProjectTemplateService<InternalType, ProjectDefinition>
 {
@@ -30,7 +30,8 @@ public class NetProjectTemplateService : IProjectTemplateService<InternalType, P
                     $"{x.Type}s{Path.DirectorySeparatorChar}{string.Format(x.NamePattern, y.Project.RootNamespace, y.Name)}",
                     x.Template,
                     x.Layer,
-                    y)))
+                    y,
+                    $"{y.Project.RootNamespace}.{y.Name}.{x.Layer}")))
             .ToList();
     }
 
@@ -43,6 +44,8 @@ public class NetProjectTemplateService : IProjectTemplateService<InternalType, P
                 $"{x.Type}s{Path.DirectorySeparatorChar}{string.Format(x.NamePattern, projectDefinition.Module.Project.RootNamespace, projectDefinition.Module.Name)}")
             .ToList();
     }
+    
+ 
 
     public string GetLayer(string stereotype)
     {

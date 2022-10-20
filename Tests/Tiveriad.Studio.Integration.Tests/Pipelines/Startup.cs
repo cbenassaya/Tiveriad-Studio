@@ -26,11 +26,15 @@ public class Startup : StartupBase
         services.AddInfrastructure();
         services.AddApplication();
         services.AddTiveriadSender(typeof(ActionBuilderRequest).Assembly);
-        services.AddScoped<NetXTypeToInternalTypeMiddleware>();
+        services.AddScoped<TransformerMiddleware>();
         services.AddScoped<LinkerAndBuilderMiddleware>();
+        services.AddScoped<ProjectFileMiddleware>();
         services.AddScoped<CleanSlnMiddleware>();
         services.AddScoped<CreateSlnMiddleware>();
-        services.AddScoped<WriterMiddleware>();
+        services.AddScoped<FileWriterMiddleware>();
+        services.AddScoped<ProfileMiddleware>();
+        
+        
         services.AddScoped<IServiceResolver, DependencyInjectionServiceResolver>();
         services
             .AddScoped<IPipelineBuilder<PipelineModel, PipelineContext, PipelineConfiguration>,
@@ -48,7 +52,7 @@ public class Startup : StartupBase
             .Register(renderer => { services.AddSingleton<ITemplateRenderer>(renderer); });
 
 
-        var assembly = typeof(WriterMiddleware).Assembly;
+        var assembly = typeof(FileWriterMiddleware).Assembly;
         var xmlSerializer = new XmlSerializer(typeof(ProjectDefinitionTemplate));
         using var stream =
             assembly.GetManifestResourceStream("Tiveriad.Studio.Generators.Net.Projects.ProjectDefinitionTemplate.xml");
