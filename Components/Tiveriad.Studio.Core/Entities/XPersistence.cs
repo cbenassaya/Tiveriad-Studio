@@ -9,8 +9,7 @@ public class XPersistence : XNamedElement
 {
     [XmlIgnore] private string _auditableKeyTypeReference;
     [XmlIgnore] public XEntity Entity { get; set; }
-
-    [XmlAttribute("IsAuditable")] public bool IsAuditable { get; set; }
+    
 
     [InjectWith("AuditableKeyTypeReference")]
     [XmlIgnore]

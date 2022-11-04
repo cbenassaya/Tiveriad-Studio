@@ -16,6 +16,8 @@ public class XEntity : XClassifier
     public List<XRelationShip> RelationShips { get; set; }
 
     [XmlElement] public XPersistence Persistence { get; set; }
+    [XmlElement] public XAuditable Auditable { get; set; }
+    [XmlElement] public XMultiTenancy MultiTenancy { get; set; }
 
     [XmlAttribute] public bool IsBusinessEntity { get; set; }
 
@@ -29,20 +31,5 @@ public class XEntity : XClassifier
     {
         get => string.IsNullOrEmpty(_baseTypeReference) ? BaseType?.ToString() ?? string.Empty : _baseTypeReference;
         set => _baseTypeReference = value;
-    }
-
-    public virtual bool IsSubclassOf(XEntity target)
-    {
-        var nType = this;
-        if (nType == target)
-            return false;
-        while (nType != null)
-        {
-            if (nType == target)
-                return true;
-            nType = nType.BaseType;
-        }
-
-        return false;
     }
 }

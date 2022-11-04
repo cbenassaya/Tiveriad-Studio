@@ -7,7 +7,7 @@ public abstract class XRelationShip : XMemberBase
 {
     [XmlArray("Constraints")]
     [XmlArrayItem("IsUnique", typeof(XIsUniqueConstraint))]
-    [XmlArrayItem("Required", typeof(XRequiredConstraint))]
+    [XmlArrayItem("Required", typeof(RequiredConstraint))]
     [XmlArrayItem("MinLength", typeof(XMinLengthConstraint))]
     [XmlArrayItem("MaxLength", typeof(XMaxLengthConstraint))]
     public List<XConstraint> Constraints { get; set; }

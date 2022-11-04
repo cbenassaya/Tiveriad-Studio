@@ -1,3 +1,6 @@
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Tiveriad.Pipelines;
 using Tiveriad.Studio.Application.Middlewares;
 using Tiveriad.Studio.Application.Pipelines;
@@ -9,6 +12,7 @@ namespace Tiveriad.Studio.Integration.Tests.Pipelines;
 
 public class PipelineModule : TestBase<Startup>
 {
+
     [Fact]
     public void Pipeline_WithAutoGeneration()
     {
@@ -17,8 +21,13 @@ public class PipelineModule : TestBase<Startup>
         pipelineBuilder
             .Configure(x =>
             {
-                x.OutputPath = @"C:\Dev\Data\Source\KpiBuilder";
-                x.InputPath = "Samples/KpiBuilder.xml";
+                x.OutputPath = @"C:\Dev\Data\Source\IdentityServer";
+                x.InputPath = "Samples/IdentityServer.xml";
+            })
+            .WithExceptionHandler(exception =>
+            {
+                var logger = GetRequiredService<ILogger<PipelineModule>>();
+                logger.LogError(exception.Message);
             })
             .Add<LoadingMiddleware>()
             .Add<AddTypesMiddleware>()
@@ -27,16 +36,18 @@ public class PipelineModule : TestBase<Startup>
             .Add<InjectorMiddleware>()
             .Add<ManyToManyMiddleware>()
             .Add<AuditableMiddleware>()
+            .Add<MultiTenancyMiddleware>()
             .Add<QueryMiddleware>()
             .Add<CommandMiddleware>()
             .Add<EndpointMiddleware>()
             .Add<TransformerMiddleware>()
-            //.Add<CleanSlnMiddleware>()
-            //.Add<CreateSlnMiddleware>()
+            .Add<CleanSlnMiddleware>()
+            .Add<CreateSlnMiddleware>()
             .Add<LinkerAndBuilderMiddleware>()
             .Add<ProfileMiddleware>()
             .Add<ProjectFileMiddleware>()
             .Add<FileWriterMiddleware>();
+            
         var pipeline = pipelineBuilder.Build();
         pipeline.Execute(new PipelineModel());
     }

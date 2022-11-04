@@ -9,19 +9,19 @@
                         <Property Displayed="true" Name="Firstname"  Type="string">
                             <Constraints>
                                 <MaxLength Max="24"/>
-                                <Required/>
+
                             </Constraints>
                         </Property>
                         <Property Displayed="true" Name="Lastname"  Type="string">
                             <Constraints>
                                 <MaxLength Max="100"/>
-                                <Required/>
+
                             </Constraints>
                         </Property>
                         <Property Displayed="true" Name="Email"  Type="string">
                             <Constraints>
                                 <MaxLength Max="100"/>
-                                <Required/>
+
                             </Constraints>
                         </Property>
                     </Properties>
@@ -60,19 +60,19 @@
                         <Property Displayed="true" Name="Firstname"  Type="string">
                             <Constraints>
                                 <MaxLength Max="24"/>
-                                <Required/>
+
                             </Constraints>
                         </Property>
                         <Property Displayed="true" Name="Lastname"  Type="string">
                             <Constraints>
                                 <MaxLength Max="100"/>
-                                <Required/>
+
                             </Constraints>
                         </Property>
                         <Property Displayed="true" Name="Email"  Type="string">
                             <Constraints>
                                 <MaxLength Max="100"/>
-                                <Required/>
+
                             </Constraints>
                         </Property>
                     </Properties>

@@ -17,9 +17,10 @@ public class InjectorMiddleware : AbstractProcessor<XElementBase, XNamedElement>
         _typeService = typeService;
     }
 
-    public void Run(PipelineContext context, PipelineModel model)
+    public Task Run(PipelineContext context, PipelineModel model)
     {
         Traverse(model.Project);
+        return Task.CompletedTask;
     }
 
     protected override bool ApplyIf(XElementBase value)

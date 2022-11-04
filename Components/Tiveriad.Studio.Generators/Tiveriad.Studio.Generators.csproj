@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Tiveriad.Pipelines" Version="3.0.4.2" />
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\Tiveriad.Studio.Application\Tiveriad.Studio.Application.csproj" />
         <ProjectReference Include="..\Tiveriad.Studio.Core\Tiveriad.Studio.Core.csproj" />
     </ItemGroup>

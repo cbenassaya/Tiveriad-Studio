@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="urn:xcore-mapping-2.0" RootNamespace="Users">
+    <Module Name="Services">
+        <Package Name="Entities">
+            <Entities>
+                <Entity Name="User" PluralName="Users">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+
+                            </Constraints>
+                        </Id>
+                        <Property Name="Firstname" Type="string">
+                            <Constraints>
+
+                                <MaxLength Max="100"/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Lastname" Type="string">
+                            <Constraints>
+
+                                <MaxLength Max="100"/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Email" Type="string">
+                            <Constraints>
+
+                                <MaxLength Max="250"/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                </Entity>
+            </Entities>
+        </Package>
+    </Module>
+</Project>

@@ -17,9 +17,10 @@ public class CleanSlnMiddleware : IMiddleware<PipelineModel, PipelineContext, Pi
         _projectTemplateService = projectTemplateService;
     }
 
-    public void Run(PipelineContext context, PipelineModel model)
+    public Task Run(PipelineContext context, PipelineModel model)
     {
-        if (!Directory.Exists(context.Configuration.OutputPath)) return;
+        if (string.IsNullOrEmpty(context.Configuration.OutputPath)) throw new ArgumentNullException("OutputPath");
+        if (!Directory.Exists(context.Configuration.OutputPath)) throw new DirectoryNotFoundException(context.Configuration.OutputPath);
 
         if (Directory.Exists(Path.Combine(context.Configuration.OutputPath, "Components")))
             Directory.Delete(Path.Combine(context.Configuration.OutputPath, "Components"), true);
@@ -27,7 +28,8 @@ public class CleanSlnMiddleware : IMiddleware<PipelineModel, PipelineContext, Pi
         if (Directory.Exists(Path.Combine(context.Configuration.OutputPath, "Tests")))
             Directory.Delete(Path.Combine(context.Configuration.OutputPath, "Tests"), true);
 
-        if (!File.Exists(Path.Combine(context.Configuration.OutputPath, $"{model.Project.RootNamespace}.sln"))) return;
-        File.Delete(Path.Combine(context.Configuration.OutputPath, $"{model.Project.RootNamespace}.sln"));
+        if (File.Exists(Path.Combine(context.Configuration.OutputPath, $"{model.Project.RootNamespace}.sln")))
+            File.Delete(Path.Combine(context.Configuration.OutputPath, $"{model.Project.RootNamespace}.sln"));
+        return Task.CompletedTask;
     }
 }

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Tiveriad.Pipelines;
 using Tiveriad.Studio.Application.Pipelines;
 using Tiveriad.Studio.Core.Entities;
@@ -9,9 +10,18 @@ namespace Tiveriad.Studio.Application.Middlewares;
 public class PostLoadingMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
     IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
 {
-    public void Run(PipelineContext context, PipelineModel model)
+    
+    private readonly ILogger<PostLoadingMiddleware> _logger;
+
+    public PostLoadingMiddleware(ILogger<PostLoadingMiddleware> logger)
+    {
+        _logger = logger;
+    }
+
+    public Task Run(PipelineContext context, PipelineModel model)
     {
         Traverse(model.Project);
+        return Task.CompletedTask;
     }
 
     protected override bool ApplyIf(XElementBase value)

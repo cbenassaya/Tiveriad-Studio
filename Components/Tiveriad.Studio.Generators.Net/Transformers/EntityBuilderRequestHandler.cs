@@ -22,10 +22,16 @@ public class EntityBuilderRequestHandler : IRequestHandler<EntityBuilderRequest,
                 .CreateInternalType(ComplexTypes.IENTITY)
                 .WithGenericArguments(ids.Select(x=>Code.CreateInternalType(x.Type)).ToList()));
 
-        if (entity.Persistence is { IsAuditable: true })
+        if (entity is { Auditable:not null })
             classBuilder.WithImplementedInterface(
                 Code
                     .CreateInternalType(ComplexTypes.IAUDITABLE)
+                    .WithGenericArguments(ids.Select(x=>Code.CreateInternalType(x.Type)).ToList()));
+        
+        if (entity is { MultiTenancy:not null })
+            classBuilder.WithImplementedInterface(
+                Code
+                    .CreateInternalType(ComplexTypes.IWITHTENANT)
                     .WithGenericArguments(ids.Select(x=>Code.CreateInternalType(x.Type)).ToList()));
 
         classBuilder

@@ -18,6 +18,9 @@ public static class ComplexTypes
 
     public static InternalType IAUDITABLE =>
         Code.CreateInternalType("IAuditable", "Tiveriad.Repositories").Build();
+    
+    public static InternalType IWITHTENANT =>
+        Code.CreateInternalType("IWithTenant", "Tiveriad.Repositories").Build();
 
     public static InternalType MAXLENGTHATTRIBUTE =>
         Code.CreateInternalType("MaxLength", "System.ComponentModel.DataAnnotations").Build();

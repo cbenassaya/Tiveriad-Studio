@@ -20,6 +20,7 @@ public static class DependencyInjection
         services.AddScoped<CommandMiddleware>();
         services.AddScoped<EndpointMiddleware>();
         services.AddScoped<AuditableMiddleware>();
+        services.AddScoped<MultiTenancyMiddleware>();
         return services;
     }
 }

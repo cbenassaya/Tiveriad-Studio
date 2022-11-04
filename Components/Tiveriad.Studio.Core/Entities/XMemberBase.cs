@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Xml.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 using Tiveriad.Studio.Core.Attributes;
@@ -13,6 +14,9 @@ public class XMemberBase : XNamedElement
     [XmlIgnore]
     [BsonIgnore]
     public XType Type { get; set; }
+    
+    
+    [XmlAttribute("DefaultValue")] [MaxLength(50)] public string DefaultValue { get; set; }
 
 
     [XmlIgnore] public XClassifier Classifier { get; set; }

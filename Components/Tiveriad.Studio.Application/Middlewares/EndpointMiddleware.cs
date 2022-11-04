@@ -27,9 +27,10 @@ public class EndpointMiddleware : Commons.Reflexions.AbstractProcessor<XElementB
             };
     }
 
-    public void Run(PipelineContext context, PipelineModel model)
+    public Task Run(PipelineContext context, PipelineModel model)
     {
         Traverse(model.Project);
+        return Task.CompletedTask;
     }
 
     protected override bool ApplyIf(XElementBase value)
@@ -374,7 +375,7 @@ public class EndpointMiddleware : Commons.Reflexions.AbstractProcessor<XElementB
                         Classifier = contract,
                         TypeReference = target.GetIds()?.FirstOrDefault()?.TypeReference,
                         IsCollection = x is XOneToMany or XManyToMany,
-                        Constraints = new List<XConstraint> { new XRequiredConstraint() }
+                        Constraints = new List<XConstraint> { new RequiredConstraint() }
                     });
                 }
                 else if (target.GetIds().Count > 1)
@@ -388,7 +389,7 @@ public class EndpointMiddleware : Commons.Reflexions.AbstractProcessor<XElementB
                         Type = idContract,
                         Classifier = contract,
                         IsCollection = x is XOneToMany or XManyToMany,
-                        Constraints = new List<XConstraint> { new XRequiredConstraint() }
+                        Constraints = new List<XConstraint> { new RequiredConstraint() }
                     });
                 }
             }
@@ -447,7 +448,7 @@ public class EndpointMiddleware : Commons.Reflexions.AbstractProcessor<XElementB
                 Classifier = contract,
                 TypeReference = x.TypeReference,
                 Name = x.Name ?? "Id",
-                Constraints = new List<XConstraint> { new XRequiredConstraint() }
+                Constraints = new List<XConstraint> { new RequiredConstraint() }
             });
         });
 

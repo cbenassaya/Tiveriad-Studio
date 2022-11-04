@@ -1,0 +1,896 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="urn:xcore-mapping-2.0" RootNamespace="Tiveriad">
+    <Module Name="IdentityServer">
+        <Package Name="Entities">
+            <Entities>
+                <Entity Name="ApiResource" PluralName="ApiResources">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="Enabled" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Name" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="DisplayName" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Description" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="AllowedAccessTokenSigningAlgorithms" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="ShowInDiscoveryDocument" Type="bool" DefaultValue="true">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="RequireResourceIndicator" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="NonEditable" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="LastAccessed" Type="DateTime"/>
+                    </Properties>
+                    <RelationShips>
+                        <OneToMany Name="Secrets" Type="ApiResourceSecret"/>
+                        <OneToMany Name="Scopes" Type="ApiResourceScope"/>
+                        <OneToMany Name="UserClaims" Type="ApiResourceClaim"/>
+                        <OneToMany Name="Properties" Type="ApiResourceProperty"/>
+                    </RelationShips>
+                    <Auditable KeyType="string"/>
+                </Entity>
+                <Entity Name="ApiResourceClaim" PluralName="ApiResourceClaims" BaseType="UserClaim">
+                    <RelationShips>
+                        <ManyToOne Name="ApiResource" Type="ApiResource"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="ApiResourceProperty" PluralName="ApiResourceProperties" BaseType="Property">
+                    <RelationShips>
+                        <ManyToOne Name="ApiResource" Type="ApiResource"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="ApiResourceScope" PluralName="ApiResourceScopes">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="Scope" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                    <RelationShips>
+                        <ManyToOne Name="ApiResource" Type="ApiResource"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="ApiResourceSecret" BaseType="Secret">
+                    <RelationShips>
+                        <ManyToOne Name="ApiResource" Type="ApiResource"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="ApiScope" PluralName="ApiScopes">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="Enabled" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Name" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="DisplayName" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Description" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Required" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Emphasize" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="ShowInDiscoveryDocument" Type="bool" DefaultValue="true">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Scope" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Scope" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Scope" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="NonEditable" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                    <RelationShips>
+                        <OneToMany Name="UserClaims" Type="ApiResourceClaim"/>
+                        <OneToMany Name="Properties" Type="ApiResourceProperty"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="ApiScopeClaim" BaseType="UserClaim">
+                    <RelationShips>
+                        <ManyToOne Name="ApiScope" Type="ApiScope"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="ApiScopeProperty" BaseType="Property">
+                    <RelationShips>
+                        <ManyToOne Name="ApiScope" Type="ApiScope"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="Client" PluralName="Clients">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="Enabled" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="ClientId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="ProtocolType" Type="string" DefaultValue="oidc">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="RequireClientSecret" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="ClientName" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Description" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="ClientUri" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="LogoUri" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="RequireConsent" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="AllowRememberConsent" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="AlwaysIncludeUserClaimsInIdToken" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="RequirePkce" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="AllowPlainTextPkce" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="RequireRequestObject" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="AllowAccessTokensViaBrowser" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="FrontChannelLogoutUri" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="BackChannelLogoutUri" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="FrontChannelLogoutSessionRequired" Type="bool" DefaultValue="true">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="BackChannelLogoutSessionRequired" Type="bool" DefaultValue="true">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="AllowOfflineAccess" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="IdentityTokenLifetime" Type="int" DefaultValue="300">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="AllowedIdentityTokenSigningAlgorithms" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="AccessTokenLifetime" Type="int" DefaultValue="3600">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="AuthorizationCodeLifetime" Type="int" DefaultValue="300">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="ConsentLifetime" Type="int"/>
+                        <Property Name="AbsoluteRefreshTokenLifetime" Type="int" DefaultValue="2592000">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="SlidingRefreshTokenLifetime" Type="int" DefaultValue="1296000">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="RefreshTokenUsage" Type="int">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="UpdateAccessTokenClaimsOnRefresh" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="RefreshTokenExpiration" Type="int">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="EnableLocalLogin" Type="bool" DefaultValue="true">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="IncludeJwtId" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="AlwaysSendClientClaims" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="ClientClaimsPrefix" Type="string" DefaultValue="client_">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="UserSsoLifetime" Type="int"/>
+                        <Property Name="UserCodeType" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="DeviceCodeLifetime" Type="int" DefaultValue="300">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="CibaLifetime" Type="int"/>
+                        <Property Name="PollingInterval" Type="int"/>
+                        <Property Name="CoordinateLifetimeWithUserSession" Type="bool"/>
+                        <Property Name="LastAccessed" Type="DateTime"/>
+                    </Properties>
+                    <RelationShips>
+                        <OneToMany Name="ClientSecrets" Type="ClientSecret"/>
+                        <OneToMany Name="AllowedGrantTypes" Type="ClientGrantType"/>
+                        <OneToMany Name="RedirectUris" Type="ClientRedirectUri"/>
+                        <OneToMany Name="PostLogoutRedirectUris" Type="ClientPostLogoutRedirectUri"/>
+                        <OneToMany Name="AllowedScopes" Type="ClientScope"/>
+                        <OneToMany Name="IdentityProviderRestrictions" Type="ClientIdPRestriction"/>
+                        <OneToMany Name="Claims" Type="ClientClaim"/>
+                        <OneToMany Name="AllowedCorsOrigins" Type="ClientCorsOrigin"/>
+                        <OneToMany Name="Properties" Type="ClientProperty"/>
+                    </RelationShips>
+                    <Auditable KeyType="string"/>
+                </Entity>
+                <Entity Name="ClientClaim" PluralName="ClientClaims">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="Type" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Value" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="ClientId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                    <RelationShips>
+                        <ManyToOne Name="Client" Type="Client"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="ClientCorsOrigin" PluralName="ClientCorsOrigins">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="Origin" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="ClientId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                    <RelationShips>
+                        <ManyToOne Name="Client" Type="Client"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="ClientGrantType" PluralName="ClientGrantTypes">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="ClientId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="GrantType" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                    <RelationShips>
+                        <ManyToOne Name="Client" Type="Client"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="ClientIdPRestriction" PluralName="ClientIdPRestrictions">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="ClientId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                    <RelationShips>
+                        <ManyToOne Name="Client" Type="Client"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="ClientPostLogoutRedirectUri" PluralName="ClientPostLogoutRedirectUris">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="ClientId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="PostLogoutRedirectUri" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                    <RelationShips>
+                        <ManyToOne Name="Client" Type="Client"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="ClientProperty" PluralName="ClientProperties" BaseType="Property">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="ClientId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                    <RelationShips>
+                        <ManyToOne Name="Client" Type="Client"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="ClientRedirectUri" PluralName="ClientRedirectUris">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="RedirectUri" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="ClientId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                    <RelationShips>
+                        <ManyToOne Name="Client" Type="Client"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="ClientScope">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="Scope" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="ClientId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                    <RelationShips>
+                        <ManyToOne Name="Client" Type="Client"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="ClientSecret" BaseType="Secret">
+                    <Properties>
+                        <Property Name="ClientId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                    <RelationShips>
+                        <ManyToOne Name="Client" Type="Client"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="DeviceFlowCodes">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="DeviceCode" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="UserCode" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="SubjectId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="SessionId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="ClientId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Description" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="CreationTime" Type="DateTime">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Expiration" Type="DateTime"/>
+                        <Property Name="Data" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                </Entity>
+                <Entity Name="IdentityProvider">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="Scheme" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="DisplayName" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Enabled" Type="bool" DefaultValue="true">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Type" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Properties" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="LastAccessed" Type="DateTime"/>
+                    </Properties>
+                    <Auditable KeyType="string"/>
+                </Entity>
+
+                <Entity Name="IdentityResource">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="Enabled" Type="bool" DefaultValue="true">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Name" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="DisplayName" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Description" Type="string" >
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Required" Type="bool" >
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Emphasize" Type="bool" >
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="ShowInDiscoveryDocument" Type="bool" DefaultValue="true">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="NonEditable" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                    <RelationShips>
+                        <OneToMany Name="UserClaims" Type="IdentityResourceClaim"/>
+                        <OneToMany Name="Properties" Type="IdentityResourceProperty"/>
+                    </RelationShips>
+                    <Auditable KeyType="string"/>
+                </Entity>
+                <Entity Name="IdentityResourceClaim" PluralName="IdentityResourceClaims" BaseType="UserClaim">
+                    <RelationShips>
+                        <ManyToOne Name="IdentityResource" Type="IdentityResource"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="IdentityResourceProperty" PluralName="IdentityResourceProperties" BaseType="Property">
+                    <RelationShips>
+                        <ManyToOne Name="IdentityResource" Type="IdentityResource"/>
+                    </RelationShips>
+                </Entity>
+                <Entity Name="Key">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="Version" Type="int">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Use" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Algorithm" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="IsX509Certificate" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="DataProtected" Type="bool">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Data" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                    <Auditable KeyType="string"/>
+                </Entity>
+                <Entity Name="PersistedGrant">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="Key" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Type" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="SubjectId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="SessionId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="ClientId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Description" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Expiration" Type="DateTime"/>
+                        <Property Name="ConsumedTime" Type="DateTime"/>
+                        <Property Name="Data" Type="string"/>
+                    </Properties>
+                    <Auditable KeyType="string"/>
+                </Entity>
+                <Entity Name="Property">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="Key" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Value" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                </Entity>
+                <Entity Name="Secret">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="Description" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Value" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Type" Type="string" DefaultValue="SharedSecret">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Expiration" Type="DateTime"/>
+                    </Properties>
+                    <Auditable KeyType="string"/>
+                </Entity>
+                <Entity Name="ServerSideSession">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="Key" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Scheme" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="SubjectId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="SessionId" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="DisplayName" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Renewed" Type="DateTime">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property Name="Expires" Type="DateTime"/>
+                        <Property Name="Data" Type="string"/>
+                    </Properties>
+                    <Auditable KeyType="string"/>
+                </Entity>
+                <Entity Name="UserClaim">
+                    <Properties>
+                        <Id Name="Id" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                            </Constraints>
+                        </Id>
+                        <Property Name="Type" Type="string">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                </Entity>
+            </Entities>
+        </Package>
+    </Module>
+</Project>

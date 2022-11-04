@@ -27,12 +27,12 @@ public class TransformerMiddleware : AbstractProcessor<XElementBase, XNamedEleme
         _projectTemplateService = projectTemplateService;
     }
 
-    public void Run(PipelineContext context, PipelineModel model)
+    public Task Run(PipelineContext context, PipelineModel model)
     {
         ArgumentNullException.ThrowIfNull("IInternalTypeFormatter");
         _internalTypes= context.Properties.GetOrAdd("InternalTypes", ()=> new List<InternalType>()) as IList<InternalType>;
         Traverse(model.Project);
-
+        return Task.CompletedTask;
     }
 
     protected override bool ApplyIf(XElementBase value)

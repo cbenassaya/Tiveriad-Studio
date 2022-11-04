@@ -22,7 +22,7 @@ public class ProjectFileMiddleware:IMiddleware<PipelineModel, PipelineContext, P
         _defaultProjectTemplateService = defaultProjectTemplateService;
     }
 
-    public async void Run(PipelineContext context, PipelineModel model)
+    public  Task Run(PipelineContext context, PipelineModel model)
     {
         var sourcesItems = context.Properties.GetOrAdd("SourceItems", ()=> new List<SourceItem>()) as IList<SourceItem>;
         var internalTypes = context.Properties.GetOrAdd("InternalTypes", ()=> new List<InternalType>()) as IList<InternalType>;
@@ -40,7 +40,7 @@ public class ProjectFileMiddleware:IMiddleware<PipelineModel, PipelineContext, P
             var programSourceItem = SourceItem.Init()
                 .WithDirectory(projectDefinition.ProjectPath)
                 .WithName("Program.cs")
-                .WithSource(await _templateRenderer.RenderAsync("Program.tpl", new {itemnamespace = projectDefinition.RootNamespace, dependencies = programSourceItemDependencies}));
+                .WithSource( _templateRenderer.RenderAsync("Program.tpl", new {itemnamespace = projectDefinition.RootNamespace, dependencies = programSourceItemDependencies}).Result);
             sourcesItems.Add(programSourceItem);
             
             
@@ -50,14 +50,14 @@ public class ProjectFileMiddleware:IMiddleware<PipelineModel, PipelineContext, P
             var extensionsSourceItem = SourceItem.Init()
                 .WithDirectory(projectDefinition.ProjectPath)
                 .WithName("Extensions.cs")
-                .WithSource(await _templateRenderer.RenderAsync("Extensions.tpl", new {itemnamespace = projectDefinition.RootNamespace, dependencies = extensionsSourceItemDependencies}));
+                .WithSource( _templateRenderer.RenderAsync("Extensions.tpl", new {itemnamespace = projectDefinition.RootNamespace, dependencies = extensionsSourceItemDependencies}).Result);
             sourcesItems.Add(extensionsSourceItem);
             
             
             var transactionActionFilterSourceItem = SourceItem.Init()
                 .WithDirectory(Path.Combine(projectDefinition.ProjectPath,"Filters"))
                 .WithName("TransactionActionFilter.cs")
-                .WithSource(await _templateRenderer.RenderAsync("TransactionActionFilter.tpl", new {itemnamespace = $"{projectDefinition.RootNamespace}.Filters" }));
+                .WithSource( _templateRenderer.RenderAsync("TransactionActionFilter.tpl", new {itemnamespace = $"{projectDefinition.RootNamespace}.Filters" }).Result);
             sourcesItems.Add(transactionActionFilterSourceItem);
         }
 
@@ -69,7 +69,7 @@ public class ProjectFileMiddleware:IMiddleware<PipelineModel, PipelineContext, P
             var extensionsSourceItem = SourceItem.Init()
                 .WithDirectory(projectDefinition.ProjectPath)
                 .WithName("Extensions.cs")
-                .WithSource(await _templateRenderer.RenderAsync("ApplicationDependencyInjection.tpl", new {itemnamespace = projectDefinition.RootNamespace, dependencies = extensionsSourceItemDependencies}));
+                .WithSource( _templateRenderer.RenderAsync("ApplicationDependencyInjection.tpl", new {itemnamespace = projectDefinition.RootNamespace, dependencies = extensionsSourceItemDependencies}).Result);
             sourcesItems.Add(extensionsSourceItem);
         }
         
@@ -84,13 +84,13 @@ public class ProjectFileMiddleware:IMiddleware<PipelineModel, PipelineContext, P
             var extensionsSourceItem = SourceItem.Init()
                 .WithDirectory(projectDefinition.ProjectPath)
                 .WithName("Extensions.cs")
-                .WithSource(await _templateRenderer.RenderAsync("InfrastructureDependencyInjection.tpl", 
+                .WithSource( _templateRenderer.RenderAsync("InfrastructureDependencyInjection.tpl", 
                     new
                     {
                         itemnamespace = projectDefinition.RootNamespace,
                         firstentity=entity.Name,
                         dependencies = extensionsSourceItemDependencies
-                    }));
+                    }).Result);
             sourcesItems.Add(extensionsSourceItem);
         }
         
@@ -99,9 +99,9 @@ public class ProjectFileMiddleware:IMiddleware<PipelineModel, PipelineContext, P
             var extensionsSourceItem = SourceItem.Init()
                 .WithDirectory(projectDefinition.ProjectPath)
                 .WithName("DefaultContext.cs")
-                .WithSource(await _templateRenderer.RenderAsync("DefaultContext.tpl", new {itemnamespace = projectDefinition.RootNamespace}));
+                .WithSource( _templateRenderer.RenderAsync("DefaultContext.tpl", new {itemnamespace = projectDefinition.RootNamespace}).Result);
             sourcesItems.Add(extensionsSourceItem);
         }
-        
+        return Task.CompletedTask;
     }
 }

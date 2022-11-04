@@ -18,7 +18,7 @@ public class CreateSlnMiddleware : IMiddleware<PipelineModel, PipelineContext, P
         _projectTemplateService = projectTemplateService;
     }
 
-    public void Run(PipelineContext context, PipelineModel model)
+    public Task Run(PipelineContext context, PipelineModel model)
     {
         //Create Solution
         ProcessCommand.Create("dotnet", $"new sln -n {model.Project.RootNamespace}")
@@ -55,5 +55,7 @@ public class CreateSlnMiddleware : IMiddleware<PipelineModel, PipelineContext, P
             ProcessCommand.Create("dotnet ", $"add \"{project.ProjectPath}\" reference \"{reference}\"")
                 .InWorkingDirectory(context.Configuration.OutputPath)
                 .Execute();
+        
+        return Task.CompletedTask;
     }
 }

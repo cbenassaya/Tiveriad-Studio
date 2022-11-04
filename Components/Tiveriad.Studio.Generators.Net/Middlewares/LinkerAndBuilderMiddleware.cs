@@ -21,7 +21,7 @@ public class LinkerAndBuilderMiddleware :
     }
 
 
-    public void Run(PipelineContext context, PipelineModel model)
+    public Task Run(PipelineContext context, PipelineModel model)
     {
         var internalTypes = context.Properties.GetOrAdd("InternalTypes", ()=> new List<InternalType>()) as IList<InternalType>;
         var sourcesItems = context.Properties.GetOrAdd("SourceItems", ()=> new List<SourceItem>()) as IList<SourceItem>;
@@ -33,6 +33,7 @@ public class LinkerAndBuilderMiddleware :
                 if (item!=null)
                     sourcesItems.Add(item);
             }
+        return Task.CompletedTask;
     }
 
     private bool ApplyIf(InternalType value)

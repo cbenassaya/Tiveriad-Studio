@@ -25,7 +25,7 @@ public class ProfileMiddleware :  IMiddleware<PipelineModel, PipelineContext, Pi
         _templateRenderer = templateRenderer;
     }
 
-    public async void Run(PipelineContext context, PipelineModel model)
+    public  Task Run(PipelineContext context, PipelineModel model)
     {
         var sourcesItems = context.Properties.GetOrAdd("SourceItems", ()=> new List<SourceItem>()) as IList<SourceItem>;
         var internalTypes = context.Properties.GetOrAdd("InternalTypes", ()=> new List<InternalType>()) as IList<InternalType>;
@@ -49,13 +49,22 @@ public class ProfileMiddleware :  IMiddleware<PipelineModel, PipelineContext, Pi
             }
             var projectDefinition =
                 projectDefinitions.FirstOrDefault(x => x.Module.ReferenceId.Equals(entity.GetModule().ReferenceId));
-          
+
+
+            var source = _templateRenderer.RenderAsync("Profile.tpl",
+                new
+                {
+                    itemnamespace = $"{projectDefinition.RootNamespace}.Mappings", entity = entity, mappings = mappings,
+                    dependencies = dependencies
+                });
+            
             var transactionActionFilterSourceItem = SourceItem.Init()
                 .WithDirectory(Path.Combine(projectDefinition.ProjectPath,"Mappings"))
                 .WithName($"{entity.Name}Profile.cs")
-                .WithSource(await _templateRenderer.RenderAsync("Profile.tpl", 
-                    new {itemnamespace = $"{projectDefinition.RootNamespace}.Mappings" , entity=entity,mappings =mappings, dependencies = dependencies } ));
+                .WithSource( source.Result);
             sourcesItems.Add(transactionActionFilterSourceItem);
+            
         }
+        return Task.CompletedTask;
     }
 }

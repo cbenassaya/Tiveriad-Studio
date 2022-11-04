@@ -23,7 +23,7 @@
                         </Id>
                         <Property Displayed="false" BusinessKey="true" IsCollection="false" Name="Name" Type="string">
                             <Constraints>
-                                <Required/>
+
                                 <MaxLength Max="50"/>
                             </Constraints>
                         </Property>
@@ -41,14 +41,14 @@
                         <Property Displayed="true" BusinessKey="true" IsCollection="false" Name="FirstName"
                                   Type="string">
                             <Constraints>
-                                <Required/>
+
                                 <MaxLength Max="50"/>
                             </Constraints>
                         </Property>
                         <Property Displayed="false" BusinessKey="true" IsCollection="false" Name="LastName"
                                   Type="string">
                             <Constraints>
-                                <Required/>
+
                                 <MaxLength Max="50"/>
                             </Constraints>
                         </Property>
@@ -66,7 +66,7 @@
                         </Id>
                         <Property Displayed="false" BusinessKey="true" IsCollection="false" Name="Label" Type="string">
                             <Constraints>
-                                <Required/>
+
                                 <MaxLength Max="50"/>
                             </Constraints>
                         </Property>
@@ -89,7 +89,7 @@
                         </Id>
                         <Property Displayed="true" BusinessKey="false" IsCollection="false" Name="Amount" Type="double">
                             <Constraints>
-                                <Required/>
+
                             </Constraints>
                         </Property>
                         <Property Displayed="true" BusinessKey="false" IsCollection="false" Name="Reference"
@@ -99,12 +99,12 @@
                     <RelationShips>
                         <ManyToOne Type="Account" Name="Account">
                             <Constraints>
-                                <Required/>
+
                             </Constraints>
                         </ManyToOne>
                         <ManyToOne Type="TransactionType" Name="TransactionType">
                             <Constraints>
-                                <Required/>
+
                             </Constraints>
                         </ManyToOne>
                         <ManyToOne Type="AccountingStatement" Name="AccountingStatement"/>

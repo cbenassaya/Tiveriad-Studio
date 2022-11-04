@@ -18,7 +18,7 @@ public static class XPropertyExtensions
         }
         else
         {
-            if (property.Constraints.Any(x => x is XRequiredConstraint))
+            if (property.Constraints.Any(x => x is RequiredConstraint))
                 typeCodeBuilder = property.Type.ToBuilder();
             else
             {

@@ -6,12 +6,12 @@ using Tiveriad.Studio.Core.Services;
 
 namespace Tiveriad.Studio.Application.Middlewares;
 
-public class AuditableMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
+public class MultiTenancyMiddleware : AbstractProcessor<XElementBase, XNamedElement>,
     IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
 {
     private readonly IXTypeService _typeService;
 
-    public AuditableMiddleware(IXTypeService typeService)
+    public MultiTenancyMiddleware(IXTypeService typeService)
     {
         _typeService = typeService;
     }
@@ -24,7 +24,7 @@ public class AuditableMiddleware : AbstractProcessor<XElementBase, XNamedElement
 
     protected override bool ApplyIf(XElementBase value)
     {
-        return value is XEntity { Persistence: not null };
+        return value is XEntity { MultiTenancy: not null };
     }
 
     protected override void DoApply(XElementBase value)
@@ -33,26 +33,8 @@ public class AuditableMiddleware : AbstractProcessor<XElementBase, XNamedElement
         entity.Properties.Add(new XProperty
         {
             Type = XDataTypes.STRING,
-            Name = "CreatedBy",
+            Name = "TenantId",
             Constraints = new List<XConstraint> { new RequiredConstraint() }
-        });
-
-        entity.Properties.Add(new XProperty
-        {
-            Type = XDataTypes.DATETIME,
-            Name = "Created",
-            Constraints = new List<XConstraint> { new RequiredConstraint() }
-        });
-        entity.Properties.Add(new XProperty
-        {
-            Type = XDataTypes.STRING,
-            Name = "LastModifiedBy"
-        });
-
-        entity.Properties.Add(new XProperty
-        {
-            Type = XDataTypes.DATETIME,
-            Name = "LastModified"
         });
     }
 }

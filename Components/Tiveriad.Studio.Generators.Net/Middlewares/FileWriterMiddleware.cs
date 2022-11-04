@@ -12,7 +12,7 @@ namespace Tiveriad.Studio.Generators.Net.Middlewares;
 
 public class FileWriterMiddleware : IMiddleware<PipelineModel, PipelineContext, PipelineConfiguration>, IProcessor
 {
-    public void Run(PipelineContext context, PipelineModel model)
+    public Task Run(PipelineContext context, PipelineModel model)
     {
         var sourceItems = context.Properties.GetOrAdd("SourceItems", ()=> new List<SourceItem>()) as IList<SourceItem>;
         var writer = new FileExportSourceItem();
@@ -25,5 +25,6 @@ public class FileWriterMiddleware : IMiddleware<PipelineModel, PipelineContext, 
                 pathDirectory: sourceItem.Directory,
                 replaceIfExist: true
             );
+        return Task.CompletedTask;
     }
 }

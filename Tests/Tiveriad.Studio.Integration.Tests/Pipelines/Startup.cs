@@ -1,5 +1,6 @@
 using System.Xml.Serialization;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Tiveriad.Commons.Extensions;
 using Tiveriad.Pipelines;
 using Tiveriad.Pipelines.DependencyInjection;
@@ -23,6 +24,13 @@ public class Startup : StartupBase
 {
     public override void Configure(IServiceCollection services)
     {
+
+        services.AddLogging(loggerBuilder =>
+        {
+            loggerBuilder.ClearProviders();
+            loggerBuilder.AddConsole();
+        });
+        
         services.AddInfrastructure();
         services.AddApplication();
         services.AddTiveriadSender(typeof(ActionBuilderRequest).Assembly);

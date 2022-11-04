@@ -14,9 +14,10 @@ public class AddTypesMiddleware : IMiddleware<PipelineModel, PipelineContext, Pi
         _typeService = typeService;
     }
 
-    public void Run(PipelineContext context, PipelineModel model)
+    public Task Run(PipelineContext context, PipelineModel model)
     {
         XDataTypes.Types.ForEach(x => _typeService.Add(x));
         XComplexTypes.Types.ForEach(x => _typeService.Add(x));
+        return Task.CompletedTask;
     }
 }

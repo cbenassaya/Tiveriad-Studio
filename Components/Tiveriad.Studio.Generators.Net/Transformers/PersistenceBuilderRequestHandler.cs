@@ -44,6 +44,8 @@ public class PersistenceBuilderRequestHandler : IRequestHandler<PersistenceBuild
     {
         var children = xEntity.GetChildren();
 
+        if (xEntity.Persistence == null)
+            return string.Empty;
         var builder = CodeBuilder.Instance();
         builder
             .AppendNewLine()

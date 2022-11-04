@@ -20,7 +20,7 @@ public static class XConstraintExtensions
             .WithAttributeArgument(Code.CreateAttributeArgument().WithValue(constraint.Min.ToString()));
     }
 
-    public static AttributeBuilder ToBuilder(this XRequiredConstraint constraint)
+    public static AttributeBuilder ToBuilder(this RequiredConstraint constraint)
     {
         return Code.CreateAttribute()
             .WithType(ComplexTypes.REQUIREDATTRIBUTE);
